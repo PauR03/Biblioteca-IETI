@@ -11,16 +11,20 @@
 
     <!-- Tailwind -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="{% static 'biblioteca/styles.css' %}" rel="stylesheet">
+    <!-- Tu archivo JavaScript -->
+   
+
+
+
     
 </head>
 <body class="bg-white font-family-karla h-screen">
 
     <div class="w-full flex flex-wrap">
-
         <!-- Login Section -->
         <div class="w-full md:w-1/2 flex flex-col" style="z-index: 2;">
-
             <div class="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
                 <p class="text-center text-3xl animated-text">Gestió de Biblioteques</p>
                 <form class="flex flex-col pt-3 md:pt-8" method="post" action="{% url 'login' %}">
@@ -34,6 +38,8 @@
                         <label for="password" class="text-lg">Contrasenya</label>
                         <input type="password" name="password" id="password" placeholder="Contrasenya" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
+                    <div id="error-message" class="flex flex-col pt-4"></div>
+
     
                     <input type="submit" value="Iniciar Sessió" class="bg-gray-500 text-white font-bold text-lg hover:bg-gray-600 p-2 mt-8">
                 </form>
@@ -41,8 +47,8 @@
                     <a href="{% url 'password_reset' %}" class="underline font-semibold animated-text">Has oblidat la contrasenya?</a></p>
                 </div>
             </div>
-
         </div>
+    
 
 
         <!-- Image Section -->
@@ -70,6 +76,31 @@
          <!-- Imagen de la sección -->
          <img class="object-cover w-full h-screen hidden md:block" src="{% static 'biblioteca/image/Landingpage-Biblio.jpg' %}">    </div>
     </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            {% if 'success' in message.tags %}
+                <div id="mySuccessModal" class="modal">
+                    <div class="modal-content">
+                        <span class="success-close">&times;</span>
+                        <p>{{ message }}</p>
+                    </div>
+                </div>
+            {% elif 'error' in message.tags %}
+                <div id="myModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <p>{{ message }}</p>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="{% static 'biblioteca/index.js' %}"></script>          
+    <script src="{% static 'biblioteca/popup.js' %}"></script>
+
 
 </body>
 </html>

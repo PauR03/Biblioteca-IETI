@@ -19,11 +19,15 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from biblioteca.views import login_view 
+from biblioteca.views import *
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('dashboard/', login_view, name='login'),
-    path('', login_view, name='home'),
-    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),  # nueva ruta para restablecimiento de contraseña
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('dashboard/', dashboard_view, name='dashboard'),  
+    path('', login_view, name='login'),
+    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

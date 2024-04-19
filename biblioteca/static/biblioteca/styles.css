@@ -30,8 +30,16 @@ form, .animated-text {
 
 
 /***** DASHBOARD *****/
+
+
 @media (min-width: 1024px) {
     .lg\:w-3\/4 {
         width: 96.5%; /* Cambia esto al porcentaje que desees */
+       
     }
 }
+
+.mt-2 {
+    margin-top: 0;
+}
+

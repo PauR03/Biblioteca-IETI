@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 class User(AbstractUser):
     esAdmin = models.BooleanField(default=False)
     dataNaixement = models.DateField(null=True, blank=True)
-    centre = models.ForeignKey('Centre', on_delete=models.CASCADE)
+    centre = models.ForeignKey('Centre', on_delete=models.CASCADE, null=True, blank=True)
     cicle = models.CharField(max_length=100, null=True, blank=True)
     imatgePerfil = models.ImageField(upload_to='imageProfile/', default='imageProfile/default.jpg', null=True, blank=True)
 

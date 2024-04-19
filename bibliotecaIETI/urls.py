@@ -22,11 +22,14 @@ from django.contrib.auth import views as auth_views
 from biblioteca.views import *
 
 
+from django.contrib.auth import views as auth_views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashboard/', dashboard_view, name='dashboard'),  
     path('', login_view, name='login'),
-    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('password_reset/', auth_views.PasswordResetView.as_view(template_name="passwordreset.html"), name='password_reset'),
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name="passwordresetdone.html"), name='password_reset_done'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

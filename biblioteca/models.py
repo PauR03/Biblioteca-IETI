@@ -1,12 +1,11 @@
 from datetime import timedelta
 from django.db import models
+from django.contrib.auth.models import AbstractUser, Group, Permission
 
-# Create your models here.
-
+# from django.contrib.auth.models import User
 
 '''
 producto son las especificaciones del libro/producto
-Tipus = diferentes tipos de productos del catalogo o del elemento catalogo
 Exemplar = cantidad de producto/libro por cada centro
 Reserves = usuario pide libro y reserves es la cola para conseguir el libro
 Prestecs = usuario se lleva el libro x dias (3 semanas por defecto)
@@ -16,31 +15,58 @@ Imatges = ruta de la imagen
 Centre = se guardan diferentes centros/bibliotecas
 '''
 
+class User(AbstractUser):
+    esAdmin = models.BooleanField(default=False)
+    dataNaixement = models.DateField(null=True, blank=True)
+    centre = models.ForeignKey('Centre', on_delete=models.CASCADE)
+    cicle = models.CharField(max_length=100, null=True, blank=True)
+    imatgePerfil = models.ImageField(upload_to='profile_images/', default='profile_images/default.jpg')
+
 class Producte(models.Model):
-    nom = models.CharField(max_length=100)
-    cdu = models.CharField(max_length=50)
-
+    titol = models.CharField(max_length=100)
+    descripcio = models.TextField()
     autor = models.CharField(max_length=100, blank=True, null=True)
-    tipus = models.ForeignKey('Tipus', on_delete=models.CASCADE)
+    data_edicio = models.DateField()
+    idImatge = models.ForeignKey('Imatge', on_delete=models.CASCADE, blank=True, null=True)
 
-    # Si es un libro
-    isbn = models.IntegerField(blank=True, null=True)
-    titol = models.CharField(max_length=100, blank=True, null=True)
+    
+class Llibre(Producte):
+    cdu = models.CharField(max_length=50)
+    isbn = models.IntegerField()
+    editorial = models.CharField(max_length=100)
+    colleccio = models.CharField(max_length=100)
+    pagines = models.IntegerField()
     signatura = models.CharField(max_length=53, blank=True, null=True)
 
+    def __str__(self):
+        return self.titol
 
+class CD(Producte):
+    discrografia = models.CharField(max_length=100)
+    estil = models.CharField(max_length=100)
+    duracio = models.IntegerField()
 
     def __str__(self):
-        return self.nom
-
-class Tipus(models.Model):
-    nom = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name_plural = "Tipus"
+        return self.titol
+    
+class DVD(Producte):
+    duracio = models.IntegerField()
 
     def __str__(self):
-        return self.nom
+        return self.titol
+
+class BR(Producte):
+    duracio = models.IntegerField()
+
+    def __str__(self):
+        return self.titol
+
+class Dispositiu(Producte):
+    marca = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.titol
 
 class Centre(models.Model):
     nom = models.CharField(max_length=128)
@@ -49,8 +75,8 @@ class Centre(models.Model):
         return self.nom
 
 class Exemplar(models.Model):
-    producte = models.ForeignKey('Producte', on_delete=models.CASCADE)
-    centre = models.ForeignKey('Centre', on_delete=models.CASCADE)
+    producte = models.ForeignKey(Producte, on_delete=models.CASCADE)
+    centre = models.ForeignKey(Centre, on_delete=models.CASCADE)
     quantitat = models.IntegerField()
 
     def __str__(self):
@@ -58,10 +84,10 @@ class Exemplar(models.Model):
 
 class Reserva(models.Model):
     dataReserva = models.DateTimeField(auto_now_add=True)
-    producte = models.ForeignKey('Producte', on_delete=models.CASCADE)
-    centre = models.ForeignKey('Centre', on_delete=models.CASCADE)
-    usuari = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    usuariAdmin = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    producte = models.ForeignKey(Producte, on_delete=models.CASCADE)
+    centre = models.ForeignKey(Centre, on_delete=models.CASCADE)
+    usuari = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reserva_usuari")
+    usuariAdmin = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reserva_admin")
 
     class Meta:
         verbose_name_plural = "Reserves"
@@ -77,22 +103,22 @@ class Prestec(models.Model):
             self.dataDevolucioMaxima = self.dataPrestec + timedelta(weeks=3)
         super().save(*args, **kwargs)
 
-    producte = models.ForeignKey('Producte', on_delete=models.CASCADE)
-    centre = models.ForeignKey('Centre', on_delete=models.CASCADE)
-    usuari = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    usuariAdmin = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    producte = models.ForeignKey(Producte, on_delete=models.CASCADE)
+    centre = models.ForeignKey(Centre, on_delete=models.CASCADE)
+    usuari = models.ForeignKey(User, on_delete=models.CASCADE, related_name="prestec_usuari")
+    usuariAdmin = models.ForeignKey(User, on_delete=models.CASCADE, related_name="prestec_admin")
     esRetornat = models.BooleanField(default=False)
 
     def __str__(self):
         return self.producte.nom + ' - ' + self.usuari.username
     
 class Peticio(models.Model):
-    producte = models.ForeignKey('Producte', on_delete=models.CASCADE)
-    centreSolicitant = models.ForeignKey('Centre', on_delete=models.CASCADE)
-    centreSolicitat = models.ForeignKey('Centre', on_delete=models.CASCADE)
+    producte = models.ForeignKey(Producte, on_delete=models.CASCADE)
+    centreSolicitant = models.ForeignKey(Centre, on_delete=models.CASCADE, related_name="peticio_solicitant")
+    centreSolicitat = models.ForeignKey(Centre, on_delete=models.CASCADE, related_name="peticio_solcitat")
 
     dataPeticio = models.DateTimeField(auto_now_add=True)
-    usuariAdmin = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    usuariAdmin = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "Peticions"
@@ -104,8 +130,11 @@ class Log(models.Model):
     tipus = models.CharField(max_length=10, choices=[('warning', 'Warning'), ('info', 'Info'), ('error', 'Error'), ('fatal', 'Fatal')])
     informacio = models.TextField()
     data = models.DateTimeField(auto_now_add=True)
-    usuari = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    usuari = models.ForeignKey(User, on_delete=models.CASCADE)
     ruta = models.CharField(max_length=100)
 
     def __str__(self):
         return self.accio + ' - ' + self.usuari.username
+    
+class Imatge(models.Model):
+    ruta = models.CharField(max_length=100)

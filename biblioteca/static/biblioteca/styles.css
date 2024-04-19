@@ -5,16 +5,27 @@
 
 /***** LANDING PAGE *****/
 
+@import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
 
+.font-family-karla {
+    font-family: karla;
+}
 
+@keyframes slide-in {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
 
-
-
-
-
-
-
-
+form, .animated-text {
+    animation: slide-in 1s ease-out 0.5s;
+    animation-fill-mode: forwards;
+}
 
 
 

@@ -18,7 +18,7 @@ $(document).ready(function() {
                 if (xhr.status == 401) {
                     $('#error-message').css({
                         'color': 'red',
-                        'font-size': '18px',
+                        'font-size': '17px',
                         'font-family': 'Arial'
                     }).text('El correu o la contrasenya son incorrectes');
                 }

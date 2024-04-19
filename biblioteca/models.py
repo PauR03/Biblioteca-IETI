@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 
 # from django.contrib.auth.models import User
 
+
+
 class User(AbstractUser):
     esAdmin = models.BooleanField(default=False)
     dataNaixement = models.DateField(null=True, blank=True)
@@ -21,7 +23,7 @@ class Producte(models.Model):
     
 class Llibre(Producte):
     cdu = models.CharField(max_length=50)
-    isbn = models.IntegerField()
+    isbm = models.IntegerField()
     editorial = models.CharField(max_length=100)
     colleccio = models.CharField(max_length=100)
     pagines = models.IntegerField()

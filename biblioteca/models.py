@@ -4,17 +4,6 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 
 # from django.contrib.auth.models import User
 
-'''
-producto son las especificaciones del libro/producto
-Exemplar = cantidad de producto/libro por cada centro
-Reserves = usuario pide libro y reserves es la cola para conseguir el libro
-Prestecs = usuario se lleva el libro x dias (3 semanas por defecto)
-Peticiones = biblioteca pide un libro que le gustaria tener
-Logs = tabla de logs
-Imatges = ruta de la imagen
-Centre = se guardan diferentes centros/bibliotecas
-'''
-
 class User(AbstractUser):
     esAdmin = models.BooleanField(default=False)
     dataNaixement = models.DateField(null=True, blank=True)

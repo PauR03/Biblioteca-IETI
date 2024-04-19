@@ -9,7 +9,7 @@ class User(AbstractUser):
     dataNaixement = models.DateField(null=True, blank=True)
     centre = models.ForeignKey('Centre', on_delete=models.CASCADE)
     cicle = models.CharField(max_length=100, null=True, blank=True)
-    imatgePerfil = models.ImageField(upload_to='profile_images/', default='profile_images/default.jpg')
+    imatgePerfil = models.ImageField(upload_to='imageProfile/', default='imageProfile/default.jpg', null=True, blank=True)
 
 class Producte(models.Model):
     titol = models.CharField(max_length=100)

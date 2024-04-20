@@ -34,8 +34,17 @@ def login_view(request):
         return render(request, 'index.html')
 
 # VIEW PARA REDIRIGIR AL USUARIO AL DASHBOARD CON EL TOKEN CSRF
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from biblioteca.models import User
+
 @login_required
 def dashboard_view(request):
-    username = request.session.get('username')
+    email = request.session.get('username')  # Assuming the email is stored in 'username'
     token = request.session.get('token')
-    return render(request, 'dashboard.html', {'username': username, 'token': token})
+    try:
+        user = User.objects.get(email=email)
+        is_admin = user.is_superuser or user.esAdmin
+    except User.DoesNotExist:
+        is_admin = False
+    return render(request, 'dashboard.html', {'username': email, 'token': token, 'is_admin': is_admin})

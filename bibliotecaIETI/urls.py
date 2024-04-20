@@ -28,8 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashboard/', dashboard_view, name='dashboard'),  
     path('', login_view, name='login'),
-    path('password_reset/', auth_views.PasswordResetView.as_view(template_name="passwordreset.html"), name='password_reset'),
-    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name="passwordresetdone.html"), name='password_reset_done'),
+    path('', include('biblioteca.urls')),  
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

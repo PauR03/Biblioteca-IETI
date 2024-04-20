@@ -10,23 +10,10 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 from .backends import EmailBackend
-from django.http import JsonResponse
-from django.contrib.auth.models import User
 import os
 from django.conf import settings
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authtoken.models import Token
-from rest_framework.authtoken.models import Token
-from django.contrib.auth.decorators import login_required
 
-
-from django.shortcuts import redirect
-
-from django.shortcuts import redirect
-
-from django.http import HttpResponse
-
+# VIEW PARA LOGIN DE USUARIOS
 @never_cache
 def login_view(request):
     if request.method == 'POST':
@@ -46,10 +33,9 @@ def login_view(request):
     else:
         return render(request, 'index.html')
 
+# VIEW PARA REDIRIGIR AL USUARIO AL DASHBOARD CON EL TOKEN CSRF
 @login_required
 def dashboard_view(request):
     username = request.session.get('username')
     token = request.session.get('token')
     return render(request, 'dashboard.html', {'username': username, 'token': token})
-
-

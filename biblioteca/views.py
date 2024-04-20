@@ -53,21 +53,3 @@ def dashboard_view(request):
     return render(request, 'dashboard.html', {'username': username, 'token': token})
 
 
-from django.urls import reverse_lazy
-from django.contrib.auth import views as auth_views
-
-class CustomPasswordResetConfirmView(auth_views.PasswordResetConfirmView):
-    template_name = "registration/password_reset_confirm.html"
-    success_url = reverse_lazy('password_reset_complete')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['uidb64'] = self.kwargs['uidb64']
-        context['token'] = self.kwargs['token']
-        return context
-
-    def form_valid(self, form):
-        # Asegúrate de llamar al método form_valid de la clase base
-        response = super().form_valid(form)
-        # Aquí puedes agregar cualquier lógica personalizada
-        return response

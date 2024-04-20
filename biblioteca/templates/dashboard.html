@@ -15,7 +15,8 @@
 
 <body>
     
-    <nav class="bg-white border-b border-gray-300 h-10">
+    <nav class="bg-white border-b border-gray-300 h-10" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
+
         <div class="flex justify-between items-center px-6">
             <div class="flex items-center">
                 <!-- Ícono de Menú (cyan) -->
@@ -69,7 +70,8 @@
 
 
     <!-- Barra lateral -->
-    <div id="sidebar" class="w-28 bg-white h-screen fixed rounded-none border-none transition-all duration-200 ease-in-out overflow-hidden">
+    <div id="sidebar" class="w-28 bg-white h-screen fixed rounded-none border-none transition-all duration-200 ease-in-out overflow-hidden" style="margin-top: 20px;">
+
         <!-- Items -->
         <div class="p-2 space-y-2">
             <button class="relative px-3 py-1 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group mt-4" onclick="highlightSidebarItem(this)">
@@ -114,7 +116,8 @@
 
 
        <!-- Contenedor gris al lado de la barra lateral -->
-        <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out">
+       <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out" style="margin-top: 20px;">
+            <br><br>
             <!-- Buscador con Icono -->
             <div class="flex items-center w-full mt-2 p-4">
                 <div class="relative w-full">

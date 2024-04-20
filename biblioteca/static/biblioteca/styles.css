@@ -43,6 +43,16 @@ form, .animated-text {
     margin-top: 0;
 }
 
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+#sidebar, .ml-16 {
+    margin-top: 10px; /* Ajustar según la altura de tu nav */
+}
 
 /***** ERROR POPUP *****/
 

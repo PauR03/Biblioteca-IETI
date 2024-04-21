@@ -22,13 +22,16 @@ from django.contrib.auth import views as auth_views
 from biblioteca.views import *
 
 
-from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashboard/', dashboard_view, name='dashboard'),  
     path('perfil/', profile, name='profile'),
-    path('edit_profile/', edit_profile, name='edit_profile'),
+    path('editar_perfil/', edit_profile, name='editar_perfil'),
+    path('perfil/', update_profile, name='update_profile'),  # VIEW QUE INSERTA LOS DATOS MODIFICADOS DEL USAURIO EN LA BASE DE DATOS
+    path('get_profile_image/', get_profile_image, name='get_profile_image'),
+
+    path('accounts/login/', login_view, name='login'),  
 
     path('', login_view, name='login'),
     path('', include('biblioteca.urls')),  

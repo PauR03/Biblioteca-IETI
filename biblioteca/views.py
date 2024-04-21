@@ -8,6 +8,8 @@ from django.views.decorators.cache import never_cache
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from django.contrib import messages
+from django.core.files.storage import FileSystemStorage
 
 from .backends import EmailBackend
 import os
@@ -50,6 +52,7 @@ def dashboard_view(request):
         username = None  # Set username to None if the user does not exist
     return render(request, 'dashboard.html', {'username': username, 'token': token, 'is_admin': is_admin})
 
+
 # VIEW PARA EL PERFIL DEL USUARIO
 @login_required
 def profile(request):
@@ -61,6 +64,7 @@ def profile(request):
     email = user.email
     dataNaixement = user.dataNaixement
     cicle = user.cicle
+    imatgePerfil = user.imatgePerfil.url if user.imatgePerfil else None
 
     # También puedes verificar si el usuario es un administrador
     is_admin = user.is_superuser
@@ -72,13 +76,14 @@ def profile(request):
         'is_admin': is_admin,
         'dataNaixement': dataNaixement,
         'cicle': cicle,
+        'imatgePerfil': imatgePerfil,
     }
 
     # Renderiza el template con este contexto
     return render(request, 'perfil.html', context)
 
 
-
+# ENVIA LOS DATOS DEL USAURIO AL FICHERO EDITAR PERFIL
 @login_required
 def edit_profile(request):
     user = request.user
@@ -97,18 +102,48 @@ def edit_profile(request):
     return render(request, 'editarPerfil.html', context)
 
 
-
-@login_required
+# HACE EL INSERT DE LOS DATOS MODIFICADOS DEL USUARIO@login_required
 def update_profile(request):
     if request.method == 'POST':
+        first_name = request.POST.get('first_name', '')
+        last_name = request.POST.get('last_name', '')
+        email = request.POST.get('email', '')
+        dataNaixement = request.POST.get('dataNaixement', '')
+        cicle = request.POST.get('cicle', '')
+        profile_image = request.FILES.get('profile_image', None)
+        new_password = request.POST.get('new_password', '')
+        confirm_new_password = request.POST.get('confirm_new_password', '')
+
         user = request.user
-        user.first_name = request.POST['first_name']
-        user.last_name = request.POST['last_name']
-        user.email = request.POST['email']
-        user.dataNaixement = request.POST['dataNaixement']  # Assuming the User model has a dataNaixement field
-        user.cicle = request.POST['cicle']  # Assuming the User model has a cicle field
+        user.first_name = first_name if first_name else user.first_name
+        user.last_name = last_name if last_name else user.last_name
+        user.email = email if email else user.email
+        user.dataNaixement = dataNaixement if dataNaixement else user.dataNaixement
+        user.cicle = cicle if cicle else user.cicle
+
+        if new_password and new_password == confirm_new_password:
+            user.set_password(new_password)
+        else:
+            messages.error(request, 'Las contraseñas no coinciden')
+
+        if profile_image:
+            fs = FileSystemStorage()
+            filename = fs.save(profile_image.name, profile_image)
+            user.imatgePerfil = profile_image.name  # Store only the name of the image
+
         user.save()
-        #messages.success(request, 'Your profile was successfully updated!')
-        return redirect('edit_profile')
+
+        messages.success(request, 'Perfil actualizado con éxito')
+        return profile(request) #SI ES CORRECTO LLAMA A LA VIEW "PROFILE" QUE ESTA REDIRIGE A "PERFIL.HTML" PASANDOLE TODOS LOS DATOS DEL USUARIO
+
     else:
-        return redirect('edit_profile')
+        return render(request, 'editarPerfil.html')
+    
+
+
+# BUSCA LA IMAGEN DE PERFIL QUE TIENE EL USUARIO
+@login_required
+def get_profile_image(request):
+    user = request.user
+    imatgePerfil = user.imatgePerfil.url if user.imatgePerfil else None
+    return JsonResponse({'imatgePerfil': imatgePerfil})

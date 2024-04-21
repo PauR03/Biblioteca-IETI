@@ -37,7 +37,8 @@
                 </div>
                 <!-- Botón de Perfil -->
                 <button id="profile-button">
-                    <img src="{% static 'biblioteca/imatgePerfil/default.jpg' %}" alt="Perfil" class="h-8 w-8 rounded-full mt-1">
+                    <img id="profile-image" data-url="{{ imatgePerfil }}" data-default="{% static 'biblioteca/imatgePerfil/default.jpg' %}" alt="Perfil" class="h-8 w-8 rounded-full mt-1">
+
                 </button>
 
 
@@ -137,6 +138,7 @@
 
 
         <script src="{% static 'biblioteca/js/dashboard.js' %}"></script>
+        <script src="{% static 'biblioteca/actualizarImagen.js' %}"></script>
 
     </body> 
     <script>

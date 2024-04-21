@@ -37,7 +37,9 @@
                 </div>
                 <!-- Botón de Perfil -->
                 <button id="profile-button">
-                    <img src="{% static 'biblioteca/imatgePerfil/default.jpg' %}" alt="Perfil" class="h-8 w-8 rounded-full mt-1">
+                    <img id="profile-image" data-url="{{ imatgePerfil }}" data-default="{% static 'biblioteca/imatgePerfil/default.jpg' %}" alt="Perfil" class="h-8 w-8 rounded-full mt-1">
+
+
                 </button>
 
 
@@ -124,46 +126,62 @@
     <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out" style="margin-top: 20px;">
         <div class="container mx-auto px-6 py-8">
             <div class="flex items-center justify-center">
-                <div class="max-w-2xl w-full mt-20">
+                <div class="max-w-4xl w-3/4 mt-20">
                     <div class="bg-white shadow-md rounded-lg overflow-hidden">
                         <div class="bg-gray-200 text-gray-700 text-lg px-6 py-4">Editar Perfil</div>
-    
-                        <form action="/ruta-para-actualizar-perfil" method="POST">
-                            <div class="px-6 py-4 mt-4 ">
+                        <div class="flex justify-between items-center px-6 py-4">
+                            <div class="flex space-x-3">
+                                <img src="{% if user.imatgePerfil %}{{ user.imatgePerfil.url }}{% else %}{% static 'biblioteca/imatgePerfil/default.jpg' %}{% endif %}" alt="Perfil" class="h-16 w-16 rounded-full">
+                                <div class="text-gray-700 text-lg mt-5">{{ user.username }}</div>
+                            </div>
+                        </div>
+                        <form action="{% url 'update_profile' %}" method="POST" enctype="multipart/form-data">
+
+                            {% csrf_token %}
                                 <div class="mt-2">
-                                    <div class="flex items-center justify-between">
-                                        <label class="text-sm text-gray-600 font-semibold">Nom:</label>
-                                        <input type="text" name="first_name" class="form-input mt-1 w-1/2 bg-gray-100" value="{{ user.first_name }}">
+                                    <div class="flex items-center justify-between border-t">
+                                        <label class="text-sm text-gray-600 font-semibold mt-5 ml-10">Nom:</label>
+                                        <input type="text" name="first_name" class="form-input mt-1 w-1/2 bg-gray-100 mt-4 mr-10" value="{{ user.first_name }}">
                                     </div>
                         
                                     <div class="flex items-center justify-between">
-                                        <label class="text-sm text-gray-600 font-semibold">Cognom:</label>
-                                        <input type="text" name="last_name" class="form-input mt-1 w-1/2 bg-gray-100" value="{{ user.last_name }}">
+                                        <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Cognom:</label>
+                                        <input type="text" name="last_name" class="form-input mt-1 w-1/2 bg-gray-100 mt-4 mr-10" value="{{ user.last_name }}">
                                     </div>
                         
                                     <div class="flex items-center justify-between">
-                                        <label class="text-sm text-gray-600 font-semibold">Correu electrónic:</label>
-                                        <input type="email" name="email" class="form-input mt-1 w-1/2 bg-gray-100" value="{{ user.email }}">
-                                    </div>
-                        
-                                    <div class="flex items-center justify-between">
-                                        <label class="text-sm text-gray-600 font-semibold">Data de naixement:</label>
-                                        <input type="date" name="dataNaixement" class="form-input mt-1 w-1/2 bg-gray-100" value="{{ user.dataNaixement }}">
-                                    </div>
-                        
-                                    <div class="flex items-center justify-between">
-                                        <label class="text-sm text-gray-600 font-semibold">Ciclo:</label>
-                                        <input type="text" name="cicle" class="form-input mt-1 w-1/2 bg-gray-100" value="{{ user.cicle }}">
+                                        <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Correu electrónic:</label>
+                                        <input type="email" name="email" class="form-input mt-1 w-1/2 bg-gray-100 mt-4 mr-10" value="{{ user.email }}">
                                     </div>
 
-                                    <div class="flex items-center justify-between border-t mt-5">
-                                        <label class="text-sm text-gray-600 font-semibold mt-4">Imatge de l'usuari:</label>
-                                        <input type="file" name="profile_image" class="form-input mt-1 w-1/2 bg-gray-100 mt-4">
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Nova contrasenya:</label>
+                                        <input type="password" name="new_password" class="form-input mt-1 w-1/2 bg-gray-100 mt-4 mr-10">
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Confirmar nova contrasenya:</label>
+                                        <input type="password" name="confirm_new_password" class="form-input mt-1 w-1/2 bg-gray-100 mt-4 mr-10">
+                                    </div>
+                        
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Data de naixement:</label>
+                                        <input type="date" name="dataNaixement" class="form-input mt-1 w-1/2 bg-gray-100 mt-4 mr-10" value="{{ user.dataNaixement }}">
+                                    </div>
+                        
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold mt-4 ml-10 ">Cicle:</label>
+                                        <input type="text" name="cicle" class="form-input mt-1 w-1/2 bg-gray-100 mt-4 mr-10" value="{{ user.cicle }}">
+                                    </div>
+
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Imatge de l'usuari:</label>
+                                        <input type="file" name="profile_image" class="form-input mt-1 w-1/2 bg-gray-100 mt-4 mr-10">
                                     </div>
                                 </div>
                         
                                 <div class="mt-4">
-                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Actualitzar perfil</button>
+                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 ml-10 mb-5">Actualitzar perfil</button>
                                 </div>
                             </div>
                         </form>
@@ -174,7 +192,8 @@
     </div>
 
 
-        <script src="{% static 'biblioteca/js/dashboard.js' %}"></script>
+        <script src="{% static 'biblioteca/actualizarImagen.js' %}"></script>
+
 
     </body> 
     <script>

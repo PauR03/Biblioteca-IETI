@@ -22,8 +22,8 @@
     }
 }
 
-form, .animated-text {
-    animation: slide-in 1s ease-out 0.5s;
+#formlogin, .animated-text {
+    animation: slide-in 1s ease-out 0s;
     animation-fill-mode: forwards;
 }
 

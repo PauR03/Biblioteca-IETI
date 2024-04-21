@@ -123,16 +123,36 @@
 
        <!-- Contenedor gris al lado de la barra lateral -->
        <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out" style="margin-top: 20px;">
-            <br><br>
-            <!-- Buscador con Icono -->
-            <div class="flex items-center w-full mt-2 p-4">
-                <div class="relative w-full">
-                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
-                        <i class="fas fa-search text-gray-200"></i>
-                    </span>
-                    <input type="text" class="pl-10 pr-4 py-2 rounded-full border border-gray-300 w-full text-sm placeholder-gray-400" placeholder="Buscar..." />
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex items-center justify-center">
+                <div class="max-w-2xl w-full mt-20">
+                    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                        <div class="bg-gray-200 text-gray-700 text-lg px-6 py-4">Perfil de Usuario</div>
+        
+                        <div class="flex justify-between items-center px-6 py-4">
+                            <div class="flex space-x-3">
+                                <img src="{% static 'biblioteca/imatgePerfil/default.jpg' %}" alt="Perfil" class="h-16 w-16 rounded-full">
+                                <div class="text-gray-700 text-lg mt-5">{{ username }}</div>
+                            </div>
+                        </div>
+        
+                        <div class="px-6 py-4 mt-4 border-t">
+                            <div class="flex justify-between items-center">
+                                <div class="text-gray-700 text-bold">Más datos del usuario</div>
+                                <a href="/edit_profile/" class="text-blue-500 hover:text-blue-700">Editar perfil</a>
+                            </div>
+                            <br>
+                            <div class="mt-2">
+                                <div class="text-sm text-gray-600 font-semibold">Correo electrónico: <br><span class="font-normal">{{ email }}</span></div>
+                                <div class="text-sm text-gray-600 font-semibold">Fecha de nacimiento:<br> <span class="font-normal">{{ dataNaixement }}</span></div>
+                                <div class="text-sm text-gray-600 font-semibold">Ciclo: <br><span class="font-normal">{{ cicle }}</span></div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
+        </div>
         </div>
 
 

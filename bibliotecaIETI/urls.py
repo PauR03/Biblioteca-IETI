@@ -27,6 +27,9 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashboard/', dashboard_view, name='dashboard'),  
+    path('perfil/', profile, name='profile'),
+    path('edit_profile/', edit_profile, name='edit_profile'),
+
     path('', login_view, name='login'),
     path('', include('biblioteca.urls')),  
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

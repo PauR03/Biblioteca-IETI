@@ -121,19 +121,52 @@
     </div>
 
 
-       <!-- Contenedor gris al lado de la barra lateral -->
-       <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out" style="margin-top: 20px;">
-            <br><br>
-            <!-- Buscador con Icono -->
-            <div class="flex items-center w-full mt-2 p-4">
-                <div class="relative w-full">
-                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
-                        <i class="fas fa-search text-gray-200"></i>
-                    </span>
-                    <input type="text" class="pl-10 pr-4 py-2 rounded-full border border-gray-300 w-full text-sm placeholder-gray-400" placeholder="Buscar..." />
+    <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out" style="margin-top: 20px;">
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex items-center justify-center">
+                <div class="max-w-2xl w-full mt-20">
+                    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                        <div class="bg-gray-200 text-gray-700 text-lg px-6 py-4">Editar Perfil</div>
+    
+                        <form action="/ruta-para-actualizar-perfil" method="POST">
+                            <div class="px-6 py-4 mt-4 border-t">
+                                <div class="mt-2">
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold">Nombre:</label>
+                                        <input type="text" name="first_name" class="form-input mt-1 w-1/2 bg-gray-100" value="{{ user.first_name }}">
+                                    </div>
+                        
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold">Apellido:</label>
+                                        <input type="text" name="last_name" class="form-input mt-1 w-1/2 bg-gray-100" value="{{ user.last_name }}">
+                                    </div>
+                        
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold">Correo electrónico:</label>
+                                        <input type="email" name="email" class="form-input mt-1 w-1/2 bg-gray-100" value="{{ user.email }}">
+                                    </div>
+                        
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold">Fecha de nacimiento:</label>
+                                        <input type="date" name="dataNaixement" class="form-input mt-1 w-1/2 bg-gray-100" value="{{ user.dataNaixement }}">
+                                    </div>
+                        
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold">Ciclo:</label>
+                                        <input type="text" name="cicle" class="form-input mt-1 w-1/2 bg-gray-100" value="{{ user.cicle }}">
+                                    </div>
+                                </div>
+                        
+                                <div class="mt-4">
+                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Actualizar perfil</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
 
         <script src="{% static 'biblioteca/js/dashboard.js' %}"></script>

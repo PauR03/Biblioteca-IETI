@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestió de Biblioteques - Panell Administració</title>
+    <title> El teu perfil- Gestió de Biblioteques</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="{% static 'biblioteca/styles.css' %}" rel="stylesheet">
@@ -121,38 +121,38 @@
     </div>
 
 
-       <!-- Contenedor gris al lado de la barra lateral -->
-       <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out" style="margin-top: 20px;">
-        <div class="container mx-auto px-6 py-8">
-            <div class="flex items-center justify-center">
-                <div class="max-w-2xl w-full mt-20">
-                    <div class="bg-white shadow-md rounded-lg overflow-hidden">
-                        <div class="bg-gray-200 text-gray-700 text-lg px-6 py-4">Perfil de Usuario</div>
-        
-                        <div class="flex justify-between items-center px-6 py-4">
-                            <div class="flex space-x-3">
-                                <img src="{% static 'biblioteca/imatgePerfil/default.jpg' %}" alt="Perfil" class="h-16 w-16 rounded-full">
-                                <div class="text-gray-700 text-lg mt-5">{{ username }}</div>
+       <!-- Contenidor gris al costat de la barra lateral -->
+        <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out" style="margin-top: 20px;">
+            <div class="container mx-auto px-6 py-8">
+                <div class="flex items-center justify-center">
+                    <div class="max-w-2xl w-full mt-20">
+                        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                            <div class="bg-gray-200 text-gray-700 text-lg px-6 py-4">Perfil d'Usuari</div>
+            
+                            <div class="flex justify-between items-center px-6 py-4">
+                                <div class="flex space-x-3">
+                                    <img src="{% static 'biblioteca/imatgePerfil/default.jpg' %}" alt="Perfil" class="h-16 w-16 rounded-full">
+                                    <div class="text-gray-700 text-lg mt-5">{{ username }}</div>
+                                </div>
                             </div>
-                        </div>
-        
-                        <div class="px-6 py-4 mt-4 border-t">
-                            <div class="flex justify-between items-center">
-                                <div class="text-gray-700 text-bold">Más datos del usuario</div>
-                                <a href="/edit_profile/" class="text-blue-500 hover:text-blue-700">Editar perfil</a>
+            
+                            <div class="px-6 py-4 mt-4 border-t">
+                                <div class="flex justify-between items-center">
+                                    <div class="text-gray-700 text-bold">Més dades de l'usuari</div>
+                                    <a href="/edit_profile/" class="text-blue-500 hover:text-blue-700">Editar perfil</a>
+                                </div>
+                                <br>
+                                <div class="mt-2">
+                                    <div class="text-sm text-gray-600 font-semibold">Correu electrònic: <br><span class="font-normal">{{ email }}</span></div>
+                                    <div class="text-sm text-gray-600 font-semibold">Data de naixement:<br> <span class="font-normal">{{ dataNaixement }}</span></div>
+                                    <div class="text-sm text-gray-600 font-semibold">Cicle: <br><span class="font-normal">{{ cicle }}</span></div>
+                                </div>
                             </div>
-                            <br>
-                            <div class="mt-2">
-                                <div class="text-sm text-gray-600 font-semibold">Correo electrónico: <br><span class="font-normal">{{ email }}</span></div>
-                                <div class="text-sm text-gray-600 font-semibold">Fecha de nacimiento:<br> <span class="font-normal">{{ dataNaixement }}</span></div>
-                                <div class="text-sm text-gray-600 font-semibold">Ciclo: <br><span class="font-normal">{{ cicle }}</span></div>
-                            </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
 
 

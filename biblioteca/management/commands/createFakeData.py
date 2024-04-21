@@ -4,6 +4,19 @@ from django.core.management.base import BaseCommand
 from biblioteca.models import *
 from faker import Faker
 
+import environ
+import os
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+# Set the project base directory
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 BOOKS = [
   {
     "titol": "El ingenioso hidalgo Don Quijote de la Mancha",
@@ -95,7 +108,7 @@ BOOKS = [
     "autor": "F. Scott Fitzgerald",
     "data_edicio": "10/04/1925",
     "cdu": "82-312",
-    "isbn": "978-3-16-148410-0",
+    "isbn": "9783161484100",
     "editorial": "Charles Scribner's Sons",
     "colleccio": "-",
     "pagines": "180",
@@ -107,7 +120,7 @@ BOOKS = [
     "autor": "Harper Lee",
     "data_edicio": "11/07/1960",
     "cdu": "84-23",
-    "isbn": "978-84-663-4723-7",
+    "isbn": "9788466347237",
     "editorial": "J. B. Lippincott & Co.",
     "colleccio": "-",
     "pagines": "376",
@@ -143,7 +156,7 @@ BOOKS = [
     "autor": "Gabriel García Márquez",
     "data_edicio": "10/01/1985",
     "cdu": "823.914",
-    "isbn": "978-84-322-0466-1",
+    "isbn": "9788432204661",
     "editorial": "Literatura Random House",
     "colleccio": "No aplica",
     "pagines": 464,
@@ -155,7 +168,7 @@ BOOKS = [
     "autor": "Antoine de Saint-Exupéry",
     "data_edicio": "06/04/1943",
     "cdu": "843.912",
-    "isbn": "978-84-670-3486-9",
+    "isbn": "9788467034869",
     "editorial": "Salamandra",
     "colleccio": "No aplica",
     "pagines": 96,
@@ -244,7 +257,7 @@ CDS = [
     "data_edicio": "24/09/1991",
     "discrografia": "DGC Records",
     "estil": "Grunge",
-    "duracio": "59:22"
+    "duracio": "59"
   },
   {
     "titol": "The Dark Side of the Moon",
@@ -253,7 +266,7 @@ CDS = [
     "data_edicio": "01/03/1973",
     "discrografia": "Harvest Records",
     "estil": "Rock progresivo",
-    "duracio": "42:57"
+    "duracio": "42"
   },
   {
     "titol": "Thriller",
@@ -262,7 +275,7 @@ CDS = [
     "data_edicio": "30/11/1982",
     "discrografia": "Epic Records",
     "estil": "Pop, R&B",
-    "duracio": "42:19"
+    "duracio": "42"
   },
   {
     "titol": "Abbey Road",
@@ -271,7 +284,7 @@ CDS = [
     "data_edicio": "26/09/1969",
     "discrografia": "Apple Records",
     "estil": "Rock",
-    "duracio": "47:24"
+    "duracio": "47"
   },
   {
     "titol": "Back in Black",
@@ -280,7 +293,7 @@ CDS = [
     "data_edicio": "25/07/1980",
     "discrografia": "Atlantic Records",
     "estil": "Hard rock",
-    "duracio": "42:11"
+    "duracio": "42"
   },
   {
     "titol": "Rumours",
@@ -289,7 +302,7 @@ CDS = [
     "data_edicio": "04/02/1977",
     "discrografia": "Warner Bros. Records",
     "estil": "Rock",
-    "duracio": "39:43"
+    "duracio": "39"
   },
   {
     "titol": "The Wall",
@@ -298,7 +311,7 @@ CDS = [
     "data_edicio": "30/11/1979",
     "discrografia": "Harvest Records",
     "estil": "Rock progresivo",
-    "duracio": "81:09"
+    "duracio": "81"
   },
   {
     "titol": "Led Zeppelin IV",
@@ -307,7 +320,7 @@ CDS = [
     "data_edicio": "08/11/1971",
     "discrografia": "Atlantic Records",
     "estil": "Hard rock, heavy metal",
-    "duracio": "42:38"
+    "duracio": "42"
   },
   {
     "titol": "American Idiot",
@@ -316,7 +329,7 @@ CDS = [
     "data_edicio": "21/09/2004",
     "discrografia": "Reprise Records",
     "estil": "Punk rock",
-    "duracio": "57:14"
+    "duracio": "57"
   },
   {
     "titol": "Back to Black",
@@ -325,7 +338,7 @@ CDS = [
     "data_edicio": "27/10/2006",
     "discrografia": "Island Records",
     "estil": "Soul, R&B",
-    "duracio": "34:58"
+    "duracio": "34"
   }
 ]
 
@@ -489,8 +502,10 @@ fake = Faker('es_ES')
 class Command(BaseCommand):
     def handle(self, *args, **options):
         # Crear 2 centros
-        Centre.objects.create(nom="Biblioteca IETI")
-        Centre.objects.create(nom="Biblioteca Central Cornella")
+        if not Centre.objects.filter(nom="Biblioteca IETI").exists() and not Centre.objects.filter(nom="Biblioteca Central Cornella").exists():
+          Centre.objects.create(nom="Biblioteca IETI")
+          Centre.objects.create(nom="Biblioteca Central Cornella")
+          print("Centres created successfully!")
 
         # Crear 10 usuarios normales
         for _ in range(10):
@@ -503,84 +518,102 @@ class Command(BaseCommand):
                 email=f"{userFirstName + userLastName}@gmail.com",
                 dataNaixement=fake.date_of_birth(minimum_age=13, maximum_age=30),
                 centre = Centre.objects.get(pk=random.randint(1, 2)),
-                password="P@ssw0rd",
+                password=env('SEEDER_USERS_PASSWORD'),
                 esAdmin=False
             )
+            print(f"User {userFirstName} {userLastName} created")
 
         # Crear 2 usuarios administradores
-        User.objects.create_user(
-            username="Bibliotecari IETI",
-            first_name=fake.first_name(),
-            last_name=fake.last_name(),
-            email=fake.email(),
-            dataNaixement=fake.date_of_birth(minimum_age=18, maximum_age=65),
-            centre = Centre.objects.get(pk=1),
-            password="P@ssw0rd",
-            esAdmin=True
-        )
-        User.objects.create_user(
-            username="Bibliotecari Central Cornella",
-            first_name=fake.first_name(),
-            last_name=fake.last_name(),
-            email=fake.email(),
-            dataNaixement=fake.date_of_birth(minimum_age=18, maximum_age=65),
-            centre = Centre.objects.get(pk=2),
-            password="P@ssw0rd",
-            esAdmin=True
-        )
+        if(not User.objects.filter(username="Bibliotecari IETI").exists()):
+          User.objects.create_user(
+              username="Bibliotecari IETI",
+              first_name=fake.first_name(),
+              last_name=fake.last_name(),
+              email=fake.email(),
+              dataNaixement=fake.date_of_birth(minimum_age=18, maximum_age=65),
+              centre = Centre.objects.get(pk=1),
+              password=env('SEEDER_USERS_PASSWORD'),
+              esAdmin=True
+          )
+          print("Admin users created \"Bibliotecari IETI\"")
+
+
+        if(not User.objects.filter(username="Bibliotecari Central Cornella").exists()):
+          User.objects.create_user(
+              username="Bibliotecari Central Cornella",
+              first_name=fake.first_name(),
+              last_name=fake.last_name(),
+              email=fake.email(),
+              dataNaixement=fake.date_of_birth(minimum_age=18, maximum_age=65),
+              centre = Centre.objects.get(pk=2),
+              password=env('SEEDER_USERS_PASSWORD'),
+              esAdmin=True
+          )
+          print("Admin users created \"Bibliotecari Central Cornella\"")
 
         # Crear 90 productos
         for book in BOOKS:
-            Llibre.objects.create(
-                titol=book["titol"],
-                descripcio=book["descripcio"],
-                autor=book["autor"],
-                data_edicio=datetime.strptime(book["data_edicio"], "%d/%m/%Y").date(),
-                cdu = book["cdu"],
-                isbn = book["isbn"],
-                editorial = book["editorial"],
-                colleccio = book["colleccio"],
-                pagines = book["pagines"],
-                signatura = book["signatura"]
-            )
+            if not Llibre.objects.filter(titol=book["titol"]).exists():
+              Llibre.objects.create(
+                  titol=book["titol"],
+                  descripcio=book["descripcio"],
+                  autor=book["autor"],
+                  data_edicio=datetime.strptime(book["data_edicio"], "%d/%m/%Y").date(),
+                  cdu = book["cdu"],
+                  isbn = book["isbn"],
+                  editorial = book["editorial"],
+                  colleccio = book["colleccio"],
+                  pagines = book["pagines"],
+                  signatura = book["signatura"]
+              )
+              print(f"Book {book['titol']} created")
 
         for dvd in DVDS:
-            DVD.objects.create(
-                titol=dvd["titol"],
-                descripcio=dvd["descripcio"],
-                autor=dvd["autor"],
-                data_edicio=datetime.strptime(dvd["data_edicio"], "%d/%m/%Y").date(),
-            )
+            if not DVD.objects.filter(titol=dvd["titol"]).exists():
+              DVD.objects.create(
+                  titol=dvd["titol"],
+                  descripcio=dvd["descripcio"],
+                  autor=dvd["autor"],
+                  data_edicio=datetime.strptime(dvd["data_edicio"], "%d/%m/%Y").date(),
+                  duracio = dvd["duracio"]
+              )
+              print(f"DVD {dvd['titol']} created")
 
         for cd in CDS:
-            CD.objects.create(
+            if not CD.objects.filter(titol=cd["titol"]).exists():
+              CD.objects.create(
                 titol=cd["titol"],
                 descripcio=cd["descripcio"],
                 autor=cd["autor"],
                 data_edicio=datetime.strptime(cd["data_edicio"], "%d/%m/%Y").date(),
-                discrografia = cd["discrografia"],
-                estil = cd["estil"],
-                duracio = cd["duracio"]
-            )
+                discrografia=cd["discrografia"],
+                estil=cd["estil"],
+                duracio=cd["duracio"]
+              )
+              print(f"CD {cd['titol']} created")
 
         for blueRay in BLUERAYS:
-            BR.objects.create(
-                titol=blueRay["titol"],
-                descripcio=blueRay["descripcio"],
-                autor=blueRay["autor"],
-                data_edicio=datetime.strptime(blueRay["data_edicio"], "%d/%m/%Y").date(),
-                duracio = blueRay["duracio"]
-            )
+            if not BR.objects.filter(titol=blueRay["titol"]).exists():
+              BR.objects.create(
+                  titol=blueRay["titol"],
+                  descripcio=blueRay["descripcio"],
+                  autor=blueRay["autor"],
+                  data_edicio=datetime.strptime(blueRay["data_edicio"], "%d/%m/%Y").date(),
+                  duracio = blueRay["duracio"]
+              )
+              print(f"BR {blueRay['titol']} created")
 
         for dispositiu in DISPOSITIUS:
-            Dispositiu.objects.create(
-                titol=dispositiu["titol"],
-                descripcio=dispositiu["descripcio"],
-                autor=dispositiu["autor"],
-                data_edicio=datetime.strptime(dispositiu["data_edicio"], "%d/%m/%Y").date(),
-                marca = dispositiu["marca"],
-                model = dispositiu["model"]
-            )
+            if not Dispositiu.objects.filter(titol=dispositiu["titol"]).exists():
+              Dispositiu.objects.create(
+                  titol=dispositiu["titol"],
+                  descripcio=dispositiu["descripcio"],
+                  autor=dispositiu["autor"],
+                  data_edicio=datetime.strptime(dispositiu["data_edicio"], "%d/%m/%Y").date(),
+                  marca = dispositiu["marca"],
+                  model = dispositiu["model"]
+              )
+              print(f"Dispositiu {dispositiu['titol']} created")
 
         # Asignar ejemplares a los centros
         productos = Producte.objects.all()

@@ -23,7 +23,7 @@ class Producte(models.Model):
     
 class Llibre(Producte):
     cdu = models.CharField(max_length=50)
-    isbm = models.IntegerField()
+    isbn = models.IntegerField()
     editorial = models.CharField(max_length=100)
     colleccio = models.CharField(max_length=100)
     pagines = models.IntegerField()

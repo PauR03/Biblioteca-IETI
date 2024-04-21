@@ -11,7 +11,7 @@ BOOKS = [
     "autor": "Miguel de Cervantes Saavedra",
     "data_edicio": "16/01/1605",
     "cdu": "863",
-    "isbm": "9788424117869",
+    "isbn": "9788424117869",
     "editorial": "Espasa",
     "colleccio": "Clásicos de la literatura",
     "pagines": "1056",
@@ -23,7 +23,7 @@ BOOKS = [
     "autor": "Gabriel García Márquez",
     "data_edicio": "30/05/1967",
     "cdu": "863",
-    "isbm": "9780307474728",
+    "isbn": "9780307474728",
     "editorial": "Cien años de soledad",
     "colleccio": "Realismo mágico",
     "pagines": "432",
@@ -35,7 +35,7 @@ BOOKS = [
     "autor": "Carlos Ruiz Zafón",
     "data_edicio": "17/04/2001",
     "cdu": "863",
-    "isbm": "9788408079545",
+    "isbn": "9788408079545",
     "editorial": "Planeta",
     "colleccio": "El cementerio de los libros olvidados",
     "pagines": "672",
@@ -47,7 +47,7 @@ BOOKS = [
     "autor": "Laura Gallego García",
     "data_edicio": "01/02/2011",
     "cdu": "863",
-    "isbm": "9788467577823",
+    "isbn": "9788467577823",
     "editorial": "Montena",
     "colleccio": "Nocturna",
     "pagines": "512",
@@ -59,7 +59,7 @@ BOOKS = [
     "autor": "Ildefonso Falcones",
     "data_edicio": "03/10/2006",
     "cdu": "863",
-    "isbm": "9788425336517",
+    "isbn": "9788425336517",
     "editorial": "Grijalbo",
     "colleccio": "Éxitos",
     "pagines": "704",
@@ -71,7 +71,7 @@ BOOKS = [
     "autor": "George Orwell",
     "data_edicio": "08/06/1949",
     "cdu": "84-312",
-    "isbm": "9788499890944",
+    "isbn": "9788499890944",
     "editorial": "Debolsillo",
     "colleccio": "Contemporánea",
     "pagines": "368",
@@ -83,7 +83,7 @@ BOOKS = [
     "autor": "J.K. Rowling",
     "data_edicio": "26/06/1997",
     "cdu": "82-312",
-    "isbm": "9788478884957",
+    "isbn": "9788478884957",
     "editorial": "Salamandra",
     "colleccio": "Harry Potter",
     "pagines": "256",
@@ -95,7 +95,7 @@ BOOKS = [
     "autor": "F. Scott Fitzgerald",
     "data_edicio": "10/04/1925",
     "cdu": "82-312",
-    "isbm": "978-3-16-148410-0",
+    "isbn": "978-3-16-148410-0",
     "editorial": "Charles Scribner's Sons",
     "colleccio": "-",
     "pagines": "180",
@@ -107,7 +107,7 @@ BOOKS = [
     "autor": "Harper Lee",
     "data_edicio": "11/07/1960",
     "cdu": "84-23",
-    "isbm": "978-84-663-4723-7",
+    "isbn": "978-84-663-4723-7",
     "editorial": "J. B. Lippincott & Co.",
     "colleccio": "-",
     "pagines": "376",
@@ -119,7 +119,7 @@ BOOKS = [
     "autor": "Paulo Coelho",
     "data_edicio": "01/05/1988",
     "cdu": "821.134.3",
-    "isbm": "9788408015828",
+    "isbn": "9788408015828",
     "editorial": "Editorial Planeta",
     "colleccio": "Biblioteca Paulo Coelho",
     "pagines": "208",
@@ -131,7 +131,7 @@ BOOKS = [
     "autor": "Jane Austen",
     "data_edicio": "28/01/1813",
     "cdu": "821.111",
-    "isbm": "9788499899355",
+    "isbn": "9788499899355",
     "editorial": "Editorial Egales",
     "colleccio": "Biblioteca Jane Austen",
     "pagines": "464",
@@ -143,7 +143,7 @@ BOOKS = [
     "autor": "Gabriel García Márquez",
     "data_edicio": "10/01/1985",
     "cdu": "823.914",
-    "isbm": "978-84-322-0466-1",
+    "isbn": "978-84-322-0466-1",
     "editorial": "Literatura Random House",
     "colleccio": "No aplica",
     "pagines": 464,
@@ -155,7 +155,7 @@ BOOKS = [
     "autor": "Antoine de Saint-Exupéry",
     "data_edicio": "06/04/1943",
     "cdu": "843.912",
-    "isbm": "978-84-670-3486-9",
+    "isbn": "978-84-670-3486-9",
     "editorial": "Salamandra",
     "colleccio": "No aplica",
     "pagines": 96,
@@ -165,167 +165,167 @@ BOOKS = [
 
 DVDS = [
   {
-    "titol": "DVD Title 1",
-    "descripcio": "DVD Description 1",
-    "autor": "DVD Author 1",
-    "data_edicio": "01/01/2020",
-    "duracio": "120"
+    "titol": "The Shawshank Redemption",
+    "descripcio": "Un drama carcelario basado en una historia corta de Stephen King",
+    "autor": "Frank Darabont",
+    "data_edicio": "14/10/1994",
+    "duracio": "142"
   },
   {
-    "titol": "DVD Title 2",
-    "descripcio": "DVD Description 2",
-    "autor": "DVD Author 2",
-    "data_edicio": "02/02/2020",
-    "duracio": "90"
+    "titol": "The Godfather",
+    "descripcio": "Un clásico del cine de mafia dirigido por Francis Ford Coppola",
+    "autor": "Francis Ford Coppola",
+    "data_edicio": "24/03/1972",
+    "duracio": "175"
   },
   {
-    "titol": "DVD Title 3",
-    "descripcio": "DVD Description 3",
-    "autor": "DVD Author 3",
-    "data_edicio": "03/03/2020",
-    "duracio": "180"
+    "titol": "The Dark Knight",
+    "descripcio": "Una película de superhéroes dirigida por Christopher Nolan",
+    "autor": "Christopher Nolan",
+    "data_edicio": "18/07/2008",
+    "duracio": "152"
   },
   {
-    "titol": "DVD Title 4",
-    "descripcio": "DVD Description 4",
-    "autor": "DVD Author 4",
-    "data_edicio": "04/04/2020",
-    "duracio": "150"
+    "titol": "Pulp Fiction",
+    "descripcio": "Una película de crimen y comedia dirigida por Quentin Tarantino",
+    "autor": "Quentin Tarantino",
+    "data_edicio": "14/10/1994",
+    "duracio": "154"
   },
   {
-    "titol": "DVD Title 5",
-    "descripcio": "DVD Description 5",
-    "autor": "DVD Author 5",
-    "data_edicio": "05/05/2020",
-    "duracio": "120"
+    "titol": "The Lord of the Rings: The Return of the King",
+    "descripcio": "La tercera entrega de la trilogía de El Señor de los Anillos dirigida por Peter Jackson",
+    "autor": "Peter Jackson",
+    "data_edicio": "17/12/2003",
+    "duracio": "201"
   },
   {
-    "titol": "DVD Title 6",
-    "descripcio": "DVD Description 6",
-    "autor": "DVD Author 6",
-    "data_edicio": "06/06/2020",
-    "duracio": "90"
+    "titol": "Schindler's List",
+    "descripcio": "Una película histórica basada en la historia real de Oskar Schindler durante el Holocausto",
+    "autor": "Steven Spielberg",
+    "data_edicio": "15/12/1993",
+    "duracio": "195"
   },
   {
-    "titol": "DVD Title 7",
-    "descripcio": "DVD Description 7",
-    "autor": "DVD Author 7",
-    "data_edicio": "07/07/2020",
-    "duracio": "180"
+    "titol": "Fight Club",
+    "descripcio": "Una película de culto dirigida por David Fincher",
+    "autor": "David Fincher",
+    "data_edicio": "15/10/1999",
+    "duracio": "139"
   },
   {
-    "titol": "DVD Title 8",
-    "descripcio": "DVD Description 8",
-    "autor": "DVD Author 8",
-    "data_edicio": "08/08/2020",
-    "duracio": "150"
+    "titol": "Forrest Gump",
+    "descripcio": "Una película dramática dirigida por Robert Zemeckis",
+    "autor": "Robert Zemeckis",
+    "data_edicio": "06/07/1994",
+    "duracio": "142"
   },
   {
-    "titol": "DVD Title 9",
-    "descripcio": "DVD Description 9",
-    "autor": "DVD Author 9",
-    "data_edicio": "09/09/2020",
-    "duracio": "120"
+    "titol": "Inception",
+    "descripcio": "Una película de ciencia ficción dirigida por Christopher Nolan",
+    "autor": "Christopher Nolan",
+    "data_edicio": "16/07/2010",
+    "duracio": "148"
   },
   {
-    "titol": "DVD Title 10",
-    "descripcio": "DVD Description 10",
-    "autor": "DVD Author 10",
-    "data_edicio": "10/10/2020",
-    "duracio": "90"
+    "titol": "The Matrix",
+    "descripcio": "Una película de ciencia ficción y acción dirigida por los hermanos Wachowski",
+    "autor": "Lana Wachowski, Lilly Wachowski",
+    "data_edicio": "31/03/1999",
+    "duracio": "136"
   }
 ]
 
 CDS = [
   {
-    "titol": "CD1",
-    "descripcio": "Descripcion del CD1",
-    "autor": "Autor del CD1",
-    "data_edicio": "01/01/2000",
-    "discrografia": "Discrografia del CD1",
-    "estil": "Estilo de la musica del CD1",
-    "duracio": "60"
+    "titol": "Nevermind",
+    "descripcio": "El segundo álbum de estudio de la banda de rock Nirvana",
+    "autor": "Nirvana",
+    "data_edicio": "24/09/1991",
+    "discrografia": "DGC Records",
+    "estil": "Grunge",
+    "duracio": "59:22"
   },
   {
-    "titol": "CD2",
-    "descripcio": "Descripcion del CD2",
-    "autor": "Autor del CD2",
-    "data_edicio": "02/02/2001",
-    "discrografia": "Discrografia del CD2",
-    "estil": "Estilo de la musica del CD2",
-    "duracio": "45"
+    "titol": "The Dark Side of the Moon",
+    "descripcio": "El octavo álbum de estudio de la banda británica Pink Floyd",
+    "autor": "Pink Floyd",
+    "data_edicio": "01/03/1973",
+    "discrografia": "Harvest Records",
+    "estil": "Rock progresivo",
+    "duracio": "42:57"
   },
   {
-    "titol": "CD3",
-    "descripcio": "Descripcion del CD3",
-    "autor": "Autor del CD3",
-    "data_edicio": "03/03/2002",
-    "discrografia": "Discrografia del CD3",
-    "estil": "Estilo de la musica del CD3",
-    "duracio": "55"
+    "titol": "Thriller",
+    "descripcio": "El sexto álbum de estudio del cantante estadounidense Michael Jackson",
+    "autor": "Michael Jackson",
+    "data_edicio": "30/11/1982",
+    "discrografia": "Epic Records",
+    "estil": "Pop, R&B",
+    "duracio": "42:19"
   },
   {
-    "titol": "CD4",
-    "descripcio": "Descripcion del CD4",
-    "autor": "Autor del CD4",
-    "data_edicio": "04/04/2003",
-    "discrografia": "Discrografia del CD4",
-    "estil": "Estilo de la musica del CD4",
-    "duracio": "50"
+    "titol": "Abbey Road",
+    "descripcio": "El undécimo álbum de estudio de la banda británica The Beatles",
+    "autor": "The Beatles",
+    "data_edicio": "26/09/1969",
+    "discrografia": "Apple Records",
+    "estil": "Rock",
+    "duracio": "47:24"
   },
   {
-    "titol": "CD5",
-    "descripcio": "Descripcion del CD5",
-    "autor": "Autor del CD5",
-    "data_edicio": "05/05/2004",
-    "discrografia": "Discrografia del CD5",
-    "estil": "Estilo de la musica del CD5",
-    "duracio": "70"
+    "titol": "Back in Black",
+    "descripcio": "El séptimo álbum de estudio de la banda australiana de hard rock AC/DC",
+    "autor": "AC/DC",
+    "data_edicio": "25/07/1980",
+    "discrografia": "Atlantic Records",
+    "estil": "Hard rock",
+    "duracio": "42:11"
   },
   {
-    "titol": "CD6",
-    "descripcio": "Descripcion del CD6",
-    "autor": "Autor del CD6",
-    "data_edicio": "06/06/2005",
-    "discrografia": "Discrografia del CD6",
-    "estil": "Estilo de la musica del CD6",
-    "duracio": "65"
+    "titol": "Rumours",
+    "descripcio": "El undécimo álbum de estudio de la banda británico-estadounidense Fleetwood Mac",
+    "autor": "Fleetwood Mac",
+    "data_edicio": "04/02/1977",
+    "discrografia": "Warner Bros. Records",
+    "estil": "Rock",
+    "duracio": "39:43"
   },
   {
-    "titol": "CD7",
-    "descripcio": "Descripcion del CD7",
-    "autor": "Autor del CD7",
-    "data_edicio": "07/07/2006",
-    "discrografia": "Discrografia del CD7",
-    "estil": "Estilo de la musica del CD7",
-    "duracio": "75"
+    "titol": "The Wall",
+    "descripcio": "El undécimo álbum de estudio de la banda británica Pink Floyd",
+    "autor": "Pink Floyd",
+    "data_edicio": "30/11/1979",
+    "discrografia": "Harvest Records",
+    "estil": "Rock progresivo",
+    "duracio": "81:09"
   },
   {
-    "titol": "CD8",
-    "descripcio": "Descripcion del CD8",
-    "autor": "Autor del CD8",
-    "data_edicio": "08/08/2007",
-    "discrografia": "Discrografia del CD8",
-    "estil": "Estilo de la musica del CD8",
-    "duracio": "80"
+    "titol": "Led Zeppelin IV",
+    "descripcio": "El cuarto álbum de estudio de la banda británica Led Zeppelin",
+    "autor": "Led Zeppelin",
+    "data_edicio": "08/11/1971",
+    "discrografia": "Atlantic Records",
+    "estil": "Hard rock, heavy metal",
+    "duracio": "42:38"
   },
   {
-    "titol": "CD9",
-    "descripcio": "Descripcion del CD9",
-    "autor": "Autor del CD9",
-    "data_edicio": "09/09/2008",
-    "discrografia": "Discrografia del CD9",
-    "estil": "Estilo de la musica del CD9",
-    "duracio": "90"
+    "titol": "American Idiot",
+    "descripcio": "El séptimo álbum de estudio de la banda estadounidense Green Day",
+    "autor": "Green Day",
+    "data_edicio": "21/09/2004",
+    "discrografia": "Reprise Records",
+    "estil": "Punk rock",
+    "duracio": "57:14"
   },
   {
-    "titol": "CD10",
-    "descripcio": "Descripcion del CD10",
-    "autor": "Autor del CD10",
-    "data_edicio": "10/10/2009",
-    "discrografia": "Discrografia del CD10",
-    "estil": "Estilo de la musica del CD10",
-    "duracio": "100"
+    "titol": "Back to Black",
+    "descripcio": "El segundo álbum de estudio de la cantante británica Amy Winehouse",
+    "autor": "Amy Winehouse",
+    "data_edicio": "27/10/2006",
+    "discrografia": "Island Records",
+    "estil": "Soul, R&B",
+    "duracio": "34:58"
   }
 ]
 
@@ -537,7 +537,7 @@ class Command(BaseCommand):
                 autor=book["autor"],
                 data_edicio=datetime.strptime(book["data_edicio"], "%d/%m/%Y").date(),
                 cdu = book["cdu"],
-                isbm = book["isbm"],
+                isbn = book["isbn"],
                 editorial = book["editorial"],
                 colleccio = book["colleccio"],
                 pagines = book["pagines"],

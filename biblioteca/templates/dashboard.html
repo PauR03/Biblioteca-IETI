@@ -29,7 +29,8 @@
             <!-- Nombre de usuario y Perfil -->
             <div class="flex items-center space-x-4">
                 <div class="flex flex-col items-center">
-                    <span class="text-cyan-500 text-lg mt-2">{{ username }}</span>
+                    <span class="text-cyan-500 text-lg mt-2">{{ firstname }} {{ lastname }}</span>
+
                     {% if is_admin %}
                     <span class="text-blue-400 text-sm">Administrador</span>
 
@@ -38,7 +39,7 @@
                 <!-- Botón de Perfil -->
                 <button id="profile-button">
                     <img id="profile-image" src="{{ imatgePerfil }}"
-                    data-default="{% static 'biblioteca/imatgePerfil/default.jpg' %}" alt="Perfil"
+                    data-default="{% static 'media/imatgePerfil/default.jpg' %}" alt="Perfil"
                     class="h-8 w-8 rounded-full mt-1">
 
                 </button>

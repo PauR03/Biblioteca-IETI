@@ -14,6 +14,7 @@ from django.contrib.auth import logout
 from .backends import EmailBackend
 import os
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
 # VIEW PARA LOGIN DE USUARIOS
 @never_cache
@@ -36,7 +37,6 @@ def login_view(request):
         return render(request, 'index.html')
 
 # VIEW PARA REDIRIGIR AL USUARIO AL DASHBOARD CON EL TOKEN CSRF
-from django.contrib.auth import get_user_model
 
 @login_required
 def dashboard_view(request):
@@ -47,10 +47,14 @@ def dashboard_view(request):
         user = User.objects.get(email=email)
         is_admin = user.is_superuser or user.esAdmin
         username = user.username  # Fetch the username from the User model
+        firstname = user.first_name  # Fetch the first name from the User model
+        lastname = user.last_name  # Fetch the last name from the User model
     except User.DoesNotExist:
         is_admin = False
         username = None  # Set username to None if the user does not exist
-    return render(request, 'dashboard.html', {'username': username, 'token': token, 'is_admin': is_admin})
+        firstname = None  # Set first name to None if the user does not exist
+        lastname = None  # Set last name to None if the user does not exist
+    return render(request, 'dashboard.html', {'username': username, 'token': token, 'is_admin': is_admin, 'firstname': firstname, 'lastname': lastname})
 
 
 
@@ -69,6 +73,8 @@ def profile(request):
     # Puedes acceder a los atributos del usuario, como username y email
     username = user.username
     email = user.email
+    firstname = user.first_name  # Fetch the first name from the User model
+    lastname = user.last_name  # Fetch the last name from the User model
     dataNaixement = user.dataNaixement
     cicle = user.cicle
     imatgePerfil = user.imatgePerfil.url if user.imatgePerfil else None
@@ -84,7 +90,9 @@ def profile(request):
         'dataNaixement': dataNaixement,
         'cicle': cicle,
         'imatgePerfil': imatgePerfil,
-    }
+        'firstname': firstname, 
+        'lastname': lastname,
+        }
 
     # Renderiza el template con este contexto
     return render(request, 'perfil.html', context)
@@ -95,12 +103,14 @@ def profile(request):
 def edit_profile(request):
     user = request.user
     username = user.username
-
+    firstname = user.first_name  # Fetch the first name from the User model
+    lastname = user.last_name  # Fetch the last name from the User model
     is_admin = user.is_superuser
-
 
     context = {
         'username': username,
+        'firstname': firstname,  # Add first name to the context
+        'lastname': lastname,  # Add last name to the context
         'email': user.email,
         'is_admin': is_admin,
         'dataNaixement': user.dataNaixement,  # Assuming the User model has a dataNaixement field

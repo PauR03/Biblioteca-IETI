@@ -8,15 +8,12 @@
     <title>Gestió de Biblioteques - Panell Administració</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="/biblioteca/static/biblioteca/styles.css" rel="stylesheet">
     <link href="{% static 'biblioteca/styles.css' %}" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
 
 <body>
-
-    <nav class="bg-white border-b border-gray-300 h-10">
     
     <nav class="bg-white border-b border-gray-300 h-15" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
         <div class="flex justify-between items-center px-6">
@@ -28,7 +25,7 @@
                 <!-- Título -->
                 <span class="text-cyan-500 text-lg mt-0 ml-10">IETI</span>
             </div>
-
+           
             <!-- Nombre de usuario y Perfil -->
             <div class="flex items-center space-x-4">
                 <div class="flex flex-col items-center">
@@ -40,8 +37,6 @@
                 </div>
                 <!-- Botón de Perfil -->
                 <button id="profile-button">
-                    <img src="/biblioteca/static/biblioteca/image/ProfileImage.png" alt="Perfil"
-                        class="h-8 w-8 rounded-full  mt-1">
                     <img id="profile-image" data-url="{{ imatgePerfil }}" data-default="{% static 'biblioteca/imatgePerfil/default.jpg' %}" alt="Perfil" class="h-8 w-8 rounded-full mt-1">
 
                 </button>
@@ -49,24 +44,21 @@
 
 
                 </button>
-                <i id="profile-arrow" class="fas fa-chevron-down text-cyan-500 ml-2 mt-1"
-                    onclick="this.classList.toggle('text-blue-500');"></i>
-
+                <i id="profile-arrow" class="fas fa-chevron-down text-cyan-500 ml-2 mt-1" onclick="this.classList.toggle('text-blue-500');"></i>
+    
                 <div id="profile-submenu" class="hidden absolute bg-white border rounded shadow-lg mt-40 z-50 w-50">
                     <a href="/perfil/" class="block px-4 py-2 flex items-center hover:bg-gray-200">
 
                         <i class="fas fa-user"></i>
                         <span class="ml-2">Perfil</span>
-
                     </a>
                     <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200">
                         <i class="fas fa-cog"></i>
-
+    
                         <span class="ml-2">Preferències</span>
                     </a>
                     <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="logoutAndClear()">
                         <i class="fas fa-sign-out-alt"></i>
-
                         <span class="ml-2">Surt</span>
                     </a>
                 </div>
@@ -74,7 +66,7 @@
         </div>
     </nav>
 
-
+        
     <!-- <div id="profile-submenu" class="hidden absolute bg-white border rounded shadow-lg mt-2 z-50">
         <a href="#" class="block px-4 py-2">Opción 1</a>
         <a href="#" class="block px-4 py-2">Opción 2</a>
@@ -84,80 +76,52 @@
 
 
     <!-- Barra lateral -->
-    <div id="sidebar"
-        class="w-28 bg-white h-screen fixed rounded-none border-none transition-all duration-200 ease-in-out overflow-hidden">
     <div id="sidebar" class="w-28 bg-white h-screen fixed rounded-none border-none transition-all duration-200 ease-in-out overflow-hidden" style="margin-top: 40px;">
 
 
         <!-- Items -->
         <div class="p-2 space-y-2">
-            <button
-                class="relative px-3 py-1 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group mt-4"
-                onclick="highlightSidebarItem(this)">
+            <button class="relative px-3 py-1 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group mt-4" onclick="highlightSidebarItem(this)">
                 <i class="fas fa-home "></i>
                 <span class="font-medium transition-all duration-200 opacity-0">Inici</span>
             </button>
 
-            <!-- Usuaris -->
-            <button class="relative px-3 py-1 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group"
-                onclick="highlightSidebarItem(this)">
+             <!-- Usuaris -->
+            <button class="relative px-3 py-1 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group" onclick="highlightSidebarItem(this)">
                 <i class="fas fa-users "></i>
                 <span class="font-medium transition-all duration-200 opacity-0">Gestió d'usuaris</span>
             </button>
 
             <!-- Prestecs -->
-            <button class="relative px-3 py-1 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group"
-                onclick="highlightSidebarItem(this)">
+            <button class="relative px-3 py-1 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group" onclick="highlightSidebarItem(this)">
                 <i class="fas fa-hourglass ml-1"></i>
                 <span class="font-medium transition-all duration-200 opacity-0">Prestecs</span>
             </button>
 
 
             <!-- Cataleg -->
-            <button class="relative px-3 py-2 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group"
-                onclick="highlightSidebarItem(this)">
+            <button class="relative px-3 py-2 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group" onclick="highlightSidebarItem(this)">
                 <i class="fas fa-book ml-1"></i>
                 <span class="font-medium transition-all duration-200 opacity-0">Catàleg</span>
             </button>
 
             <!-- Peticions -->
-            <button class="relative px-3 py-2 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group"
-                onclick="highlightSidebarItem(this)">
+            <button class="relative px-3 py-2 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group" onclick="highlightSidebarItem(this)">
                 <i class="fas fa-file-alt ml-1"></i>
                 <span class="font-medium transition-all duration-200 opacity-0">Peticions</span>
             </button>
 
             <!-- Reserves -->
-            <button class="relative px-3 py-2 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group"
-                onclick="highlightSidebarItem(this)">
+            <button class="relative px-3 py-2 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group" onclick="highlightSidebarItem(this)">
                 <i class="fas fa-calendar-check ml-1"></i>
                 <span class="font-medium transition-all duration-200 opacity-0">Reserves</span>
             </button>
 
-
+            
         </div>
     </div>
 
 
-    <!-- Contenedor gris al lado de la barra lateral -->
-    <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out">
-        <!-- Buscador con Icono -->
-        <div class="flex items-center w-full mt-2 p-4">
-            <div class="relative w-full">
-                <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
-                    <i class="fas fa-search text-gray-200"></i>
-                </span>
-                <input type="text"
-                    class="pl-10 pr-4 py-2 rounded-full border border-gray-300 w-full text-sm placeholder-gray-400"
-                    placeholder="Buscar..." />
-            </div>
-        </div>
-    </div>
-</body>
-<script>
-    function expandSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        const mainContent = document.querySelector('.ml-16');
        <!-- Contenedor gris al lado de la barra lateral -->
        <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out" style="margin-top: 20px;">
             <br><br>
@@ -186,35 +150,35 @@
             const sidebar = document.getElementById('sidebar');
             const mainContent = document.querySelector('.ml-16');
 
-        if (sidebar.style.width === '16rem') {
-            sidebar.style.width = '4rem';
-            mainContent.style.marginLeft = '4rem';
-            mainContent.style.width = 'calc(100% - 4rem)'; // adjust the width of the main content
-            sidebar.classList.remove('text-left', 'px-6');
-            sidebar.classList.add('text-center', 'px-0');
-        } else {
-            sidebar.style.width = '16rem';
-            mainContent.style.marginLeft = '16rem';
-            mainContent.style.width = 'calc(100% - 16rem)'; // adjust the width of the main content
-            sidebar.classList.add('text-left', 'px-6');
-            sidebar.classList.remove('text-center', 'px-0');
+            if (sidebar.style.width === '16rem') {
+                sidebar.style.width = '4rem';
+                mainContent.style.marginLeft = '4rem';
+                mainContent.style.width = 'calc(100% - 4rem)'; // adjust the width of the main content
+                sidebar.classList.remove('text-left', 'px-6');
+                sidebar.classList.add('text-center', 'px-0');
+            } else {
+                sidebar.style.width = '16rem';
+                mainContent.style.marginLeft = '16rem';
+                mainContent.style.width = 'calc(100% - 16rem)'; // adjust the width of the main content
+                sidebar.classList.add('text-left', 'px-6');
+                sidebar.classList.remove('text-center', 'px-0');
+            }
+
+            const labels = sidebar.querySelectorAll('span');
+            labels.forEach(label => label.classList.toggle('opacity-0'));
         }
 
-        const labels = sidebar.querySelectorAll('span');
-        labels.forEach(label => label.classList.toggle('opacity-0'));
-    }
 
-
-    /* Desplegar submenu de perfil */
-    document.getElementById('profile-button').addEventListener('click', function () {
+        /* Desplegar submenu de perfil */
+        document.getElementById('profile-button').addEventListener('click', function() {
         document.getElementById('profile-submenu').classList.toggle('hidden');
-    });
-    document.getElementById('profile-arrow').addEventListener('click', function () {
-        document.getElementById('profile-submenu').classList.toggle('hidden');
-    });
-    /*****************************/
-
-    function highlightSidebarItem(element) {
+        });
+        document.getElementById('profile-arrow').addEventListener('click', function() {
+            document.getElementById('profile-submenu').classList.toggle('hidden');
+        });
+        /*****************************/
+        
+        function highlightSidebarItem(element) {
         const buttons = document.querySelectorAll("#sidebar button");
         buttons.forEach(btn => {
             btn.classList.remove('bg-gradient-to-r', 'from-cyan-400', 'to-cyan-500', 'text-white');
@@ -224,9 +188,9 @@
 
     }
 
+        
 
+    
+    </script>
 
-
-</script>
-
-</html>
+</html> 

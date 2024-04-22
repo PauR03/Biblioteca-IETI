@@ -58,9 +58,8 @@
     
                         <span class="ml-2">Preferències</span>
                     </a>
-                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200">
+                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="logoutAndClear()">
                         <i class="fas fa-sign-out-alt"></i>
-    
                         <span class="ml-2">Surt</span>
                     </a>
                 </div>
@@ -193,7 +192,7 @@
         </div>
     </div>
 
-
+         <script src="{% static 'biblioteca/logout.js' %}"></script>
         <script src="{% static 'biblioteca/actualizarImagen.js' %}"></script>
 
 

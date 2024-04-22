@@ -34,6 +34,7 @@ urlpatterns = [
     path('accounts/login/', login_view, name='login'),  
 
     path('', login_view, name='login'),
+    path('logout/', logout_view, name='logout'),
     path('', include('biblioteca.urls')),  
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

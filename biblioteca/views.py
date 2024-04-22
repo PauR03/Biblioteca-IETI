@@ -10,7 +10,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
-
+from django.contrib.auth import logout
 from .backends import EmailBackend
 import os
 from django.conf import settings
@@ -52,6 +52,13 @@ def dashboard_view(request):
         username = None  # Set username to None if the user does not exist
     return render(request, 'dashboard.html', {'username': username, 'token': token, 'is_admin': is_admin})
 
+
+
+
+# VIEW PARA HACER LOGOUT
+def logout_view(request):
+    logout(request)
+    return JsonResponse({'status': 'ok'})
 
 # VIEW PARA EL PERFIL DEL USUARIO
 @login_required

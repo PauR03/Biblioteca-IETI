@@ -57,10 +57,8 @@
     
                         <span class="ml-2">Preferències</span>
                     </a>
-                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="logout()">
-
+                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="logoutAndClear()">
                         <i class="fas fa-sign-out-alt"></i>
-    
                         <span class="ml-2">Surt</span>
                     </a>
                 </div>
@@ -139,15 +137,15 @@
         </div>
 
 
-        <script src="{% static 'biblioteca/dashboard.js' %}"></script>
+        <script src="{% static 'biblioteca/logout.js' %}"></script>
         <script src="{% static 'biblioteca/actualizarImagen.js' %}"></script>
 
     </body> 
     <script>
         localStorage.setItem('token generado', '{{ token }}');
         localStorage.setItem('username', '{{ username }}');
-
-
+ 
+        
         function expandSidebar() {
             const sidebar = document.getElementById('sidebar');
             const mainContent = document.querySelector('.ml-16');

@@ -1,8 +1,3 @@
-
-
-
-
-
 /***** LANDING PAGE *****/
 
 @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
@@ -16,13 +11,15 @@
         transform: translateY(-50px);
         opacity: 0;
     }
+
     100% {
         transform: translateY(0);
         opacity: 1;
     }
 }
 
-#formlogin, .animated-text {
+#formlogin,
+.animated-text {
     animation: slide-in 1s ease-out 0s;
     animation-fill-mode: forwards;
 }
@@ -34,8 +31,9 @@
 
 @media (min-width: 1024px) {
     .lg\:w-3\/4 {
-        width: 96.5%; /* Cambia esto al porcentaje que desees */
-       
+        width: 96.5%;
+        /* Cambia esto al porcentaje que desees */
+
     }
 }
 
@@ -53,87 +51,40 @@ nav {
 
 
 
-/***** ERROR POPUP *****/
+/***** POPUP *****/
 
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    right: 20px;
-    bottom: 20px;
-    width: 350px;
-    height: 140px;
-    overflow: auto;
-    background-color: rgb(0, 0, 0);
-    background-color: rgb(0 0 0 / 0%);
+.popupDiv {
+    position: absolute;
+    right: 5px;
+    bottom: 0;
+    height: 100vh;
+    width: 20%;
+    z-index: 1000;
+}
+
+.popupDiv .popup {
+    position: relative;
+
+    padding: 10px 20px;
+    background-color: white;
     border-radius: 10px;
-}
-/* Modal Content/Box */
-.modal-content {
-    background-color: #f53f3f;
-    margin: 0;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 100%; /* Full width of the modal */
-    height: 80%;
-    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin: 10px 0;
 }
 
-/* The Close Button */
-.close {
-    color: #000;
-    float: right;
-    font-size: 30px;
-    font-weight: bold;
-    margin-top: -20px;
+.popupDiv .popup .close {
+    position: absolute;
+    top: -5px;
+    right: 10px;
+    font-size: 20px;
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+.popupDiv .popup.error {
+    background-color: #ed5555;
+    border: 2px solid #f53f3f;
 }
 
-/***** SUCCES POPUP *****/
-
-/* The Modal (background) */
-.success-modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    right: 20px;
-    bottom: 20px;
-    width: 350px; /* Increased width */
-    height: 150px; /* Smaller height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    border-radius: 10px; /* Rounded corners */
-}
-
-/* Modal Content/Box */
-.success-modal-content {
-    background-color: #51d437;
-    margin: 0;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 100%; /* Full width of the modal */
-    height: 100%; /* Full height of the modal */
-    border-radius: 10px; /* Rounded corners */
-}
-
-/* The Close Button */
-.success-close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.success-close:hover,
-.success-close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+.popupDiv .popup.success {
+    background-color: #6fda5a;
+    border: 2px solid #51d437;
 }

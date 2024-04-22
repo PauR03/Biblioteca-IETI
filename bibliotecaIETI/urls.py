@@ -15,8 +15,28 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
+from biblioteca.views import *
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
+    path('dashboard/', dashboard_view, name='dashboard'),  
+    path('perfil/', profile, name='profile'),
+    path('editar_perfil/', edit_profile, name='editar_perfil'),
+    path('update_profile/', update_profile, name='update_profile'),  # VIEW QUE INSERTA LOS DATOS MODIFICADOS DEL USAURIO EN LA BASE DE DATOS
+    path('get_profile_image/', get_profile_image, name='get_profile_image'),
+
+    path('accounts/login/', login_view, name='login'),  
+
+    path('', login_view, name='login'),
+    path('logout/', logout_view, name='logout'),
+    path('', include('biblioteca.urls')),  
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,252 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil - Gestió de Biblioteques </title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="{% static 'biblioteca/styles.css' %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+    
+    <nav class="bg-white border-b border-gray-300 h-15" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
+        <div class="flex justify-between items-center px-6">
+            <div class="flex items-center">
+                <!-- Ícono de Menú (cyan) -->
+                <button id="menu-button" onclick="expandSidebar()">
+                    <i class="fas fa-bars text-cyan-500 text-lg mt-2"></i>
+                </button>
+                <!-- Título -->
+                <span class="text-cyan-500 text-lg mt-0 ml-10">IETI</span>
+            </div>
+           
+            <!-- Nombre de usuario y Perfil -->
+            <div class="flex items-center space-x-4">
+                <div class="flex flex-col items-center">
+                    <span class="text-cyan-500 text-lg mt-2">{{ username }}</span>
+                    {% if is_admin %}
+                    <span class="text-blue-400 text-sm">Administrador</span>
+
+                    {% endif %}
+                </div>
+                <!-- Botón de Perfil -->
+                <button id="profile-button">
+                    <img id="profile-image" data-url="{{ imatgePerfil }}" data-default="{% static 'biblioteca/imatgePerfil/default.jpg' %}" alt="Perfil" class="h-8 w-8 rounded-full mt-1">
+
+
+                </button>
+
+
+
+                </button>
+                <i id="profile-arrow" class="fas fa-chevron-down text-cyan-500 ml-2 mt-1" onclick="this.classList.toggle('text-blue-500');"></i>
+    
+                <div id="profile-submenu" class="hidden absolute bg-white border rounded shadow-lg mt-40 z-50 w-50">
+                    <a href="/perfil/" class="block px-4 py-2 flex items-center hover:bg-gray-200">
+
+                        <i class="fas fa-user"></i>
+                        <span class="ml-2">Perfil</span>
+                    </a>
+                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200">
+                        <i class="fas fa-cog"></i>
+    
+                        <span class="ml-2">Preferències</span>
+                    </a>
+                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="logoutAndClear()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="ml-2">Surt</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+        
+    <!-- <div id="profile-submenu" class="hidden absolute bg-white border rounded shadow-lg mt-2 z-50">
+        <a href="#" class="block px-4 py-2">Opción 1</a>
+        <a href="#" class="block px-4 py-2">Opción 2</a>
+        <a href="#" class="block px-4 py-2">Opción 3</a>
+    </div>
+        -->
+
+
+    <!-- Barra lateral -->
+    <div id="sidebar" class="w-28 bg-white h-screen fixed rounded-none border-none transition-all duration-200 ease-in-out overflow-hidden" style="margin-top: 40px;">
+
+
+        <!-- Items -->
+        <div class="p-2 space-y-2">
+            <button class="relative px-3 py-1 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group mt-4" onclick="highlightSidebarItem(this)">
+                <i class="fas fa-home "></i>
+                <span class="font-medium transition-all duration-200 opacity-0">Inici</span>
+            </button>
+
+             <!-- Usuaris -->
+            <button class="relative px-3 py-1 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group" onclick="highlightSidebarItem(this)">
+                <i class="fas fa-users "></i>
+                <span class="font-medium transition-all duration-200 opacity-0">Gestió d'usuaris</span>
+            </button>
+
+            <!-- Prestecs -->
+            <button class="relative px-3 py-1 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group" onclick="highlightSidebarItem(this)">
+                <i class="fas fa-hourglass ml-1"></i>
+                <span class="font-medium transition-all duration-200 opacity-0">Prestecs</span>
+            </button>
+
+
+            <!-- Cataleg -->
+            <button class="relative px-3 py-2 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group" onclick="highlightSidebarItem(this)">
+                <i class="fas fa-book ml-1"></i>
+                <span class="font-medium transition-all duration-200 opacity-0">Catàleg</span>
+            </button>
+
+            <!-- Peticions -->
+            <button class="relative px-3 py-2 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group" onclick="highlightSidebarItem(this)">
+                <i class="fas fa-file-alt ml-1"></i>
+                <span class="font-medium transition-all duration-200 opacity-0">Peticions</span>
+            </button>
+
+            <!-- Reserves -->
+            <button class="relative px-3 py-2 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group" onclick="highlightSidebarItem(this)">
+                <i class="fas fa-calendar-check ml-1"></i>
+                <span class="font-medium transition-all duration-200 opacity-0">Reserves</span>
+            </button>
+
+            
+        </div>
+    </div>
+
+
+    <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out" style="margin-top: 0px;">
+        <div class="mx-auto px-6 py-8 w-full">
+            <div class="flex items-center justify-center">
+                <div class="w-1/2 mx-auto mt-0 pt-10 mt-10">
+
+                    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                        <div class="bg-gray-200 text-gray-700 text-lg px-6 py-4">Editar Perfil</div>
+                        <div class="flex justify-between items-center px-6 py-4">
+                            <div class="flex space-x-3">
+                                <img src="{% if user.imatgePerfil %}{{ user.imatgePerfil.url }}{% else %}{% static 'biblioteca/imatgePerfil/default.jpg' %}{% endif %}" alt="Perfil" class="h-16 w-16 rounded-full">
+                                <div class="text-gray-700 text-lg mt-5">{{ user.username }}</div>
+                            </div>
+                        </div>
+                        <form action="{% url 'update_profile' %}" method="POST" enctype="multipart/form-data">
+
+                            {% csrf_token %}
+                                <div class="mt-2">
+                                    <div class="flex items-center justify-between border-t">
+                                        <label class="text-sm text-gray-600 font-semibold mt-5 ml-10">Nom:</label>
+                                        <input type="text" name="first_name" class="form-input mt-1 w-1/2 bg-gray-100 mt-4 mr-10" value="{{ user.first_name }}">
+                                    </div>
+                        
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Cognom:</label>
+                                        <input type="text" name="last_name" class="form-input mt-1 w-1/2 bg-gray-100 mt-4 mr-10" value="{{ user.last_name }}">
+                                    </div>
+                        
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Correu electrónic:</label>
+                                        <input type="email" name="email" class="form-input mt-1 w-1/2 bg-gray-100 mt-4 mr-10" value="{{ user.email }}">
+                                    </div>
+
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Nova contrasenya:</label>
+                                        <input type="password" name="new_password" class="form-input mt-1 w-1/2 bg-gray-100 mt-4 mr-10">
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Confirmar nova contrasenya:</label>
+                                        <input type="password" name="confirm_new_password" class="form-input mt-1 w-1/2 bg-gray-100 mt-4 mr-10">
+                                    </div>
+                        
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Data de naixement:</label>
+                                        <input type="date" name="dataNaixement" class="form-input mt-1 w-1/2 bg-gray-100 mt-4 mr-10" value="{{ user.dataNaixement }}">
+                                    </div>
+                        
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold mt-4 ml-10 ">Cicle:</label>
+                                        <input type="text" name="cicle" class="form-input mt-1 w-1/2 bg-gray-100 mt-4 mr-10" value="{{ user.cicle }}">
+                                    </div>
+
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Imatge de l'usuari:</label>
+                                        <input type="file" name="profile_image" class="form-input mt-1 w-1/2 bg-gray-100 mt-4 mr-10">
+                                    </div>
+                                </div>
+                        
+                                <div class="mt-4">
+                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 ml-10 mb-5">Actualitzar perfil</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+         <script src="{% static 'biblioteca/logout.js' %}"></script>
+        <script src="{% static 'biblioteca/actualizarImagen.js' %}"></script>
+
+
+    </body> 
+    <script>
+        localStorage.setItem('token generado', '{{ token }}');
+        localStorage.setItem('username', '{{ username }}');
+
+
+        function expandSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.ml-16');
+
+            if (sidebar.style.width === '16rem') {
+                sidebar.style.width = '4rem';
+                mainContent.style.marginLeft = '4rem';
+                mainContent.style.width = 'calc(100% - 4rem)'; // adjust the width of the main content
+                sidebar.classList.remove('text-left', 'px-6');
+                sidebar.classList.add('text-center', 'px-0');
+            } else {
+                sidebar.style.width = '16rem';
+                mainContent.style.marginLeft = '16rem';
+                mainContent.style.width = 'calc(100% - 16rem)'; // adjust the width of the main content
+                sidebar.classList.add('text-left', 'px-6');
+                sidebar.classList.remove('text-center', 'px-0');
+            }
+
+            const labels = sidebar.querySelectorAll('span');
+            labels.forEach(label => label.classList.toggle('opacity-0'));
+        }
+
+
+        /* Desplegar submenu de perfil */
+        document.getElementById('profile-button').addEventListener('click', function() {
+        document.getElementById('profile-submenu').classList.toggle('hidden');
+        });
+        document.getElementById('profile-arrow').addEventListener('click', function() {
+            document.getElementById('profile-submenu').classList.toggle('hidden');
+        });
+        /*****************************/
+        
+        function highlightSidebarItem(element) {
+        const buttons = document.querySelectorAll("#sidebar button");
+        buttons.forEach(btn => {
+            btn.classList.remove('bg-gradient-to-r', 'from-cyan-400', 'to-cyan-500', 'text-white');
+            btn.firstChild.nextSibling.classList.remove('text-white');
+        });
+        element.classList.add('bg-gradient-to-r', 'from-blue-100', 'to-blue-200');
+
+    }
+
+        
+
+    
+    </script>
+
+</html> 

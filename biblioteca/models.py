@@ -125,7 +125,7 @@ class Log(models.Model):
     ruta = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.accio + ' - ' + self.usuari.username
+        return self.tipus + ' - ' + self.usuari.username
     
 class Imatge(models.Model):
     ruta = models.CharField(max_length=100)

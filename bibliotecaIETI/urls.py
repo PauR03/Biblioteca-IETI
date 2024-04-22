@@ -32,7 +32,8 @@ urlpatterns = [
     path('get_profile_image/', get_profile_image, name='get_profile_image'),
 
     path('accounts/login/', login_view, name='login'),  
-
+    path('api/create_log/', create_log, name='create_log'),
+    
     path('', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('', include('biblioteca.urls')),  

@@ -57,7 +57,8 @@
                         <i class="fas fa-user"></i>
                         <span class="ml-2">Perfil</span>
                     </a>
-                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200">
+                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="saveLog('info', 'Usuario accediendo a preferencias', '/ruta', localStorage.getItem('username'))">
+
                         <i class="fas fa-cog"></i>
 
                         <span class="ml-2">Preferències</span>
@@ -156,6 +157,7 @@
 
     <script src="{% static 'biblioteca/logout.js' %}"></script>
     <script src="{% static 'biblioteca/actualizarImagen.js' %}"></script>
+    <script src="{% static 'biblioteca/logs.js' %}"></script>
 
 </body>
 <script>

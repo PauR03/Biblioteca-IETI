@@ -165,3 +165,33 @@ def get_profile_image(request):
     user = request.user
     imatgePerfil = user.imatgePerfil.url if user.imatgePerfil else None
     return JsonResponse({'imatgePerfil': imatgePerfil})
+
+
+
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.contrib.auth.decorators import login_required
+from .models import Log
+from .serializers import LogSerializer
+
+from django.contrib.auth.models import User
+
+@api_view(['POST'])
+def create_log(request):
+    logs = request.data
+    responses = []
+    for log in logs:
+        try:
+            # Buscar el usuario por su nombre de usuario
+            log['usuari'] = User.objects.get(username=log['usuari'])
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=400)
+
+        serializer = LogSerializer(data=log)
+        if serializer.is_valid():
+            serializer.save()
+            responses.append(serializer.data)
+        else:
+            return Response(serializer.errors, status=400)
+    return Response(responses, status=201)

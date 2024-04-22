@@ -175,7 +175,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Log
 from .serializers import LogSerializer
 
-from django.contrib.auth.models import User
+from biblioteca.models import User  # Importa tu modelo de usuario personalizado
 
 @api_view(['POST'])
 def create_log(request):

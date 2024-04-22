@@ -27,11 +27,11 @@ def login_view(request):
         if user is not None:
             login(request, user)
             request.session['username'] = username
-            return JsonResponse({'redirect': '/dashboard/'})  # Return a JSON response with the URL to redirect to
+            return JsonResponse({'redirect': '/dashboard/'})  
         else:
             # handle failed login case
             response = JsonResponse({'error': 'Invalid login credentials'})
-            response.status_code = 401  # Or another appropriate HTTP status code
+            response.status_code = 401  
             return response
     else:
         return render(request, 'index.html')
@@ -40,7 +40,7 @@ def login_view(request):
 
 @login_required
 def dashboard_view(request):
-    email = request.session.get('username')  # Assuming the email is stored in 'username'
+    email = request.session.get('username')  
     token = request.session.get('token')
     User = get_user_model()
     try:

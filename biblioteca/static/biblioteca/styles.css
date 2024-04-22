@@ -22,8 +22,8 @@
     }
 }
 
-form, .animated-text {
-    animation: slide-in 1s ease-out 0.5s;
+#formlogin, .animated-text {
+    animation: slide-in 1s ease-out 0s;
     animation-fill-mode: forwards;
 }
 
@@ -43,3 +43,97 @@ form, .animated-text {
     margin-top: 0;
 }
 
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+
+
+
+/***** ERROR POPUP *****/
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    right: 20px;
+    bottom: 20px;
+    width: 350px;
+    height: 140px;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgb(0 0 0 / 0%);
+    border-radius: 10px;
+}
+/* Modal Content/Box */
+.modal-content {
+    background-color: #f53f3f;
+    margin: 0;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 100%; /* Full width of the modal */
+    height: 80%;
+    border-radius: 10px; /* Rounded corners */
+}
+
+/* The Close Button */
+.close {
+    color: #000;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: -20px;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/***** SUCCES POPUP *****/
+
+/* The Modal (background) */
+.success-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    right: 20px;
+    bottom: 20px;
+    width: 350px; /* Increased width */
+    height: 150px; /* Smaller height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    border-radius: 10px; /* Rounded corners */
+}
+
+/* Modal Content/Box */
+.success-modal-content {
+    background-color: #51d437;
+    margin: 0;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 100%; /* Full width of the modal */
+    height: 100%; /* Full height of the modal */
+    border-radius: 10px; /* Rounded corners */
+}
+
+/* The Close Button */
+.success-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.success-close:hover,
+.success-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

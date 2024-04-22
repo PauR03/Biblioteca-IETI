@@ -177,6 +177,7 @@ from .serializers import LogSerializer
 
 from biblioteca.models import User  # Importa tu modelo de usuario personalizado
 
+
 @api_view(['POST'])
 def create_log(request):
     logs = request.data
@@ -184,7 +185,8 @@ def create_log(request):
     for log in logs:
         try:
             # Buscar el usuario por su nombre de usuario
-            log['usuari'] = User.objects.get(username=log['usuari'])
+            user = User.objects.get(username=log['usuari'])
+            log['usuari'] = user.pk  # Asignar el valor de clave primaria del usuario
         except User.DoesNotExist:
             return Response({'error': 'User not found'}, status=400)
 

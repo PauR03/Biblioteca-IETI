@@ -136,7 +136,7 @@
                                 <div class="flex space-x-3">
                                     <img src="{% if user.imatgePerfil %}{{ user.imatgePerfil.url }}{% else %}{% static 'biblioteca/imatgePerfil/default.jpg' %}{% endif %}" alt="Perfil" class="h-16 w-16 rounded-full">
 
-                                    <div class="text-gray-700 text-lg mt-5">{{ username }}</div>
+                                    <div class="text-gray-700 text-lg mt-5">{{ firstname }} {{ lastname }}</div>
                                 </div>
                             </div>
             

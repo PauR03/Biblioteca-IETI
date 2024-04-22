@@ -14,7 +14,6 @@
 </head>
 
 <body>
-    
     <nav class="bg-white border-b border-gray-300 h-15" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
         <div class="flex justify-between items-center px-6">
             <div class="flex items-center">
@@ -37,7 +36,9 @@
                 </div>
                 <!-- Botón de Perfil -->
                 <button id="profile-button">
-                    <img id="profile-image" data-url="{{ imatgePerfil }}" data-default="{% static 'biblioteca/imatgePerfil/default.jpg' %}" alt="Perfil" class="h-8 w-8 rounded-full mt-1">
+                    <img id="profile-image" data-url="{{ imatgePerfil }}"
+                        data-default="{% static 'biblioteca/imatgePerfil/default.jpg' %}" alt="Perfil"
+                        class="h-8 w-8 rounded-full mt-1">
 
                 </button>
 
@@ -76,7 +77,9 @@
 
 
     <!-- Barra lateral -->
-    <div id="sidebar" class="w-28 bg-white h-screen fixed rounded-none border-none transition-all duration-200 ease-in-out overflow-hidden" style="margin-top: 40px;">
+    <div id="sidebar"
+        class="w-28 bg-white h-screen fixed rounded-none border-none transition-all duration-200 ease-in-out overflow-hidden"
+        style="margin-top: 40px;">
 
 
         <!-- Items -->
@@ -122,33 +125,36 @@
     </div>
 
 
-       <!-- Contenedor gris al lado de la barra lateral -->
-       <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out" style="margin-top: 20px;">
-            <br><br>
-            <!-- Buscador con Icono -->
-            <div class="flex items-center w-full mt-2 p-4">
-                <div class="relative w-full">
-                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
-                        <i class="fas fa-search text-gray-200"></i>
-                    </span>
-                    <input type="text" class="pl-10 pr-4 py-2 rounded-full border border-gray-300 w-full text-sm placeholder-gray-400" placeholder="Buscar..." />
-                </div>
+    <!-- Contenedor gris al lado de la barra lateral -->
+    <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out"
+        style="margin-top: 20px;">
+        <br><br>
+        <!-- Buscador con Icono -->
+        <div class="flex items-center w-full mt-2 p-4">
+            <div class="relative w-full">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
+                    <i class="fas fa-search text-gray-200"></i>
+                </span>
+                <input type="text"
+                    class="pl-10 pr-4 py-2 rounded-full border border-gray-300 w-full text-sm placeholder-gray-400"
+                    placeholder="Buscar..." />
             </div>
         </div>
+    </div>
 
 
-        <script src="{% static 'biblioteca/logout.js' %}"></script>
-        <script src="{% static 'biblioteca/actualizarImagen.js' %}"></script>
+    <script src="{% static 'biblioteca/logout.js' %}"></script>
+    <script src="{% static 'biblioteca/actualizarImagen.js' %}"></script>
 
-    </body> 
-    <script>
-        localStorage.setItem('token generado', '{{ token }}');
-        localStorage.setItem('username', '{{ username }}');
- 
-        
-        function expandSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.querySelector('.ml-16');
+</body>
+<script>
+    localStorage.setItem('token generado', '{{ token }}');
+    localStorage.setItem('username', '{{ username }}');
+
+
+    function expandSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.querySelector('.ml-16');
 
             if (sidebar.style.width === '16rem') {
                 sidebar.style.width = '4rem';

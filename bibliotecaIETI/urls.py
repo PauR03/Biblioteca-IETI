@@ -28,7 +28,7 @@ urlpatterns = [
     path('dashboard/', dashboard_view, name='dashboard'),  
     path('perfil/', profile, name='profile'),
     path('editar_perfil/', edit_profile, name='editar_perfil'),
-    path('perfil/', update_profile, name='update_profile'),  # VIEW QUE INSERTA LOS DATOS MODIFICADOS DEL USAURIO EN LA BASE DE DATOS
+    path('update_profile/', update_profile, name='update_profile'),  # VIEW QUE INSERTA LOS DATOS MODIFICADOS DEL USAURIO EN LA BASE DE DATOS
     path('get_profile_image/', get_profile_image, name='get_profile_image'),
 
     path('accounts/login/', login_view, name='login'),  

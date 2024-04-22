@@ -109,7 +109,8 @@ def edit_profile(request):
     return render(request, 'editarPerfil.html', context)
 
 
-# HACE EL INSERT DE LOS DATOS MODIFICADOS DEL USUARIO@login_required
+# HACE EL INSERT DE LOS DATOS MODIFICADOS DEL USUARIO
+@login_required
 def update_profile(request):
     if request.method == 'POST':
         first_name = request.POST.get('first_name', '')
@@ -141,7 +142,7 @@ def update_profile(request):
         user.save()
 
         messages.success(request, 'Perfil actualizado con éxito')
-        return profile(request) #SI ES CORRECTO LLAMA A LA VIEW "PROFILE" QUE ESTA REDIRIGE A "PERFIL.HTML" PASANDOLE TODOS LOS DATOS DEL USUARIO
+        return redirect('editar_perfil')  #SI ES CORRECTO LLAMA A LA VIEW "PROFILE" QUE ESTA REDIRIGE A "PERFIL.HTML" PASANDOLE TODOS LOS DATOS DEL USUARIO
 
     else:
         return render(request, 'editarPerfil.html')

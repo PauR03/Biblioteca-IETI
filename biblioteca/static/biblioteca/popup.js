@@ -1,3 +1,5 @@
+// createPopup({ status: "error", text: "Usuari o contrasenya incorrectes Usuari o contrasenya incorrectes Usuari o contrasenya incorrectes", timeout: 5000 });
+// createPopup({ status: "success", text: "Usuari o contrasenya correctes jaksjfkl eof esajfdsaklfjlksdajfkladsjfkldsjkfl es fsa asdjkfjadsklfj as k" });
 /**
  * Hola no se que hago
  * @param status {String} - Status of the popup (success, error)
@@ -40,4 +42,16 @@ function createPopup({ status, text, timeout }) {
         }, timeout);
     }
 
+}
+
+function checkPopup() {
+    let popups = localStorage.getItem("popup");
+    if (popups) {
+        popups = JSON.parse(popups);
+
+        for (let i in popups) {
+            createPopup(popups[i]);
+        }
+        localStorage.removeItem("popup");
+    }
 }

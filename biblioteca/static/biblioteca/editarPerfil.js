@@ -1,18 +1,18 @@
-document.querySelector('form').addEventListener('submit', function(e) {
-    var newPassword = document.querySelector('input[name="new_password"]').value;
-    var confirmNewPassword = document.querySelector('input[name="confirm_new_password"]').value;
+$('form').on('submit', function (e) {
+    var newPassword = $('input[name="new_password"]').val();
+    var confirmNewPassword = $('input[name="confirm_new_password"]').val();
+    const inputDate = $('#dataNaixament').val()
 
     if (newPassword !== confirmNewPassword) {
         e.preventDefault();
-        document.getElementById('error-message').textContent = 'Les contrasenyes no coincideixen';
-        $('#error-message').css({
-            'color': 'red',
-            'font-size': '15px',
-            'font-family': 'Arial',
-            'margin-left': '410px'
-        });
+        createPopup({ status: "error", text: "Les contrasenyes no coincideixen" });
+
     } else {
-        document.getElementById('error-message').textContent = '';
-        // No need to prevent form submission if passwords match
+        localStorage.setItem("popup", JSON.stringify([{ status: "success", text: "Canvis realitzats correctament", timeout: 3000 }]));
+    }
+
+    if (inputDate > new Date().toISOString().split('T')[0]) {
+        e.preventDefault();
+        createPopup({ status: "error", text: "La data de naixament no pot ser futura" });
     }
 });

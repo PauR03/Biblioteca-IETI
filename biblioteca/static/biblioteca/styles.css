@@ -55,9 +55,8 @@ nav {
 
 .popupDiv {
     position: absolute;
-    right: 5px;
-    bottom: 0;
-    height: 100vh;
+    top: 50px;
+    right: 10px;
     width: 20%;
     z-index: 1000;
 }

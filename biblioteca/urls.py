@@ -6,6 +6,7 @@ urlpatterns = [
         template_name="registration/passwordreset.html",
         extra_context={'domain': settings.DOMAIN_NAME}
     ), name='password_reset'),
+    
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(
         template_name="registration/passwordresetdone.html"
     ), name='password_reset_done'),

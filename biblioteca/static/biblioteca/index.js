@@ -1,5 +1,5 @@
-$(document).ready(function() {
-    $('form').on('submit', function(event) {
+$(document).ready(function () {
+    $('form').on('submit', function (event) {
         event.preventDefault();
         $.ajax({
             url: $(this).attr('action'),
@@ -8,14 +8,14 @@ $(document).ready(function() {
             headers: {
                 'X-CSRFToken': getCookie('csrftoken')  // Include the CSRF token in the request header
             },
-            success: function(data) {
+            success: function (data) {
                 if (data.redirect) {
                     // data.redirect contains the string URL to redirect
+                    localStorage.setItem("popup", JSON.stringify([{ status: "success", text: "Benvingut!", timeout: 3000 }]));
                     window.location.href = data.redirect;
-                  
                 }
             },
-            error: function(xhr, errmsg, err) {
+            error: function (xhr, errmsg, err) {
                 if (xhr.status == 401) {
                     $('#error-message').css({
                         'color': 'red',

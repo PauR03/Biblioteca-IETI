@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
 from pathlib import Path
 import environ
 import os
@@ -35,14 +34,13 @@ SECRET_KEY = env('SECRET_KEY')
 
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'biblioteca',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -155,9 +153,11 @@ USE_TZ = True
 AUTHENTICATION_BACKENDS = ['biblioteca.backends.EmailBackend']
 
 # Static files (CSS, JavaScript, Images)
+STATIC_ROOT = 'static/'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'biblioteca/static'),]
 
+CSRF_TRUSTED_ORIGINS = ['https://biblio6.ieti.site']
 # Media Files (Uploaded by Users)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -168,6 +168,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'biblioteca.User'
-
-print("BASE_DIR:", BASE_DIR)
-print("STATICFILES_DIRS:", STATICFILES_DIRS)

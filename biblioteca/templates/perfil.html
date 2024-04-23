@@ -150,10 +150,9 @@
                                 </div>
                                 <br>
                                 <div class="mt-2">
-                                    <div class="text-sm text-gray-600 font-semibold">Correu electrònic: <br><span class="font-normal">{{ email }}</span></div>
-                                    <div class="text-sm text-gray-600 font-semibold">Data de naixement:<br> <span class="font-normal">{{ dataNaixement }}</span></div>
-                                    <div class="text-sm text-gray-600 font-semibold">Cicle: <br><span class="font-normal">{{ cicle }}</span></div>
-                                </div>
+                                    <div class="text-sm text-gray-600 font-semibold">Correu electrònic: <br><span class="font-normal">{{ email|default:"No Definit" }}</span></div>
+                                    <div class="text-sm text-gray-600 font-semibold">Data de naixement:<br> <span class="font-normal">{{ dataNaixement|default:"No Definit" }}</span></div>
+                                    <div class="text-sm text-gray-600 font-semibold">Cicle: <br><span class="font-normal">{{ cicle|default:"No Definit" }}</span></div>
                             </div>
 
                         </div>

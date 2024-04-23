@@ -12,6 +12,7 @@ $(document).ready(function() {
                 if (data.redirect) {
                     // data.redirect contains the string URL to redirect
                     window.location.href = data.redirect;
+                  
                 }
             },
             error: function(xhr, errmsg, err) {
@@ -26,7 +27,6 @@ $(document).ready(function() {
         });
     });
 });
-
 // Function to get a cookie by name
 function getCookie(name) {
     var cookieValue = null;

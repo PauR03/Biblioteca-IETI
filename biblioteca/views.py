@@ -15,6 +15,11 @@ from .backends import EmailBackend
 import os
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from rest_framework.response import Response
+from .models import Log
+from .serializers import LogSerializer
+from biblioteca.models import User  # Importa tu modelo de usuario personalizado
+
 
 # VIEW PARA LOGIN DE USUARIOS
 @never_cache
@@ -27,6 +32,20 @@ def login_view(request):
         if user is not None:
             login(request, user)
             request.session['username'] = username
+
+            # Guardar un log de inicio de sesión exitoso
+            log_data = {
+                'tipus': 'info', 
+                'informacio': 'Usuario logeado correctamente',
+                'ruta': '/dashboard/',
+                'usuari': user.pk  
+            }
+            serializer = LogSerializer(data=log_data)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                print(serializer.errors)
+
             return JsonResponse({'redirect': '/dashboard/'})  
         else:
             # handle failed login case
@@ -36,8 +55,8 @@ def login_view(request):
     else:
         return render(request, 'index.html')
 
-# VIEW PARA REDIRIGIR AL USUARIO AL DASHBOARD CON EL TOKEN CSRF
 
+# VIEW PARA REDIRIGIR AL USUARIO AL DASHBOARD CON EL TOKEN CSRF
 @login_required
 def dashboard_view(request):
     email = request.session.get('username')  
@@ -167,17 +186,7 @@ def get_profile_image(request):
     return JsonResponse({'imatgePerfil': imatgePerfil})
 
 
-
-
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from django.contrib.auth.decorators import login_required
-from .models import Log
-from .serializers import LogSerializer
-
-from biblioteca.models import User  # Importa tu modelo de usuario personalizado
-
-
+# GUARDAR LOGS EN LA BASE DE DATOS
 @api_view(['POST'])
 def create_log(request):
     logs = request.data

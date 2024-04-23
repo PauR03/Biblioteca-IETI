@@ -50,17 +50,16 @@
                 <i id="profile-arrow" class="fas fa-chevron-down text-cyan-500 ml-2 mt-1" onclick="this.classList.toggle('text-blue-500');"></i>
     
                 <div id="profile-submenu" class="hidden absolute bg-white border rounded shadow-lg mt-40 z-50 w-50">
-                    <a href="/perfil/" class="block px-4 py-2 flex items-center hover:bg-gray-200">
+                    <a href="/perfil/" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="saveLog('info', 'Ha accedido a su perfil', '/editarPerfil', localStorage.getItem('username'))">
 
                         <i class="fas fa-user"></i>
                         <span class="ml-2">Perfil</span>
                     </a>
-                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200">
+                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="saveLog('info', 'Ha accedido a preferencias', '/editarPerfil', localStorage.getItem('username'))">
                         <i class="fas fa-cog"></i>
-    
                         <span class="ml-2">Preferències</span>
                     </a>
-                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="logoutAndClear()">
+                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="saveLog('info', 'Ha cerrado sesion de la aplicación', '/editarPerfil', localStorage.getItem('username')); logoutAndClear();">
                         <i class="fas fa-sign-out-alt"></i>
                         <span class="ml-2">Surt</span>
                     </a>
@@ -186,7 +185,7 @@
                                 </div>
                         
                                 <div class="mt-4">
-                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 ml-10 mb-5">Actualitzar perfil</button>
+                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 ml-10 mb-5" onclick="saveLog('info', 'Ha clicado el boton de actualizar la informacion de su perfil', '/editarPerfil', localStorage.getItem('username'))">Actualitzar perfil</button>
                                 </div>
                             </div>
                         </form>
@@ -196,8 +195,11 @@
         </div>
     </div>
 
-         <script src="{% static 'biblioteca/logout.js' %}"></script>
+        <script src="{% static 'biblioteca/logout.js' %}"></script>
         <script src="{% static 'biblioteca/actualizarImagen.js' %}"></script>
+        <script src="{% static 'biblioteca/logs.js' %}"></script>
+
+
 
 
     </body> 

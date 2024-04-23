@@ -53,18 +53,16 @@
                     onclick="this.classList.toggle('text-blue-500');"></i>
 
                 <div id="profile-submenu" class="hidden absolute bg-white border rounded shadow-lg mt-40 z-50 w-50">
-                    <a href="/perfil/" class="block px-4 py-2 flex items-center hover:bg-gray-200">
+                    <a href="/perfil/" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="saveLog('info', 'Ha accedido a su perfil', '/dashboard', localStorage.getItem('username'))">
 
                         <i class="fas fa-user"></i>
                         <span class="ml-2">Perfil</span>
                     </a>
-                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="saveLog('info', 'Usuario accediendo a preferencias', '/ruta', localStorage.getItem('username'))">
-
+                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="saveLog('info', 'Ha accedido a preferencias', '/dashboard', localStorage.getItem('username'))">
                         <i class="fas fa-cog"></i>
-
                         <span class="ml-2">Preferències</span>
                     </a>
-                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="logoutAndClear()">
+                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="saveLog('info', 'Ha cerrado sesion de la aplicación', '/dashboard', localStorage.getItem('username')); logoutAndClear();">
                         <i class="fas fa-sign-out-alt"></i>
                         <span class="ml-2">Surt</span>
                     </a>

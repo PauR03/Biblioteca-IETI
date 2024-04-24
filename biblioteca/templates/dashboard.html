@@ -32,9 +32,11 @@
             <div class="flex items-center space-x-4">
                 <div class="flex flex-col items-center">
                     <span class="text-cyan-500 text-lg mt-2">{{ firstname }} {{ lastname }}</span>
-
-                    {% if is_admin %}
-                    <span class="text-blue-400 text-sm">>Bibliotecari</span>
+                
+                    {% if is_superuser %}
+                    <span class="text-blue-400 text-sm">Administrador</span>
+                    {% elif is_admin %}
+                    <span class="text-blue-400 text-sm">Bibliotecari</span>
                     {% else %}
                     <span class="text-blue-400 text-sm">Estudiant</span>
                     {% endif %}

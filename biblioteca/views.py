@@ -64,17 +64,18 @@ def dashboard_view(request):
     User = get_user_model()
     try:
         user = User.objects.get(email=email)
-        is_admin = user.is_superuser or user.esAdmin
-        username = user.username  # Fetch the username from the User model
-        firstname = user.first_name  # Fetch the first name from the User model
-        lastname = user.last_name  # Fetch the last name from the User model
+        is_superuser = user.is_superuser
+        is_admin = user.esAdmin
+        username = user.username  
+        firstname = user.first_name  
+        lastname = user.last_name  
     except User.DoesNotExist:
+        is_superuser = False
         is_admin = False
-        username = None  # Set username to None if the user does not exist
-        firstname = None  # Set first name to None if the user does not exist
-        lastname = None  # Set last name to None if the user does not exist
-    return render(request, 'dashboard.html', {'username': username, 'token': token, 'is_admin': is_admin, 'firstname': firstname, 'lastname': lastname})
-
+        username = None  
+        firstname = None  
+        lastname = None  
+    return render(request, 'dashboard.html', {'username': username, 'token': token, 'is_superuser': is_superuser, 'is_admin': is_admin, 'firstname': firstname, 'lastname': lastname})
 
 
 
@@ -93,19 +94,21 @@ def profile(request):
     # Puedes acceder a los atributos del usuario, como username y email
     username = user.username
     email = user.email
-    firstname = user.first_name  # Fetch the first name from the User model
-    lastname = user.last_name  # Fetch the last name from the User model
+    firstname = user.first_name  
+    lastname = user.last_name  
     dataNaixement = user.dataNaixement
     cicle = user.cicle
     imatgePerfil = user.imatgePerfil.url if user.imatgePerfil else None
 
-    # También puedes verificar si el usuario es un administrador
-    is_admin = user.is_superuser or user.esAdmin  # Check if the user is a superuser or if user.esAdmin is True
+    # Verifica si el usuario es un superusuario o un administrador
+    is_superuser = user.is_superuser
+    is_admin = user.esAdmin  
 
     # Pasa estos datos al contexto del template
     context = {
         'username': username,
         'email': email,
+        'is_superuser': is_superuser,
         'is_admin': is_admin,
         'dataNaixement': dataNaixement,
         'cicle': cicle,

@@ -83,6 +83,7 @@ def logout_view(request):
     logout(request)
     return JsonResponse({'status': 'ok'})
 
+
 # VIEW PARA EL PERFIL DEL USUARIO
 @login_required
 def profile(request):
@@ -99,7 +100,7 @@ def profile(request):
     imatgePerfil = user.imatgePerfil.url if user.imatgePerfil else None
 
     # También puedes verificar si el usuario es un administrador
-    is_admin = user.is_superuser
+    is_admin = user.is_superuser or user.esAdmin  # Check if the user is a superuser or if user.esAdmin is True
 
     # Pasa estos datos al contexto del template
     context = {
@@ -124,7 +125,7 @@ def edit_profile(request):
     username = user.username
     firstname = user.first_name  # Fetch the first name from the User model
     lastname = user.last_name  # Fetch the last name from the User model
-    is_admin = user.is_superuser
+    is_admin = user.is_superuser or user.esAdmin  # Check if the user is a superuser or if user.esAdmin is True
 
     context = {
         'username': username,

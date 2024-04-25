@@ -1,4 +1,8 @@
-$(document).ready(function () {
+$(document).ready(function() {
+   
+
+
+    // Formulario de envío
     $('form').on('submit', function (event) {
         event.preventDefault();
         $.ajax({
@@ -27,6 +31,7 @@ $(document).ready(function () {
         });
     });
 });
+
 // Function to get a cookie by name
 function getCookie(name) {
     var cookieValue = null;
@@ -43,4 +48,3 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-

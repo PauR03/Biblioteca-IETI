@@ -210,3 +210,19 @@ def create_log(request):
         else:
             return Response(serializer.errors, status=400)
     return Response(responses, status=201)
+
+
+# BUSCADOR 'LANDINGPAGE'
+
+from django.http import JsonResponse
+from django.views import View
+from .models import Producte
+
+class AutocompleteView(View):
+    def get(self, request, *args, **kwargs):
+        query = request.GET.get('q', '')
+        if len(query) < 3:
+            return JsonResponse([], safe=False)
+        productes = Producte.objects.filter(titol__icontains=query)[:5]
+        titols = [producte.titol for producte in productes]
+        return JsonResponse(titols, safe=False)

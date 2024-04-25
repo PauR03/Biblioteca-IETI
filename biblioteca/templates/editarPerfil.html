@@ -14,7 +14,7 @@
 </head>
 
 <body>
-
+    <!-- Header -->
     <nav class="bg-white border-b border-gray-300 h-15" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
         <div class="flex justify-between items-center px-6">
             <div class="flex items-center">
@@ -42,11 +42,7 @@
                     <img id="profile-image" data-url="{{ imatgePerfil }}"
                         data-default="{% static 'biblioteca/imatgePerfil/default.jpg' %}" alt="Perfil"
                         class="h-8 w-8 rounded-full mt-1">
-
-
                 </button>
-
-
 
                 </button>
                 <i id="profile-arrow" class="fas fa-chevron-down text-cyan-500 ml-2 mt-1"
@@ -139,7 +135,7 @@
         </div>
     </div>
 
-
+    <!-- Componente Principal -->
     <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out"
         style="margin-top: 0px;">
         <div class="mx-auto px-6 py-8 w-full">
@@ -176,9 +172,16 @@
                                 <div class="flex items-center justify-between">
                                     <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Correu
                                         electrónic:</label>
+                                    {% if is_admin %}
                                     <input type="email" name="email"
                                         class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" value="{{ user.email }}">
+                                    {% else %}
+                                    <span class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10">{{ user.email }}</span>
+                                    {% endif %}
+
                                 </div>
+
+
 
                                 <div class="flex items-center justify-between">
                                     <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Nova
@@ -197,9 +200,15 @@
                                 <div class="flex items-center justify-between">
                                     <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Data de
                                         naixement:</label>
+
+                                    {% if is_admin %}
                                     <input type="date" name="dataNaixement" id="dataNaixament"
                                         class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10"
                                         value="{{ user.dataNaixement }}">
+                                    {% else %}
+                                    <span class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10">
+                                        {{ user.dataNaixement}}</span>
+                                    {% endif %}
                                 </div>
 
                                 <div class="flex items-center justify-between">

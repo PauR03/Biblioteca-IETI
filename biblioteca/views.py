@@ -243,4 +243,9 @@ from .models import Producte
 def product_detail(request):
     query = request.GET.get('q', '')
     producte = Producte.objects.filter(titol__icontains=query).first()
-    return render(request, 'producto.html', {'producte': producte})
+    context = {
+        'producte': producte,
+        'autor': producte.autor,
+        'data_edicio': producte.data_edicio
+    }
+    return render(request, 'producto.html', context)

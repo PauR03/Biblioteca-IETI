@@ -128,7 +128,10 @@ def edit_profile(request):
     username = user.username
     firstname = user.first_name  # Fetch the first name from the User model
     lastname = user.last_name  # Fetch the last name from the User model
-    is_admin = user.is_superuser or user.esAdmin  # Check if the user is a superuser or if user.esAdmin is True
+    is_admin = user.esAdmin  # Check if the user is a superuser or if user.esAdmin is True
+    is_superuser = user.is_superuser
+
+
 
     context = {
         'username': username,
@@ -136,6 +139,7 @@ def edit_profile(request):
         'lastname': lastname,  # Add last name to the context
         'email': user.email,
         'is_admin': is_admin,
+        'is_superuser': is_superuser,
         'dataNaixement': user.dataNaixement,  # Assuming the User model has a dataNaixement field
         'cicle': user.cicle,  # Assuming the User model has a cicle field
     }
@@ -170,7 +174,7 @@ def update_profile(request):
         if profile_image:
             fs = FileSystemStorage()
             filename = fs.save(profile_image.name, profile_image)
-            user.imatgePerfil = profile_image.name  # Store only the name of the image
+            user.imatgePerfil = filename
 
         user.save()
 

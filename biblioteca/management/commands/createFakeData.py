@@ -498,7 +498,7 @@ DISPOSITIUS = [
   }
 ]
 
-fake = Faker('es_ES')
+fake = Faker(['es_ES', 'es_CA'])
 class Command(BaseCommand):
     def handle(self, *args, **options):
         # Crear 2 centros
@@ -506,22 +506,6 @@ class Command(BaseCommand):
           Centre.objects.create(nom="Biblioteca IETI")
           Centre.objects.create(nom="Biblioteca Central Cornella")
           print("Centres created successfully!")
-
-        # Crear 10 usuarios normales
-        for _ in range(10):
-            userFirstName=fake.first_name()
-            userLastName=fake.last_name()
-            User.objects.create_user(
-                username=f"{userFirstName}{userLastName}",
-                first_name=userFirstName,
-                last_name=userLastName,
-                email=f"{userFirstName + userLastName}@gmail.com",
-                dataNaixement=fake.date_of_birth(minimum_age=13, maximum_age=30),
-                centre = Centre.objects.get(pk=random.randint(1, 2)),
-                password=env('SEEDER_USERS_PASSWORD'),
-                esAdmin=False
-            )
-            print(f"User {userFirstName} {userLastName} created")
 
         # Crear 2 usuarios administradores
         if(not User.objects.filter(username="Bibliotecari IETI").exists()):
@@ -551,7 +535,7 @@ class Command(BaseCommand):
           )
           print("Admin users created \"Bibliotecari Central Cornella\"")
 
-        # Crear 90 productos
+        # Crear 190 productos
         for book in BOOKS:
             if not Llibre.objects.filter(titol=book["titol"]).exists():
               Llibre.objects.create(
@@ -567,6 +551,22 @@ class Command(BaseCommand):
                   signatura = book["signatura"]
               )
               print(f"Book {book['titol']} created")
+
+        for i in range(100):
+            llibreTitol = fake.sentence(nb_words=3)
+            Llibre.objects.create(
+              titol=llibreTitol,
+              descripcio=fake.text(max_nb_chars=200),
+              autor=fake.name(),
+              data_edicio=fake.date_between(start_date='-100y', end_date='today'),
+              cdu=fake.random_int(min=100, max=999),
+              isbn=fake.isbn13(separator=""),
+              editorial=fake.company(),
+              colleccio=fake.word(),
+              pagines=fake.random_int(min=100, max=500),
+              signatura=fake.lexify(text="???-###")
+            )
+            print(f"Book {llibreTitol} created")
 
         for dvd in DVDS:
             if not DVD.objects.filter(titol=dvd["titol"]).exists():
@@ -626,5 +626,34 @@ class Command(BaseCommand):
                     centre=centre,
                     quantitat=quantitat
                 )
-        self.stdout.write('Fake data created successfully!')
 
+        # Crear 10 usuarios normales
+        for i in range(10):
+            userFirstName=fake.first_name()
+            userLastName=fake.last_name()
+            newUser = User.objects.create_user(
+                username=f"{userFirstName}{userLastName}",
+                first_name=userFirstName,
+                last_name=userLastName,
+                email=f"{userFirstName + userLastName}@gmail.com",
+                dataNaixement=fake.date_of_birth(minimum_age=13, maximum_age=30),
+                centre = Centre.objects.get(pk=random.randint(1, 2)),
+                password=env('SEEDER_USERS_PASSWORD'),
+                esAdmin=False
+            )
+            newUser.save()
+            print(f"User {userFirstName} {userLastName} created")
+
+            if i >= 0 and i <= 3:
+              randomProducte = Producte.objects.get(pk=random.randint(1, Producte.objects.count()))
+              quantitatExemplars = Exemplar.objects.filter(producte=randomProducte).first().quantitat
+              quantitatRealExemplars  = quantitatExemplars - Prestec.objects.filter(producte=randomProducte, esRetornat=False).count()
+              if quantitatRealExemplars > 0:
+                Prestec.objects.create(
+                    producte=randomProducte,
+                    centre=Centre.objects.get(pk=1),
+                    usuari=newUser,
+                    usuariAdmin=User.objects.get(username="Bibliotecari IETI"),
+                )
+                print(f"Prestec creat per al usuari {newUser.username} del producte {randomProducte.titol}")
+        self.stdout.write('Fake data created successfully!')

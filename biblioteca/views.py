@@ -120,7 +120,6 @@ def profile(request):
     # Renderiza el template con este contexto
     return render(request, 'perfil.html', context)
 
-
 # ENVIA LOS DATOS DEL USAURIO AL FICHERO EDITAR PERFIL
 @login_required
 def edit_profile(request):
@@ -128,7 +127,10 @@ def edit_profile(request):
     username = user.username
     firstname = user.first_name  # Fetch the first name from the User model
     lastname = user.last_name  # Fetch the last name from the User model
-    is_admin = user.is_superuser or user.esAdmin  # Check if the user is a superuser or if user.esAdmin is True
+    is_admin = user.esAdmin  # Check if the user is a superuser or if user.esAdmin is True
+    is_superuser = user.is_superuser
+
+
 
     context = {
         'username': username,
@@ -136,6 +138,7 @@ def edit_profile(request):
         'lastname': lastname,  # Add last name to the context
         'email': user.email,
         'is_admin': is_admin,
+        'is_superuser': is_superuser,
         'dataNaixement': user.dataNaixement,  # Assuming the User model has a dataNaixement field
         'cicle': user.cicle,  # Assuming the User model has a cicle field
     }
@@ -213,16 +216,22 @@ def create_log(request):
 
 
 # BUSCADOR 'LANDINGPAGE'
-
 from django.http import JsonResponse
 from django.views import View
+from django.db.models import Q
 from .models import Producte
 
 class AutocompleteView(View):
     def get(self, request, *args, **kwargs):
         query = request.GET.get('q', '')
+        available_only = request.GET.get('available_only', 'false') == 'true'
         if len(query) < 3:
             return JsonResponse([], safe=False)
-        productes = Producte.objects.filter(titol__icontains=query)[:5]
+        productes = Producte.objects.filter(Q(titol__icontains=query) | Q(autor__icontains=query))
+        if available_only:
+            productes = productes.exclude(prestec__esRetornat=False)
+        productes = productes[:5]
         titols = [producte.titol for producte in productes]
-        return JsonResponse(titols, safe=False)
+        autors = list(set([producte.autor for producte in productes if producte.autor]))
+        suggestions = titols + autors
+        return JsonResponse(suggestions, safe=False)

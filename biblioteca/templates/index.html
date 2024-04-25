@@ -80,7 +80,7 @@
                     </div>
                     
                 <!-- Checkbox para buscar solo productos disponibles -->
-                <div class="flex items-center mt-2">
+                <div class="flex items-center ml-2 mt-4">
                     <input type="checkbox" id="available-only" />
                     <label for="available-only" class="ml-2">Buscar nomes productes disponibles</label>
                 </div>
@@ -105,19 +105,21 @@
 
     <script>
         var input = document.getElementById("search-input");
+        var checkbox = document.getElementById("available-only");
         var awesomplete = new Awesomplete(input);
-    
+
         input.addEventListener("keyup", function() {
             var query = this.value;
             if (query.length < 3) {
                 awesomplete.list = [];
                 return;
             }
-    
+
             $.ajax({
                 url: "{% url 'autocomplete' %}",
                 data: {
-                    'q': query
+                    'q': query,
+                    'available_only': checkbox.checked
                 },
                 dataType: 'json',
                 success: function(data) {

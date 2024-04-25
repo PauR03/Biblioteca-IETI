@@ -235,3 +235,12 @@ class AutocompleteView(View):
         autors = list(set([producte.autor for producte in productes if producte.autor]))
         suggestions = titols + autors
         return JsonResponse(suggestions, safe=False)
+    
+
+from django.shortcuts import render
+from .models import Producte
+
+def product_detail(request):
+    query = request.GET.get('q', '')
+    producte = Producte.objects.filter(titol__icontains=query).first()
+    return render(request, 'producto.html', {'producte': producte})

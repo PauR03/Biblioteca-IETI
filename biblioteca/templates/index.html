@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestió Biblioteca IETI</title>
+    <title>Biblioteca IETI</title>
     <meta name="author" content="BibliotecaIETI">
     <meta name="description" content="">
 
@@ -13,6 +13,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="{% static 'biblioteca/styles.css' %}" rel="stylesheet">
+    <link rel="icon" href="{% static 'biblioteca/image/ietilogo.png' %}"> 
+
     <!-- Tu archivo JavaScript -->
 
 </head>
@@ -23,7 +25,7 @@
         <!-- Login Section -->
         <div class="w-full md:w-1/2 flex flex-col" style="z-index: 2;">
             <div class="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
-                <p class="text-center text-3xl animated-text">Gestió de Biblioteques</p>
+                <p class="text-center text-3xl animated-text">Biblioteca Mari Carmen Brito</p>
                 <form id="formlogin" class="flex flex-col pt-3 md:pt-8" method="post" action="{% url 'login' %}">
                     {% csrf_token %}
                     <div class="flex flex-col pt-4">

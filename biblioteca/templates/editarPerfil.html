@@ -28,7 +28,7 @@
                 <!-- Título -->
                 <img src="/static/biblioteca/image/maricarmenbrito-logo.png" alt="Descripción de la imagen" style="margin-right: -30px; width: 30px; margin-left: 40px;">
 
-                <span class="text-cyan-500 text-lg mb-1 mt-1 ml-10">Biblioteca Mari Carmen Brito</span>
+                <span class="text-cyan-500 text-lg mb-1 mt-1 ml-10 ">Biblioteca Mari Carmen Brito</span>
 
             </div>
 
@@ -206,24 +206,25 @@
 
                                 {% if is_admin or is_superuser %}
                                 <div class="flex items-center justify-between">
-                                    <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Nova
-                                        contrasenya:</label>
-                                    <input type="password" name="new_password"
-                                        class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10">
+                                    <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Nova contrasenya:</label>
+                                    <input type="password" name="new_password" class="form-input mt-1 w-2/4 bg-gray-300 mt-4 mr-10">
                                 </div>
-
                                 <div class="flex items-center justify-between">
-                                    <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Confirmar nova
-                                        contrasenya:</label>
-                                    <input type="password" name="confirm_new_password"
-                                        class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10">
+                                    <p id="newPasswordError" class="text-red-500 text-xs mt-2 " style="margin-left: 411px; margin-top: 3px;"></p>
                                 </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Confirmar nova contrasenya:</label>
+                                        <input type="password" name="confirm_new_password" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10">
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <p id="confirmPasswordError" class="text-red-500 text-xs mt-2" style="margin-left: 411px; margin-top: 3px;"></p>
+                                    </div>
                                 {% endif %}
 
 
                                 <div class="flex items-center justify-between">
-                                    <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Data de
-                                        naixement:</label>
+                                    <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Data de naixement:</label>
 
                                     {% if is_admin %}
                                     <input type="date" name="dataNaixement" id="dataNaixament"
@@ -250,8 +251,7 @@
                                 <div class="flex items-center justify-between">
                                     <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Imatge de
                                         l'usuari:</label>
-                                    <input type="file" name="profile_image"
-                                        class="form-input mt-1 w-1/2 bg-gray-200 mt-4 mr-10">
+                                    <input type="file" name="profile_image" class="form-input mt-1 w-1/2 bg-gray-200 mt-4 mr-10">
                                 </div>
                             </div>
 
@@ -274,6 +274,7 @@
     <script src="{% static 'biblioteca/logs.js' %}"></script>
     <script src="{% static 'biblioteca/popup.js' %}"></script>
     <script src="{% static 'biblioteca/editarPerfil.js' %}"></script>
+    <script src="{% static 'biblioteca/validarContraseña.js' %}"></script>
 
 </body>
 <script>

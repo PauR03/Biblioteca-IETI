@@ -657,4 +657,3 @@ class Command(BaseCommand):
                 )
                 print(f"Prestec creat per al usuari {newUser.username} del producte {randomProducte.titol}")
         self.stdout.write('Fake data created successfully!')
-

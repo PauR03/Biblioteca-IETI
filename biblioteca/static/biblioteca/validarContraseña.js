@@ -10,6 +10,8 @@ $(document).ready(function() {
             return true;
         } else if (!passwordValidation.test($input.val())) {
             $errorMessage.text('Ha de tenir 8-16 caràcters, majúscules, minúscules, un símbol i un número.');
+            saveLog('Error', 'La contraseña no cumple los parametros', window.location.pathname, localStorage.getItem('username'));
+
             return false;
         } else {
             $errorMessage.text('');
@@ -27,6 +29,8 @@ $(document).ready(function() {
             return true;
         } else if (newPassword !== confirmPassword) {
             $errorMessage.text('Les contrasenyes no coincideixen.');
+            saveLog('Error', 'Las contraseñas no coinciden', window.location.pathname, localStorage.getItem('username'));
+
             return false;
         } else {
             $errorMessage.text('');

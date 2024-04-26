@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panell d'administració - Biblioteca IETI</title>
+    <title>Detalls del catàleg - Biblioteca Mari Carmen Brito</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="{% static 'biblioteca/styles.css' %}" rel="stylesheet">
@@ -16,52 +16,83 @@
 
 <body>
 
-    <nav class="bg-white border-b border-gray-300 h-15" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
+    <nav class="bg-white border-b border-gray-300 h-15" style="position: fixed; top: 0; height: 50px; width: 100%; z-index: 1000;">
         <div class="flex justify-between items-center px-6">
             <div class="flex items-center">
-                
+                <!-- Imagen -->
+                <img src="/static/biblioteca/image/ietilogo.png" alt="Descripción de la imagen" style="margin-right: -30px; width: 35px; margin-left: 15px;">
                 <!-- Título -->
-                <span class="text-cyan-500 text-lg mb-1 ml-10">Biblioteca Mari Carmen Brito</span>
-
+                <span class="text-cyan-500 text-lg mb-1 mt-4 ml-10">Biblioteca Mari Carmen Brito</span>
             </div>
-
-           
-            
+            <!-- Enlace -->
+            <a href="{% url 'login' %}" class="text-blue-600 text-lg mr-10  mb-1 mt-4">Inici</a>
         </div>
     </nav>
 
 
-    <!-- Contenedor del libro -->
-        <div class="bg-gray-100 min-h-screen relative w-full" style="margin-top: 0px;">
+        <!-- <div class="bg-gray-100 min-h-screen relative w-full" style="margin-top: 0px;">
             <div class="mx-auto px-6 py-8 w-full">
                 <div class="flex items-center justify-center">
                     <div class="w-1/2 mx-auto mt-0 pt-10 mt-10">
+                        {% for product in productes %}
                         <div class="bg-white shadow-md rounded-lg overflow-hidden" style="width: 1100px; margin-left: -130px;">
                             <div class="bg-gray-200 text-gray-700 text-lg px-6 py-4">Informació del llibre</div>
                             <div class="mt-10 flex">
-                                <!-- Espacio para la imagen -->
+                            
                                 <div class="w-1/3">
                                     <div style="border: 1px solid rgba(102, 101, 101, 0.486); margin: 30px 55px; height: 280px; width: 250px; display: flex; align-items: center; justify-content: center;">
                                         <p>Imatge aquí</p>
                                     </div>
                                 </div>
-                                <!-- Contenido del producto -->
                                 <div class="w-2/3 px-6 py-4">
-                                    <div class="bg-gray-200 text-gray-700 text-lg px-6 py-4">{{ producte.titol }}</div>
+                                    <div class="bg-gray-200 text-gray-700 text-lg px-6 py-4">{{ product.producte.titol }}</div>
                                     <div class="px-6 py-4 mt-4">
-                                        <span style="margin-right: 20px;">De {{ autor }} (autor)</span>
-                                        Data d'edició: {{ data_edicio }}
+                                        <span style="margin-right: 20px;">De {{ product.autor }} (autor)</span>
+                                        Data d'edició: {{ product.data_edicio }}
                                     </div>
                                 
-                                    <div class="px-6 py-4 mt-4 border-t">{{ producte.descripcio }}</div>
+                                    <div class="px-6 py-4 mt-4 border-t">{{ product.producte.descripcio }}</div>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+
+        <div class="bg-gray-100 min-h-screen relative w-full" style="margin-top: 0px;">
+            <div class="mx-auto px-6 py-8 w-full">
+                <div class="flex items-center justify-center">
+                    <div class="w-1/2 mx-auto mt-0 pt-10 mt-10 ">
+                        {% for product in productes %}
+                        {% if forloop.first and search_type == 'autor' %}
+                        <div class="bg-gray-300 text-gray-700 text-lg mb-8 px-6 py-4" style="width: 1100px; margin-left: -130px;">Informació dels catàlegs</div>
+                        {% endif %}
+                        <div class="bg-white shadow-md rounded-lg overflow-hidden mb-16" style="width: 1100px; margin-left: -130px;">
+                            <div class="mt-10 flex">
+                                <div class="w-1/3">
+                                    <div style="border: 1px solid rgba(102, 101, 101, 0.486); margin: 30px 55px; height: 280px; width: 250px; display: flex; align-items: center; justify-content: center;">
+                                        <p>Imatge aquí</p>
+                                    </div>
+                                </div>
+                                <div class="w-2/3 px-6 py-4">
+                                    <div class="bg-gray-100 text-gray-700 text-lg px-6 py-4">{{ product.titol }}</div>
+                                    <div class="px-6 py-4 mt-4">
+                                        <span style="margin-right: 20px;">De {{ product.autor }} (autor)</span>
+                                        Data d'edició: {{ product.data_edicio }}
+                                    </div>
+                                    <div class="px-6 py-4 mt-4 border-t">{{ product.descripcio }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
-
+        
 
     <script src="{% static 'biblioteca/actualizarImagen.js' %}"></script>
 

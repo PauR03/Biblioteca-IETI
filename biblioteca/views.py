@@ -16,9 +16,10 @@ import os
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
-from .models import Log
+from .models import *
 from .serializers import LogSerializer
-from biblioteca.models import User  # Importa tu modelo de usuario personalizado
+from django.db.models import Q
+from django.views import View
 
 
 # VIEW PARA LOGIN DE USUARIOS
@@ -130,8 +131,6 @@ def edit_profile(request):
     is_admin = user.esAdmin  # Check if the user is a superuser or if user.esAdmin is True
     is_superuser = user.is_superuser
 
-
-
     context = {
         'username': username,
         'firstname': firstname,  # Add first name to the context
@@ -216,11 +215,6 @@ def create_log(request):
 
 
 # BUSCADOR 'LANDINGPAGE'
-from django.http import JsonResponse
-from django.views import View
-from django.db.models import Q
-from .models import Producte
-
 class AutocompleteView(View):
     def get(self, request, *args, **kwargs):
         query = request.GET.get('q', '')
@@ -237,15 +231,14 @@ class AutocompleteView(View):
         return JsonResponse(suggestions, safe=False)
     
 
-from django.shortcuts import render
-from .models import Producte
 
+# REDIRIGE A LA PAGINA "PRODUCTO.HTML" Y BUSCA LOS PRODUCTOS QUE COINCIDAN CON EL TITULO O AUTOR
 def product_detail(request):
     query = request.GET.get('q', '')
-    producte = Producte.objects.filter(titol__icontains=query).first()
+    productes = Producte.objects.filter(Q(titol__icontains=query) | Q(autor__icontains=query)).order_by('autor')
+    search_type = 'autor' if Producte.objects.filter(autor__icontains=query).exists() else 'titol'
     context = {
-        'producte': producte,
-        'autor': producte.autor,
-        'data_edicio': producte.data_edicio
+        'productes': productes,
+        'search_type': search_type,
     }
     return render(request, 'producto.html', context)

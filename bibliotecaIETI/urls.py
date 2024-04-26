@@ -34,6 +34,7 @@ urlpatterns = [
     path('autocomplete/', AutocompleteView.as_view(), name='autocomplete'),
     path('detall_cataleg/', product_detail, name='detall_cataleg'),
     path('editar_perfil/<int:id>', edit_profile_user, name='edit_profile_user'),
+    path('update_profile_user/<int:id>', update_profile_user, name='update_profile_user'),
 
 
 

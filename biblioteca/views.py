@@ -184,6 +184,43 @@ def update_profile(request):
     else:
         return render(request, 'editarPerfil.html')
 
+@login_required
+def update_profile_user(request, id):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name', '')
+        last_name = request.POST.get('last_name', '')
+        email = request.POST.get('email', '')
+        dataNaixement = request.POST.get('dataNaixement', '')
+        cicle = request.POST.get('cicle', '')
+        profile_image = request.FILES.get('profile_image', None)
+        new_password = request.POST.get('new_password', '')
+        confirm_new_password = request.POST.get('confirm_new_password', '')
+
+        user = User.objects.get(pk=id)
+        user.first_name = first_name if first_name else user.first_name
+        user.last_name = last_name if last_name else user.last_name
+        user.email = email if email else user.email
+        user.dataNaixement = dataNaixement if dataNaixement else user.dataNaixement
+        user.cicle = cicle if cicle else user.cicle
+
+        if new_password and new_password == confirm_new_password:
+            user.set_password(new_password)
+        else:
+            messages.error(request, 'Las contraseñas no coinciden')
+
+        if profile_image:
+            fs = FileSystemStorage()
+            filename = fs.save(profile_image.name, profile_image)
+            user.imatgePerfil = filename
+
+        user.save()
+
+        messages.success(request, 'Perfil actualizado con éxito')
+        return redirect('editar_perfil')  #SI ES CORRECTO LLAMA A LA VIEW "PROFILE" QUE ESTA REDIRIGE A "PERFIL.HTML" PASANDOLE TODOS LOS DATOS DEL USUARIO
+
+    else:
+        return render(request, 'editarPerfil.html')
+
 # BUSCA LA IMAGEN DE PERFIL QUE TIENE EL USUARIO
 @login_required
 def get_profile_image(request):
@@ -310,6 +347,7 @@ def edit_profile_user(request, id):
         'is_admin': is_admin,
         'is_superuser': is_superuser,
         'userToEdit':{
+            'id': userToEdit.id,
             'firstname': userToEdit.first_name,
             'lastname': userToEdit.last_name,
             'email': userToEdit.email,

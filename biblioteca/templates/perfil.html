@@ -16,7 +16,7 @@
 
 <body>
 
-    <nav class="bg-white border-b border-gray-300 h-15" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
+    <nav class="bg-white border-b border-gray-300 h-15" style="position: fixed; top: 0; width: 100%; z-index: 1000; height: 40px;">
         <div class="flex justify-between items-center px-6">
             <div class="flex items-center">
                 <!-- Ícono de Menú (cyan) -->
@@ -24,7 +24,9 @@
                     <i class="fas fa-bars text-cyan-500 text-lg mt-2"></i>
                 </button>
                 <!-- Título -->
-                <span class="text-cyan-500 text-lg mb-1 ml-10">IETI</span>
+                <img src="/static/biblioteca/image/maricarmenbrito-logo.png" alt="Descripción de la imagen" style="margin-right: -30px; width: 30px; margin-left: 40px;">
+
+                <span class="text-cyan-500 text-lg mb-1 mt-1 ml-10">Biblioteca Mari Carmen Brito</span>
 
             </div>
 
@@ -32,7 +34,7 @@
             <div class="flex items-center space-x-4">
                 <div class="flex flex-col items-center">
                     <span class="text-cyan-500 text-lg mt-2">{{ firstname }} {{ lastname }}</span>
-
+                
                     {% if is_superuser %}
                     <span class="text-blue-400 text-sm">Administrador</span>
                     {% elif is_admin %}
@@ -43,8 +45,8 @@
                 </div>
                 <!-- Botón de Perfil -->
                 <button id="profile-button">
-                    <img id="profile-image" data-url="{{ imatgePerfil }}"
-                        data-default="{% static 'biblioteca/imatgePerfil/default.jpg' %}" alt="Perfil"
+                    <img id="profile-image" src="{{ imatgePerfil }}"
+                        data-default="{% static 'media/imatgePerfil/default.jpg' %}" alt="Perfil"
                         class="h-8 w-8 rounded-full mt-1">
 
                 </button>
@@ -56,17 +58,19 @@
                     onclick="this.classList.toggle('text-blue-500');"></i>
 
                 <div id="profile-submenu" class="hidden absolute bg-white border rounded shadow-lg mt-40 z-50 w-50">
-                    <a href="/perfil/" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="saveLog('info', 'Ha accedido a su perfil', '/perfil', localStorage.getItem('username'))">
+                    <a href="/perfil/" class="block px-4 py-2 flex items-center hover:bg-gray-200"
+                        onclick="saveLog('info', 'Ha accedido a su perfil', '/dashboard', localStorage.getItem('username'))">
 
                         <i class="fas fa-user"></i>
                         <span class="ml-2">Perfil</span>
                     </a>
-                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="saveLog('info', 'Ha accedido a preferencias', '/perfil', localStorage.getItem('username'))">
+                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200"
+                        onclick="saveLog('info', 'Ha accedido a preferencias', '/dashboard', localStorage.getItem('username'))">
                         <i class="fas fa-cog"></i>
-
                         <span class="ml-2">Preferències</span>
                     </a>
-                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200" onclick="saveLog('info', 'Ha cerrado sesion de la aplicación', '/perfil', localStorage.getItem('username')); logoutAndClear();">
+                    <a href="#" class="block px-4 py-2 flex items-center hover:bg-gray-200"
+                        onclick="saveLog('info', 'Ha cerrado sesion de la aplicación', '/dashboard', localStorage.getItem('username')); logoutAndClear();">
                         <i class="fas fa-sign-out-alt"></i>
                         <span class="ml-2">Surt</span>
                     </a>

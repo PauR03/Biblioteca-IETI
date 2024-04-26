@@ -26,6 +26,7 @@ from biblioteca.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashboard/', dashboard_view, name='dashboard'),  
+    path('usuaris/', usuaris_view, name='usuaris'),
     path('perfil/', profile, name='profile'),
     path('editar_perfil/', edit_profile, name='editar_perfil'),
     path('update_profile/', update_profile, name='update_profile'),  # VIEW QUE INSERTA LOS DATOS MODIFICADOS DEL USAURIO EN LA BASE DE DATOS

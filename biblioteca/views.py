@@ -214,3 +214,44 @@ def create_log(request):
         else:
             return Response(serializer.errors, status=400)
     return Response(responses, status=201)
+@login_required
+def usuaris_view(request):
+    user = request.user
+    username = user.username
+    firstname = user.first_name  # Fetch the first name from the User model
+    lastname = user.last_name  # Fetch the last name from the User model
+    is_admin = user.esAdmin  # Check if the user is a superuser or if user.esAdmin is True
+    is_superuser = user.is_superuser
+
+
+
+    context = {
+        'username': username,
+        'firstname': firstname,  # Add first name to the context
+        'lastname': lastname,  # Add last name to the context
+        'email': user.email,
+        'is_admin': is_admin,
+        'is_superuser': is_superuser,
+        'dataNaixement': user.dataNaixement,  # Assuming the User model has a dataNaixement field
+        'cicle': user.cicle,  # Assuming the User model has a cicle field
+    }
+    return render(request, 'usuaris.html', context)
+
+def dashboard_view(request):
+    email = request.session.get('username')  
+    token = request.session.get('token')
+    User = get_user_model()
+    try:
+        user = User.objects.get(email=email)
+        is_superuser = user.is_superuser
+        is_admin = user.esAdmin
+        username = user.username  
+        firstname = user.first_name  
+        lastname = user.last_name  
+    except User.DoesNotExist:
+        is_superuser = False
+        is_admin = False
+        username = None  
+        firstname = None  
+        lastname = None  
+    return render(request, 'dashboard.html', {'username': username, 'token': token, 'is_superuser': is_superuser, 'is_admin': is_admin, 'firstname': firstname, 'lastname': lastname})

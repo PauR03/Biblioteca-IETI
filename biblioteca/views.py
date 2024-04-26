@@ -18,8 +18,9 @@ from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from .models import *
 from .serializers import LogSerializer
-from django.db.models import Q
+from django.db.models import Q, F
 from django.views import View
+from datetime import datetime
 
 
 # VIEW PARA LOGIN DE USUARIOS
@@ -76,6 +77,7 @@ def dashboard_view(request):
         username = None  
         firstname = None  
         lastname = None  
+        
     return render(request, 'dashboard.html', {'username': username, 'token': token, 'is_superuser': is_superuser, 'is_admin': is_admin, 'firstname': firstname, 'lastname': lastname})
 
 
@@ -181,8 +183,6 @@ def update_profile(request):
 
     else:
         return render(request, 'editarPerfil.html')
-    
-
 
 # BUSCA LA IMAGEN DE PERFIL QUE TIENE EL USUARIO
 @login_required
@@ -190,7 +190,6 @@ def get_profile_image(request):
     user = request.user
     imatgePerfil = user.imatgePerfil.url if user.imatgePerfil else None
     return JsonResponse({'imatgePerfil': imatgePerfil})
-
 
 # GUARDAR LOGS EN LA BASE DE DATOS
 @api_view(['POST'])
@@ -212,6 +211,7 @@ def create_log(request):
         else:
             return Response(serializer.errors, status=400)
     return Response(responses, status=201)
+
 @login_required
 def usuaris_view(request):
     user = request.user
@@ -220,8 +220,6 @@ def usuaris_view(request):
     lastname = user.last_name  # Fetch the last name from the User model
     is_admin = user.esAdmin  # Check if the user is a superuser or if user.esAdmin is True
     is_superuser = user.is_superuser
-
-
 
     context = {
         'username': username,
@@ -250,8 +248,6 @@ class AutocompleteView(View):
         autors = list(set([producte.autor for producte in productes if producte.autor]))
         suggestions = titols + autors
         return JsonResponse(suggestions, safe=False)
-    
-
 
 # REDIRIGE A LA PAGINA "PRODUCTO.HTML" Y BUSCA LOS PRODUCTOS QUE COINCIDAN CON EL TITULO O AUTOR
 def product_detail(request):
@@ -263,3 +259,62 @@ def product_detail(request):
         'search_type': search_type,
     }
     return render(request, 'producto.html', context)
+
+# APi PARA OBTENER LOS USUARIOS
+@login_required
+def getUsers(request):
+    esSuperUser = request.user.is_superuser
+    esBibliotecari = request.user.esAdmin
+    centre = request.user.centre
+
+    if esSuperUser:
+        users = User.objects.annotate(centre_nom=F('centre__nom')).values('id', 'first_name', 'last_name', 'email', 'centre_nom', 'esAdmin', 'imatgePerfil')
+    elif esBibliotecari and centre is not None:
+        users = User.objects.filter(centre=centre)
+        users = users.annotate(centre_nom=F('centre__nom'))
+        users = users.values('id', 'first_name', 'last_name', 'email', 'centre_nom', 'esAdmin', 'imatgePerfil')
+    else:
+        users = {}
+
+    return JsonResponse({
+        'users': list(users)
+    })
+
+# VIEW PARA EDITAR EL PERFIL DEL USUARIO
+@login_required
+def edit_profile_user(request, id):
+    user = request.user
+    userToEdit = User.objects.get(pk=id)
+
+    if not user.is_superuser and not user.esAdmin:
+        return redirect('dashboard')
+
+    if user.esAdmin and user.centre != userToEdit.centre:
+        return redirect('dashboard')
+
+
+    firstname = user.first_name 
+    lastname = user.last_name
+    is_admin = user.esAdmin
+    is_superuser = user.is_superuser
+
+    dataNaixement = userToEdit.dataNaixement
+    print(dataNaixement)
+    # dataNaixement_obj = datetime.strptime(dataNaixement, "%b. %d, %Y")
+    # dataNaixement_formateada = dataNaixement_obj.strftime("%Y-%m-%d")
+
+
+    context = {
+        'firstname': firstname,
+        'lastname': lastname,
+        'is_admin': is_admin,
+        'is_superuser': is_superuser,
+        'userToEdit':{
+            'firstname': userToEdit.first_name,
+            'lastname': userToEdit.last_name,
+            'email': userToEdit.email,
+            'dataNaixement': dataNaixement,
+            'imatgePerfil': userToEdit.imatgePerfil.url if userToEdit.imatgePerfil else 'imatgePerfil/default.jpg',
+        }
+    }
+    return render(request, 'editarPerfilUsuario.html', context)

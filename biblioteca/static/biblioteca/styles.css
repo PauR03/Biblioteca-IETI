@@ -84,3 +84,77 @@ nav {
     background-color: #6fda5a;
     border: 2px solid #51d437;
 }
+
+
+/***** USUARIS *****/
+.background {
+    padding-bottom: 60px;
+}
+
+.usuarisContainer {
+    background-color: white;
+    width: 90%;
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.75);
+    padding: 20px 10px;
+}
+
+table.usuaris {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+table.usuaris thead {
+    background-color: black;
+    color: white;
+    height: 50px;
+}
+
+table.usuaris tbody tr:nth-child(odd) {
+    background-color: white;
+}
+
+table.usuaris tbody tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, .05)
+}
+
+table.usuaris tbody tr:last-child {
+    display: block;
+    margin-bottom: 10px;
+}
+
+table.usuaris tbody tr:hover {
+    background-color: #e6e4e4;
+
+}
+
+table.usuaris tbody td {
+    text-align: center;
+    padding: 5px 0;
+}
+
+
+table.usuaris tbody a {
+    display: block;
+    width: 100%;
+    height: 50px;
+    align-content: center;
+}
+
+table.usuaris tbody .nom {
+    text-decoration: underline;
+}
+
+table.usuaris tbody .imatge a {
+    display: flex;
+    justify-content: center;
+}
+
+table.usuaris tbody .imatge img {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}

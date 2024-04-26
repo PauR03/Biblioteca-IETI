@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="{% static 'biblioteca/styles.css' %}" rel="stylesheet">
-    <link rel="icon" href="{% static 'biblioteca/image/maricarmenbrito-logo.png' %}"> 
+    <link rel="icon" href="{% static 'biblioteca/image/maricarmenbrito-logo.png' %}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -17,7 +17,8 @@
 
 <body>
 
-    <nav class="bg-white border-b border-gray-300 h-15" style="position: fixed; top: 0; width: 100%; z-index: 1000; height: 50px;">
+    <nav class="bg-white border-b border-gray-300 h-15"
+        style="position: fixed; top: 0; width: 100%; z-index: 1000; height: 50px;">
 
         <div class="flex justify-between items-center px-6">
             <div class="flex items-center">
@@ -26,7 +27,8 @@
                     <i class="fas fa-bars text-cyan-500 text-lg mt-2"></i>
                 </button>
                 <!-- Título -->
-                <img src="/static/biblioteca/image/maricarmenbrito-logo.png" alt="Descripción de la imagen" style="margin-right: -30px; width: 30px; margin-left: 40px;">
+                <img src="/static/biblioteca/image/maricarmenbrito-logo.png" alt="Descripción de la imagen"
+                    style="margin-right: -30px; width: 30px; margin-left: 40px;">
 
                 <span class="text-cyan-500 text-lg mb-1 mt-1 ml-10">Biblioteca Mari Carmen Brito</span>
 
@@ -36,7 +38,7 @@
             <div class="flex items-center space-x-4">
                 <div class="flex flex-col items-center">
                     <span class="text-cyan-500 text-lg mt-2">{{ firstname }} {{ lastname }}</span>
-                
+
                     {% if is_superuser %}
                     <span class="text-blue-400 text-sm">Administrador</span>
                     {% elif is_admin %}
@@ -225,10 +227,10 @@
                                     <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Data de
                                         naixement:</label>
 
-                                    {% if is_admin %}
+                                    {% if is_admin or is_superuser %}
                                     <input type="date" name="dataNaixement" id="dataNaixament"
                                         class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10"
-                                        value="{{ user.dataNaixement }}">
+                                        value="{{ user.dataNaixement|date:'Y-m-d' }}">
                                     {% else %}
                                     <span class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10">
                                         {{ user.dataNaixement}}</span>

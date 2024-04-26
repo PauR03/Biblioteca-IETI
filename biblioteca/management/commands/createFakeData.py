@@ -556,7 +556,7 @@ class Command(BaseCommand):
             llibreTitol = fake.sentence(nb_words=3)
             Llibre.objects.create(
               titol=llibreTitol,
-              descripcio=fake.text(max_nb_chars=200),
+              descripcio=fake.sentence(nb_words=100),
               autor=fake.name(),
               data_edicio=fake.date_between(start_date='-100y', end_date='today'),
               cdu=fake.random_int(min=100, max=999),

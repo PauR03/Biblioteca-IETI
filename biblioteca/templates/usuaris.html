@@ -16,7 +16,8 @@
 
 <body>
 
-    <nav class="bg-white border-b border-gray-300 h-15" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
+    <nav class="bg-white border-b border-gray-300 h-15"
+        style="position: fixed; top: 0; width: 100%; z-index: 1000; height: 50px;">
         <div class="flex justify-between items-center px-6">
             <div class="flex items-center">
                 <!-- Ícono de Menú (cyan) -->
@@ -24,7 +25,10 @@
                     <i class="fas fa-bars text-cyan-500 text-lg mt-2"></i>
                 </button>
                 <!-- Título -->
-                <span class="text-cyan-500 text-lg mb-1 ml-10">IETI</span>
+                <img src="/static/biblioteca/image/maricarmenbrito-logo.png" alt="Descripción de la imagen"
+                    style="margin-right: -30px; width: 30px; margin-left: 40px;">
+
+                <span class="text-cyan-500 text-lg mb-1 mt-1 ml-10">Biblioteca Mari Carmen Brito</span>
 
             </div>
 
@@ -94,12 +98,14 @@
 
         <!-- Items -->
         <div class="p-2 space-y-2">
-            <button
-                class="relative px-3 py-1 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group mt-4"
-                onclick="highlightSidebarItem(this)">
-                <i class="fas fa-home "></i>
-                <span class="font-medium transition-all duration-200 opacity-0">Inici</span>
-            </button>
+            <!-- Dashboard -->
+            <a href="{% url 'dashboard' %}">
+                <button
+                    class="relative px-3 py-1 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group mt-4">
+                    <i class="fas fa-home "></i>
+                    <span class="font-medium transition-all duration-200 opacity-0">Inici</span>
+                </button>
+            </a>
 
             <!-- Usuaris -->
             <button class="relative px-3 py-1 flex items-center space-x-4 justify-start text-gray-500 rounded-lg group"
@@ -143,14 +149,26 @@
 
 
     <!-- Contenedor gris al lado de la barra lateral -->
-    <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out"
+    <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out background"
         style="margin-top: 0px;">
         <br><br>
 
         <p class="text-xl text-gray-600 font-semibold mt-10 ml-20">Usuaris</p>
-        <div class="flex flex-wrap mb-2 mt-6" style="margin-left: 65px">
+        <div class="flex flex-wrap mb-2 mt-6 usuarisContainer" style="margin-left: 65px">
             <!-- Users table here -->
-
+            <table class="usuaris">
+                <thead>
+                    <tr>
+                        <th>Imatge</th>
+                        <th>Nom</th>
+                        <th>Correu Electronic</th>
+                        <th>Centre</th>
+                        <th>ROL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -159,6 +177,8 @@
     <script src="{% static 'biblioteca/actualizarImagen.js' %}"></script>
     <script src="{% static 'biblioteca/logs.js' %}"></script>
     <script src="{% static 'biblioteca/popup.js' %}"></script>
+    <script src="{% static 'biblioteca/usuaris.js' %}"></script>
+
 
 
 </body>

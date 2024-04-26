@@ -31,6 +31,9 @@ urlpatterns = [
     path('editar_perfil/', edit_profile, name='editar_perfil'),
     path('update_profile/', update_profile, name='update_profile'),  # VIEW QUE INSERTA LOS DATOS MODIFICADOS DEL USAURIO EN LA BASE DE DATOS
     path('get_profile_image/', get_profile_image, name='get_profile_image'),
+    path('autocomplete/', AutocompleteView.as_view(), name='autocomplete'),
+    path('detall_cataleg/', product_detail, name='detall_cataleg'),
+
 
     path('accounts/login/', login_view, name='login'),  
     path('api/create_log/', create_log, name='create_log'),

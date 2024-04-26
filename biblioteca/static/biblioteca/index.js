@@ -1,4 +1,5 @@
-$(document).ready(function () {
+$(document).ready(function() {
+    // Formulario de envío
     $('form').on('submit', function (event) {
         event.preventDefault();
         $.ajax({
@@ -26,7 +27,42 @@ $(document).ready(function () {
             }
         });
     });
+
+    // Autocompletado y búsqueda
+    var input = $("#search-input");
+    var checkbox = $("#available-only");
+    var submitButton = $("#search-button");
+    var awesomplete = new Awesomplete(input[0]);
+
+    input.on("keyup", function() {
+        var query = this.value;
+        if (query.length < 3) {
+            awesomplete.list = [];
+            return;
+        }
+
+        $.ajax({
+            url: $(this).data('autocomplete-url'),
+            data: {
+                'q': query,
+                'available_only': checkbox.prop('checked')
+            },
+            dataType: 'json',
+            success: function(data) {
+                awesomplete.list = data;
+            }
+        });
+    });
+
+    // BUSQUEDA DEL LIBRO (REDIRECCIONAA LA PAGINA)
+    submitButton.on('click', function(e) {
+        e.preventDefault();
+        var query = input.val();
+        var url = $(this).data('url');
+        window.location.href = url + "?q=" + encodeURIComponent(query);
+    });
 });
+
 // Function to get a cookie by name
 function getCookie(name) {
     var cookieValue = null;
@@ -43,4 +79,3 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-

@@ -16,9 +16,10 @@ import os
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
-from .models import Log
+from .models import *
 from .serializers import LogSerializer
-from biblioteca.models import User  # Importa tu modelo de usuario personalizado
+from django.db.models import Q
+from django.views import View
 
 
 # VIEW PARA LOGIN DE USUARIOS
@@ -120,7 +121,6 @@ def profile(request):
     # Renderiza el template con este contexto
     return render(request, 'perfil.html', context)
 
-
 # ENVIA LOS DATOS DEL USAURIO AL FICHERO EDITAR PERFIL
 @login_required
 def edit_profile(request):
@@ -130,8 +130,6 @@ def edit_profile(request):
     lastname = user.last_name  # Fetch the last name from the User model
     is_admin = user.esAdmin  # Check if the user is a superuser or if user.esAdmin is True
     is_superuser = user.is_superuser
-
-
 
     context = {
         'username': username,
@@ -237,21 +235,31 @@ def usuaris_view(request):
     }
     return render(request, 'usuaris.html', context)
 
-def dashboard_view(request):
-    email = request.session.get('username')  
-    token = request.session.get('token')
-    User = get_user_model()
-    try:
-        user = User.objects.get(email=email)
-        is_superuser = user.is_superuser
-        is_admin = user.esAdmin
-        username = user.username  
-        firstname = user.first_name  
-        lastname = user.last_name  
-    except User.DoesNotExist:
-        is_superuser = False
-        is_admin = False
-        username = None  
-        firstname = None  
-        lastname = None  
-    return render(request, 'dashboard.html', {'username': username, 'token': token, 'is_superuser': is_superuser, 'is_admin': is_admin, 'firstname': firstname, 'lastname': lastname})
+# BUSCADOR 'LANDINGPAGE'
+class AutocompleteView(View):
+    def get(self, request, *args, **kwargs):
+        query = request.GET.get('q', '')
+        available_only = request.GET.get('available_only', 'false') == 'true'
+        if len(query) < 3:
+            return JsonResponse([], safe=False)
+        productes = Producte.objects.filter(Q(titol__icontains=query) | Q(autor__icontains=query))
+        if available_only:
+            productes = productes.exclude(prestec__esRetornat=False)
+        productes = productes[:5]
+        titols = [producte.titol for producte in productes]
+        autors = list(set([producte.autor for producte in productes if producte.autor]))
+        suggestions = titols + autors
+        return JsonResponse(suggestions, safe=False)
+    
+
+
+# REDIRIGE A LA PAGINA "PRODUCTO.HTML" Y BUSCA LOS PRODUCTOS QUE COINCIDAN CON EL TITULO O AUTOR
+def product_detail(request):
+    query = request.GET.get('q', '')
+    productes = Producte.objects.filter(Q(titol__icontains=query) | Q(autor__icontains=query)).order_by('autor')
+    search_type = 'autor' if Producte.objects.filter(autor__icontains=query).exists() else 'titol'
+    context = {
+        'productes': productes,
+        'search_type': search_type,
+    }
+    return render(request, 'producto.html', context)

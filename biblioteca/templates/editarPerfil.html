@@ -62,7 +62,8 @@
                                         electrónic:</label>
                                     {% if is_admin or is_superuser %}
                                     <input type="email" name="email"
-                                        class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" value="{{ user.email }}">
+                                        class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" value="{{ user.email }}"
+                                        required>
                                     {% else %}
                                     <span class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10">{{ user.email }}</span>
                                     {% endif %}

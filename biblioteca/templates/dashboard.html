@@ -27,8 +27,15 @@
         style="margin-top: 0px;">
         <br><br>
 
-        <p class="text-xl text-gray-600 font-semibold mt-10 ml-20">Panell d'administració</p>
+        <p class="text-xl text-gray-600 font-semibold mt-10 ml-20">
+            {% if is_superuser or is_admin %}
+            Panell d'administració
+            {% else %}
+            Inici
+            {% endif %}
+        </p>
         <div class="flex flex-wrap mb-2 mt-6" style="margin-left: 65px">
+            {% if is_superuser or is_admin %}
             <a href="/usuaris" class="w-full md:w-1/2 xl:w-1/6 pt-3 px-3 md:pr-2">
                 <div class="border border-gray-800 rounded shadow p-0 flex custom-div" style="height: 80px;">
                     <div class="bg-blue-500 p-2 flex items-center custom-icon-div">
@@ -41,8 +48,9 @@
                     </div>
                 </div>
             </a>
+            {% endif %}
 
-            <div class="w-full md:w-1/2 xl:w-1/6 pt-3 px-3 md:pr-2 ml-5">
+            <!-- <div class="w-full md:w-1/2 xl:w-1/6 pt-3 px-3 md:pr-2 ml-5">
                 <div class="border border-gray-800 rounded shadow p-0 flex custom-div" style="height: 80px;">
                     <div class="bg-green-600 p-2 flex items-center custom-icon-div">
                         <div class="flex-shrink pl-1 pr-4 ml-2"><i class="fa fa-upload fa-2x fa-fw fa-inverse"></i>
@@ -83,7 +91,8 @@
                             style="text-align: center; margin-left: 15px;">Peticions</h3>
                     </div>
                 </div>
-            </div>
+            </div> -->
+
         </div>
     </div>
 

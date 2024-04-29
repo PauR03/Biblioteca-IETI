@@ -27,18 +27,18 @@
             <div class="flex items-center justify-center">
                 <div class="w-1/2 mx-auto mt-0 pt-10 mt-10">
 
-                    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                    <div class="bg-white shadow-2xl border border-gray-300 rounded-lg overflow-hidden">
                         <div class="bg-gray-200 text-gray-700 text-lg px-6 py-4">Perfil d'usuari</div>
-
+                    
                         <div class="flex justify-between items-center px-6 py-4">
                             <div class="flex space-x-3">
                                 <img src="{% if user.imatgePerfil %}{{ user.imatgePerfil.url }}{% else %}{% static 'biblioteca/imatgePerfil/default.jpg' %}{% endif %}"
                                     alt="Perfil" class="h-16 w-16 rounded-full">
-
+                    
                                     <div class="text-gray-700 text-lg mt-5">{{ firstname }} {{ lastname }}</div>
                                 </div>
                             </div>
-            
+                    
                             <div class="px-6 py-4 mt-4 border-t">
                                 <div class="flex justify-between items-center">
                                     <div class="text-gray-700 text-bold">Més dades de l'usuari</div>
@@ -51,7 +51,7 @@
                                     <div class="text-sm text-gray-600 font-semibold">Cicle: <br><span class="font-normal">{{ cicle|default:"No Definit" }}</span></div>
                             </div>
                         </div>
-
+                    
                     </div>
                 </div>
             </div>

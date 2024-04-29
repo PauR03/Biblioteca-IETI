@@ -18,9 +18,8 @@ class Producte(models.Model):
     descripcio = models.TextField()
     autor = models.CharField(max_length=100, blank=True, null=True)
     data_edicio = models.DateField()
-    idImatge = models.ForeignKey('Imatge', on_delete=models.CASCADE, blank=True, null=True)
+    imatge = models.ImageField(upload_to='imatgeProducte/', default='imatgeProducte/llibreDefault.jpeg')
 
-    
 class Llibre(Producte):
     cdu = models.CharField(max_length=50)
     isbn = models.BigIntegerField()
@@ -126,6 +125,3 @@ class Log(models.Model):
 
     def __str__(self):
         return self.tipus + ' - ' + self.usuari.username
-    
-class Imatge(models.Model):
-    ruta = models.CharField(max_length=100)

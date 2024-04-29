@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     // Formulario de envío
     $('form').on('submit', function (event) {
         event.preventDefault();
@@ -34,7 +34,7 @@ $(document).ready(function() {
     var submitButton = $("#search-button");
     var awesomplete = new Awesomplete(input[0]);
 
-    input.on("keyup", function() {
+    input.on("keyup", function () {
         var query = this.value;
         if (query.length < 3) {
             awesomplete.list = [];
@@ -48,14 +48,14 @@ $(document).ready(function() {
                 'available_only': checkbox.prop('checked')
             },
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 awesomplete.list = data;
             }
         });
     });
 
     // BUSQUEDA DEL LIBRO (REDIRECCIONAA LA PAGINA)
-    submitButton.on('click', function(e) {
+    submitButton.on('click', function (e) {
         e.preventDefault();
         var query = input.val();
         var url = $(this).data('url');

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Log, Imatge, User, Producte, Llibre, CD, DVD, BR, Dispositiu, Centre, Exemplar, Reserva, Prestec, Peticio
+from .models import Log, User, Producte, Llibre, CD, DVD, BR, Dispositiu, Centre, Exemplar, Reserva, Prestec, Peticio
 
 class LogAdmin(admin.ModelAdmin):
     list_display = ('tipus', 'informacio', 'data', 'get_full_name', 'ruta')  # Los campos que quieres mostrar en la lista
@@ -24,4 +24,3 @@ admin.site.register(Reserva)
 admin.site.register(Prestec)
 admin.site.register(Peticio)
 admin.site.register(Log, LogAdmin)  # Registra Log con la configuración de LogAdmin
-admin.site.register(Imatge)

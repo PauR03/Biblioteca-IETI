@@ -635,7 +635,7 @@ class Command(BaseCommand):
                 username=f"{userFirstName}{userLastName}",
                 first_name=userFirstName,
                 last_name=userLastName,
-                email=f"{userFirstName + userLastName}@gmail.com",
+                email=fake.email(),
                 dataNaixement=fake.date_of_birth(minimum_age=13, maximum_age=30),
                 centre = Centre.objects.get(pk=random.randint(1, 2)),
                 password=env('SEEDER_USERS_PASSWORD'),

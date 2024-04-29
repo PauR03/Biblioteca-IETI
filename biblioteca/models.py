@@ -100,7 +100,7 @@ class Prestec(models.Model):
     esRetornat = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.producte.nom + ' - ' + self.usuari.username
+        return self.producte.titol + ' - ' + self.usuari.username
     
 class Peticio(models.Model):
     producte = models.ForeignKey(Producte, on_delete=models.CASCADE)

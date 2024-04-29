@@ -1,11 +1,11 @@
-$(document).ready(function() {
+$(document).ready(function () {
     const passwordValidation = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
 
     function validatePassword(input) {
         const $input = $(input);
         const $errorMessage = $('#newPasswordError');
 
-        if ($input.val() === '') {
+        if ($input.val() === '' || $input.val() === null || $input.val() === undefined) {
             $errorMessage.text('');
             return true;
         } else if (!passwordValidation.test($input.val())) {
@@ -38,15 +38,15 @@ $(document).ready(function() {
         }
     }
 
-    $('input[name="new_password"]').on('blur', function() {
+    $('input[name="new_password"]').on('blur', function () {
         validatePassword(this);
     });
 
-    $('input[name="confirm_new_password"]').on('blur', function() {
+    $('input[name="confirm_new_password"]').on('blur', function () {
         validatePasswordMatch();
     });
 
-    $('form').on('submit', function(e) {
+    $('form').on('submit', function (e) {
         if (!validatePassword($('input[name="new_password"]')) || !validatePasswordMatch()) {
             e.preventDefault();
         }

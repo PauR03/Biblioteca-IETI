@@ -1,5 +1,4 @@
 function saveLog(tipus, informacio, ruta, usuari) {
-
     if (usuari === null) {
         usuari = 'unknown';
         console.error('No se pudo obtener el nombre de usuario del localStorage');

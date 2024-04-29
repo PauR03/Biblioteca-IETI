@@ -317,8 +317,6 @@ def edit_profile_user(request, id):
 
 @login_required
 def update_profile_user(request, id):
-    print("\n"*30)
-    print(id)
     if request.method == 'POST':
         first_name = request.POST.get('first_name', '')
         last_name = request.POST.get('last_name', '')

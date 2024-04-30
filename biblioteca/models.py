@@ -73,7 +73,7 @@ class Exemplar(models.Model):
     quantitat = models.IntegerField()
 
     def __str__(self):
-        return self.producte.nom + ' - ' + str(self.quantitat)
+        return str(self.producte) + ' -  Quantitat: ' + str(self.quantitat)
 
 class Reserva(models.Model):
     dataReserva = models.DateTimeField(auto_now_add=True)

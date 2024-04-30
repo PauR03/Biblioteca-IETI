@@ -215,6 +215,8 @@ def create_log(request):
 @login_required
 def usuaris_view(request):
     user = request.user
+    if not user.is_superuser and not user.esAdmin:
+        return redirect('dashboard')
     username = user.username
     firstname = user.first_name  # Fetch the first name from the User model
     lastname = user.last_name  # Fetch the last name from the User model

@@ -256,8 +256,7 @@ def product_detail(request):
     query = request.GET.get('q', '')
     productes = Producte.objects.filter(Q(titol__icontains=query) | Q(autor__icontains=query)).order_by('autor')
     search_type = 'autor' if Producte.objects.filter(autor__icontains=query).exists() else 'titol'
-    for i in productes:
-        print(i.imatge)
+    
 
     context = {
         'productes': productes,

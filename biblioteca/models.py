@@ -19,7 +19,7 @@ class Producte(models.Model):
     autor = models.CharField(max_length=100, blank=True, null=True)
     data_edicio = models.DateField()
     imatge = models.ImageField(upload_to='imatgeProducte/', default='imatgeProducte/llibreDefault.jpeg')
-    
+
     def __str__(self):
         return self.titol
     
@@ -73,7 +73,7 @@ class Exemplar(models.Model):
     quantitat = models.IntegerField()
 
     def __str__(self):
-        return self.producte.nom + ' - ' + self.centre.nom + ' - ' + str(self.quantitat)
+        return self.producte.nom + ' - ' + str(self.quantitat)
 
 class Reserva(models.Model):
     dataReserva = models.DateTimeField(auto_now_add=True)

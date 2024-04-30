@@ -65,7 +65,7 @@
                                         class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" value="{{ user.email }}"
                                         required>
                                     {% else %}
-                                    <span class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10">{{ user.email }}</span>
+                                    <span class="form-input mt-1 w-1/2 mt-4 mr-10">{{ user.email }}</span>
                                     {% endif %}
 
                                 </div>
@@ -105,7 +105,7 @@
                                         class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10"
                                         value="{{ user.dataNaixement|date:'Y-m-d' }}">
                                     {% else %}
-                                    <span class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10">
+                                    <span class="form-input mt-1 w-1/2  mt-4 mr-10">
                                         {{ user.dataNaixement}}</span>
                                     {% endif %}
                                 </div>
@@ -116,7 +116,7 @@
                                     <input type="text" name="cicle" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10"
                                         value="{{ user.cicle }}">
                                     {% else %}
-                                    <span class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10">
+                                    <span class="form-input mt-1 w-1/2  mt-4 mr-10">
                                         {{ user.cicle }}
                                     </span>
                                     {% endif %}

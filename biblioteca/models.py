@@ -19,7 +19,10 @@ class Producte(models.Model):
     autor = models.CharField(max_length=100, blank=True, null=True)
     data_edicio = models.DateField()
     imatge = models.ImageField(upload_to='imatgeProducte/', default='imatgeProducte/llibreDefault.jpeg')
-
+    
+    def __str__(self):
+        return self.titol
+    
 class Llibre(Producte):
     cdu = models.CharField(max_length=50)
     isbn = models.BigIntegerField()

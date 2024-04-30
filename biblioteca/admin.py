@@ -10,6 +10,14 @@ class LogAdmin(admin.ModelAdmin):
         return obj.usuari.first_name + ' ' + obj.usuari.last_name
     get_full_name.short_description = 'Nombre completo'  # Etiqueta para la columna
 
+
+
+class ExemplarAdmin(admin.ModelAdmin):
+    list_display = ('producte', 'centre', 'quantitat')
+
+
+
+
 # Registra tus modelos aquí.
 admin.site.register(User)
 admin.site.register(Producte)
@@ -19,8 +27,9 @@ admin.site.register(DVD)
 admin.site.register(BR)
 admin.site.register(Dispositiu)
 admin.site.register(Centre)
-admin.site.register(Exemplar)
+admin.site.register(Exemplar, ExemplarAdmin)
+#admin.site.register(Exemplar)
 admin.site.register(Reserva)
 admin.site.register(Prestec)
 admin.site.register(Peticio)
-admin.site.register(Log, LogAdmin)  # Registra Log con la configuración de LogAdmin
+admin.site.register(Log, LogAdmin) 

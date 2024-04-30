@@ -244,16 +244,24 @@ class AutocompleteView(View):
             return JsonResponse([], safe=False)
         productes = Producte.objects.filter(Q(titol__icontains=query) | Q(autor__icontains=query))
         if available_only:
-            productes = productes.exclude(prestec__esRetornat=False)
-        productes = productes[:5]
-        titols = [producte.titol for producte in productes]
-        autors = list(set([producte.autor for producte in productes if producte.autor]))
-        suggestions = titols + autors
+        
+            for producte in productes:
+                    quantitatExemplars = Exemplar.objects.filter(producte=producte).first().quantitat
+                    quantitatPrestecsNoRetornats = Prestec.objects.filter(producte=producte, esRetornat=False).count()
+                    quantitatRealExemplars = quantitatExemplars - quantitatPrestecsNoRetornats
+                    if quantitatRealExemplars <= 0:
+                        productes = productes.exclude(id=producte.id)
+            productes = productes[:5]
+            titols = [producte.titol for producte in productes]
+            autors = list(set([producte.autor for producte in productes if producte.autor]))
+            suggestions = titols + autors
         return JsonResponse(suggestions, safe=False)
-
+    
 # REDIRIGE A LA PAGINA "PRODUCTO.HTML" Y BUSCA LOS PRODUCTOS QUE COINCIDAN CON EL TITULO O AUTOR
 def product_detail(request):
     query = request.GET.get('q', '')
+    if len(query) < 3:
+        return redirect('login')
     productes = Producte.objects.filter(Q(titol__icontains=query) | Q(autor__icontains=query)).order_by('autor')
     search_type = 'autor' if Producte.objects.filter(autor__icontains=query).exists() else 'titol'
     
@@ -263,6 +271,8 @@ def product_detail(request):
         'search_type': search_type,
     }
     return render(request, 'producto.html', context)
+
+
 
 # APi PARA OBTENER LOS USUARIOS
 @login_required

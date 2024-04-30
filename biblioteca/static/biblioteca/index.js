@@ -59,7 +59,7 @@ $(document).ready(function () {
         e.preventDefault();
         var query = input.val();
         var url = $(this).data('url');
-        window.location.href = url + "?q=" + encodeURIComponent(query);
+        window.location.href = url + "?q=" + encodeURIComponent(query) + "&available_only=" + checkbox.prop('checked');
     });
 });
 

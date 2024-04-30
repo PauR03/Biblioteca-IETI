@@ -260,11 +260,22 @@ class AutocompleteView(View):
 # REDIRIGE A LA PAGINA "PRODUCTO.HTML" Y BUSCA LOS PRODUCTOS QUE COINCIDAN CON EL TITULO O AUTOR
 def product_detail(request):
     query = request.GET.get('q', '')
+    available_only = request.GET.get('available_only', 'false') == 'true'
+
     if len(query) < 3:
         return redirect('login')
-    productes = Producte.objects.filter(Q(titol__icontains=query) | Q(autor__icontains=query)).order_by('autor')
-    search_type = 'autor' if Producte.objects.filter(autor__icontains=query).exists() else 'titol'
     
+    productes = Producte.objects.filter(Q(titol__icontains=query) | Q(autor__icontains=query)).order_by('autor')
+    
+    if available_only:
+        for producte in productes:
+            quantitatExemplars = Exemplar.objects.filter(producte=producte).first().quantitat
+            quantitatPrestecsNoRetornats = Prestec.objects.filter(producte=producte, esRetornat=False).count()
+            quantitatRealExemplars = quantitatExemplars - quantitatPrestecsNoRetornats
+            if quantitatRealExemplars <= 0:
+                productes = productes.exclude(id=producte.id)
+
+    search_type = 'autor' if Producte.objects.filter(autor__icontains=query).exists() else 'titol'
 
     context = {
         'productes': productes,

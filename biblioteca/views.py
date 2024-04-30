@@ -244,17 +244,16 @@ class AutocompleteView(View):
             return JsonResponse([], safe=False)
         productes = Producte.objects.filter(Q(titol__icontains=query) | Q(autor__icontains=query))
         if available_only:
-        
             for producte in productes:
                     quantitatExemplars = Exemplar.objects.filter(producte=producte).first().quantitat
                     quantitatPrestecsNoRetornats = Prestec.objects.filter(producte=producte, esRetornat=False).count()
                     quantitatRealExemplars = quantitatExemplars - quantitatPrestecsNoRetornats
                     if quantitatRealExemplars <= 0:
                         productes = productes.exclude(id=producte.id)
-            productes = productes[:5]
-            titols = [producte.titol for producte in productes]
-            autors = list(set([producte.autor for producte in productes if producte.autor]))
-            suggestions = titols + autors
+        productes = productes[:5]
+        titols = [producte.titol for producte in productes]
+        autors = list(set([producte.autor for producte in productes if producte.autor]))
+        suggestions = titols + autors
         return JsonResponse(suggestions, safe=False)
     
 # REDIRIGE A LA PAGINA "PRODUCTO.HTML" Y BUSCA LOS PRODUCTOS QUE COINCIDAN CON EL TITULO O AUTOR

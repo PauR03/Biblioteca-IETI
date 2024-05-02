@@ -378,3 +378,33 @@ def update_profile_user(request, id):
             return redirect(previous_url)
     else:
         return render(request, 'dashboard.html')
+
+@login_required
+def prestecs(request):
+    user = request.user
+    if not user.is_superuser and not user.esAdmin:
+        return redirect('dashboard')
+    firstname = user.first_name 
+    lastname = user.last_name
+    is_admin = user.esAdmin
+    is_superuser = user.is_superuser
+
+    context = {
+        'firstname': firstname,
+        'lastname': lastname, 
+        'is_admin': is_admin,
+        'is_superuser': is_superuser,
+    }
+    return render(request, 'prestecs.html', context)
+
+@login_required
+def getPrestecs(request):
+    user = request.user
+    centre = user.centre if user.centre else 1
+
+    prestecs = Prestec.objects.filter(centre=centre)
+    prestecs = prestecs.values('id', 'dataPrestec', 'dataDevolucio', 'producte__titol', 'usuari__email', 'esRetornat').order_by('dataPrestec')
+
+    return JsonResponse({
+        'prestecs': list(prestecs)
+    })

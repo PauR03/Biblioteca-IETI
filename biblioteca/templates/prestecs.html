@@ -9,32 +9,38 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="{% static 'biblioteca/styles.css' %}" rel="stylesheet">
-    <link rel="icon" href="{% static 'biblioteca/image/ietilogo.png' %}">
+    <link rel="icon" href="{% static 'biblioteca/image/maricarmenbrito-logo.png' %}">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
+
 
 <body>
 
     {% include 'nav.html' %}
     {% include 'sidebar.html' %}
 
+
     <!-- Contenedor gris al lado de la barra lateral -->
-    <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out background"
+    <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out"
         style="margin-top: 0px;">
         <br><br>
 
-        <p class="text-xl text-gray-600 font-semibold mt-10 ml-20">Usuaris</p>
+        <p class="text-xl text-gray-600 font-semibold mt-10 ml-20">
+            Préstecs
+        </p>
         <div class="flex flex-wrap mb-2 mt-6 usuarisContainer" style="margin-left: 65px">
-            <!-- Users table here -->
-            <table class="mainTable usuaris">
+
+            <table class="mainTable prestecs">
                 <thead>
                     <tr>
-                        <th>Imatge</th>
-                        <th>Nom</th>
-                        <th>Correu Electronic</th>
-                        <th>Centre</th>
-                        <th>ROL</th>
+                        <th>Llibre</th>
+                        <th>Correu Electronic Usuari</th>
+                        <th>Data Préstec</th>
+                        <th>Data Devolucio</th>
+                        <th>Retornat</th>
+                        <th>Botons</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,8 +54,7 @@
     <script src="{% static 'biblioteca/actualizarImagen.js' %}"></script>
     <script src="{% static 'biblioteca/logs.js' %}"></script>
     <script src="{% static 'biblioteca/popup.js' %}"></script>
-    <script src="{% static 'biblioteca/usuaris.js' %}"></script>
-
+    <script src="{% static 'biblioteca/prestecs.js' %}"></script>
 
 
 </body>
@@ -99,7 +104,6 @@
         element.classList.add('bg-gradient-to-r', 'from-blue-100', 'to-blue-200');
 
     }
-
 
     $(document).ready(checkPopup)
 

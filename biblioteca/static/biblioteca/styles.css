@@ -100,7 +100,7 @@ nav {
     padding: 20px 10px;
 }
 
-table.usuaris {
+table.mainTable {
     width: 100%;
     margin: 0;
     padding: 0;
@@ -108,37 +108,37 @@ table.usuaris {
     overflow: hidden;
 }
 
-table.usuaris thead {
+table.mainTable thead {
     background-color: black;
     color: white;
     height: 50px;
 }
 
-table.usuaris tbody tr:nth-child(odd) {
+table.mainTable tbody tr:nth-child(odd) {
     background-color: white;
 }
 
-table.usuaris tbody tr:nth-child(even) {
+table.mainTable tbody tr:nth-child(even) {
     background-color: rgba(0, 0, 0, .05)
 }
 
-table.usuaris tbody tr:last-child {
+table.mainTable tbody tr:last-child {
     display: block;
     margin-bottom: 10px;
 }
 
-table.usuaris tbody tr:hover {
+table.mainTable tbody tr:hover {
     background-color: #e6e4e4;
 
 }
 
-table.usuaris tbody td {
+table.mainTable tbody td {
     text-align: center;
     padding: 5px 0;
 }
 
 
-table.usuaris tbody a {
+table.mainTable tbody a {
     display: block;
     width: 100%;
     height: 50px;
@@ -166,4 +166,32 @@ table.usuaris tbody .imatge img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+}
+
+/* Prestec */
+
+table.prestecs tbody td {
+    height: 50px;
+}
+
+table.prestecs tbody .retornat span {
+    font-size: 12px;
+    padding: 5px;
+    background-color: lightgreen;
+    border-radius: 5px;
+}
+
+table.prestecs tbody .retornat span.noRetornat {
+    background-color: lightcoral;
+}
+
+table.prestecs tbody button {
+    background-color: #51d437;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+table.prestecs tbody button:active {
+    transform: scale(0.98);
 }

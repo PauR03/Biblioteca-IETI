@@ -35,17 +35,17 @@ urlpatterns = [
     path('detall_cataleg/', product_detail, name='detall_cataleg'),
     path('editar_perfil/<int:id>', edit_profile_user, name='edit_profile_user'),
     path('update_profile_user/<int:id>', update_profile_user, name='update_profile_user'),
-
-
+    path('prestecs/', prestecs, name='prestecs'),
 
     path('accounts/login/', login_view, name='login'),  
     path('api/create_log/', create_log, name='create_log'),
     path('api/getUsers/', getUsers, name='getUsers'),
 
+    path('api/getPrestecs/', getPrestecs, name='getPrestecs'),
     
     path('', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
-    path('', include('biblioteca.urls')),  
+    path('', include('biblioteca.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

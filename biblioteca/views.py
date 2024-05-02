@@ -23,6 +23,14 @@ from django.views import View
 from datetime import datetime
 import secrets
 import string
+from biblioteca.models import User  # Importa tu modelo de usuario personalizado
+from django.core.mail import send_mail
+from django.db import IntegrityError
+import random
+
+
+
+
 
 # VIEW PARA LOGIN DE USUARIOS
 @never_cache
@@ -381,12 +389,6 @@ def update_profile_user(request, id):
         return render(request, 'dashboard.html')
 
 
-from django.http import JsonResponse
-from django.contrib import messages
-from django.core.files.storage import FileSystemStorage
-from django.shortcuts import render
-from django.contrib.auth.models import User
-from biblioteca.models import User  # Importa tu modelo de usuario personalizado
 
 
 def generate_password():
@@ -415,9 +417,6 @@ def generate_password():
     password = ''.join(password)
 
     return password
-from django.db import IntegrityError
-
-import random
 
 def crear_usuario(request):
     # Obtén el usuario actual
@@ -431,9 +430,9 @@ def crear_usuario(request):
     context = {
         'is_superuser': is_superuser,
         'is_admin': is_admin,
-        'firstname': current_user.first_name,  # Añade el first_name del usuario actual al contexto
-        'lastname': current_user.last_name,  # Añade el last_name del usuario actual al contexto
-        'imatgePerfil': current_user.imatgePerfil,  # Añade la imagen de perfil del usuario actual al contexto
+        'firstname': current_user.first_name,  
+        'lastname': current_user.last_name,  
+        'imatgePerfil': current_user.imatgePerfil,  
     }
 
     if request.method == 'POST':
@@ -465,7 +464,17 @@ def crear_usuario(request):
         else:
             try:
                 user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email, dataNaixement=dataNaixement, cicle=cicle, imatgePerfil=profile_image_url)  # Usa tu propio modelo de usuario
+                user.set_password(password)
                 user.save()
+
+                # Send email with password
+                send_mail(
+                    'Bienvenido a nuestro sitio web',
+                    f'Su contraseña es: {password}',
+                    EMAIL_HOST_USER,  # Use the email configured in settings
+                    [email],
+                    fail_silently=False,
+                )
             except Exception as e:
                 error_message = str(e)
 
@@ -481,6 +490,5 @@ def crear_usuario(request):
             else:
                 messages.success(request, 'Usuario creado con éxito')
                 return redirect('crear_usuario')
-
 
     return render(request, 'crearUsuario.html', context)

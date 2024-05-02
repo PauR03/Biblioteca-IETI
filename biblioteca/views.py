@@ -292,11 +292,11 @@ def getUsers(request):
     centre = request.user.centre
 
     if esSuperUser:
-        users = User.objects.annotate(centre_nom=F('centre__nom')).values('id', 'first_name', 'last_name', 'email', 'centre_nom', 'esAdmin', 'imatgePerfil')
+        users = User.objects.annotate(centre_nom=F('centre__nom')).values('id', 'first_name', 'last_name', 'email', 'centre_nom', 'esAdmin', 'imatgePerfil', 'is_superuser')
     elif esBibliotecari and centre is not None:
         users = User.objects.filter(centre=centre)
         users = users.annotate(centre_nom=F('centre__nom'))
-        users = users.values('id', 'first_name', 'last_name', 'email', 'centre_nom', 'esAdmin', 'imatgePerfil')
+        users = users.values('id', 'first_name', 'last_name', 'email', 'centre_nom', 'esAdmin', 'imatgePerfil', 'is_superuser')
     else:
         users = {}
 

@@ -12,7 +12,7 @@ function main() {
         const { users } = response
 
         $(users).each((index, user) => {
-            const { id, email, first_name, last_name, esAdmin, centre_nom, imatgePerfil } = user
+            const { id, email, first_name, last_name, esAdmin, is_superuser, centre_nom, imatgePerfil } = user
 
             $('table.usuaris tbody').append(
                 `<tr id=${id}>
@@ -28,7 +28,7 @@ function main() {
                         </td>
                     <td class="email">${email}</td>
                     <td class="centre">${centre_nom}</td>
-                    <td class="rol">${esAdmin ? "Bibliotecari" : "Estudiant"}</td>
+                    <td class="rol">${is_superuser ? "Administrador" : esAdmin ? "Bibliotecari" : "Estudiant"}</td>
                 </tr>`
             )
         })

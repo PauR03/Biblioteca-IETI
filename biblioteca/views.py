@@ -21,7 +21,8 @@ from .serializers import LogSerializer
 from django.db.models import Q, F
 from django.views import View
 from datetime import datetime
-
+import secrets
+import string
 
 # VIEW PARA LOGIN DE USUARIOS
 @never_cache
@@ -385,6 +386,38 @@ from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from biblioteca.models import User  # Importa tu modelo de usuario personalizado
+
+
+def generate_password():
+    # Define the character sets
+    lowercase = string.ascii_lowercase
+    uppercase = string.ascii_uppercase
+    digits = string.digits
+    symbols = string.punctuation
+
+    # Generate a password that contains at least one (lowercase letter, uppercase letter, digit, symbol)
+    password = [
+        secrets.choice(lowercase),
+        secrets.choice(uppercase),
+        secrets.choice(digits),
+        secrets.choice(symbols),
+    ]
+
+    # Fill the rest of the password with random characters from all sets
+    all_characters = lowercase + uppercase + digits + symbols
+    password += [secrets.choice(all_characters) for _ in range(8 - len(password))]
+
+    # Shuffle the password to ensure randomness
+    secrets.SystemRandom().shuffle(password)
+
+    # Convert the list to a string
+    password = ''.join(password)
+
+    return password
+from django.db import IntegrityError
+
+import random
 
 def crear_usuario(request):
     # Obtén el usuario actual
@@ -406,20 +439,17 @@ def crear_usuario(request):
     if request.method == 'POST':
         first_name = request.POST.get('first_name', None)
         last_name = request.POST.get('last_name', None)
-        username = f"{first_name}_{last_name}" if first_name and last_name else None
+        base_username = f"{first_name}_{last_name}" if first_name and last_name else None
+        username = base_username
+        # Genera un nombre de usuario único
+        while User.objects.filter(username=username).exists():
+            username = base_username + str(random.randint(1, 1000))
         email = request.POST.get('email', None)
         dataNaixement = request.POST.get('dataNaixement', None)
         if dataNaixement == "":
             dataNaixement = None
         cicle = request.POST.get('cicle', None)
         profile_image = request.FILES['profile_image'] if 'profile_image' in request.FILES else None
-
-        if User.objects.filter(email=email).exists():  # Usa tu propio modelo de usuario
-            if request.is_ajax():
-                return JsonResponse({'error': 'El correo electrónico ya está en uso'}, status=400)
-            else:
-                messages.error(request, 'El correo electrónico ya está en uso')
-                return render(request, 'crearUsuario.html', context)
 
         if profile_image:
             fs = FileSystemStorage()
@@ -428,12 +458,29 @@ def crear_usuario(request):
         else:
             profile_image_url = 'imatgePerfil/default.jpg'
 
-        user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email, dataNaixement=dataNaixement, cicle=cicle, imatgePerfil=profile_image_url)  # Usa tu propio modelo de usuario
-        user.save()
+        password = generate_password()
 
-        if request.is_ajax():
-            return JsonResponse({'success': 'Usuario creado con éxito'})
+        if User.objects.filter(email=email).exists():
+            error_message = 'El correu electrònic ja està en ús'
         else:
-            messages.success(request, 'Usuario creado con éxito')
+            try:
+                user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email, dataNaixement=dataNaixement, cicle=cicle, imatgePerfil=profile_image_url)  # Usa tu propio modelo de usuario
+                user.save()
+            except Exception as e:
+                error_message = str(e)
+
+        if 'error_message' in locals():
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'error': error_message}, status=400)
+            else:
+                messages.error(request, error_message)
+                return render(request, 'crearUsuario.html', context)
+        else:
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'success': 'Usuario creado con éxito'}, status=200)
+            else:
+                messages.success(request, 'Usuario creado con éxito')
+                return redirect('crear_usuario')
+
 
     return render(request, 'crearUsuario.html', context)

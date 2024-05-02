@@ -378,3 +378,62 @@ def update_profile_user(request, id):
             return redirect(previous_url)
     else:
         return render(request, 'dashboard.html')
+
+
+from django.http import JsonResponse
+from django.contrib import messages
+from django.core.files.storage import FileSystemStorage
+from django.shortcuts import render
+from django.contrib.auth.models import User
+
+def crear_usuario(request):
+    # Obtén el usuario actual
+    current_user = request.user
+
+    # Verifica si el usuario actual es un superusuario o un administrador
+    is_superuser = current_user.is_superuser
+    is_admin = current_user.esAdmin  
+
+    # Pasa estos datos al contexto del template
+    context = {
+        'is_superuser': is_superuser,
+        'is_admin': is_admin,
+        'firstname': current_user.first_name,  # Añade el first_name del usuario actual al contexto
+        'lastname': current_user.last_name,  # Añade el last_name del usuario actual al contexto
+        'imatgePerfil': current_user.imatgePerfil,  # Añade la imagen de perfil del usuario actual al contexto
+    }
+
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name', None)
+        last_name = request.POST.get('last_name', None)
+        username = f"{first_name}_{last_name}" if first_name and last_name else None
+        email = request.POST.get('email', None)
+        dataNaixement = request.POST.get('dataNaixement', None)
+        if dataNaixement == "":
+            dataNaixement = None
+        cicle = request.POST.get('cicle', None)
+        profile_image = request.FILES['profile_image'] if 'profile_image' in request.FILES else None
+
+        if User.objects.filter(email=email).exists():  # Usa tu propio modelo de usuario
+            if request.is_ajax():
+                return JsonResponse({'error': 'El correo electrónico ya está en uso'}, status=400)
+            else:
+                messages.error(request, 'El correo electrónico ya está en uso')
+                return render(request, 'crearUsuario.html', context)
+
+        if profile_image:
+            fs = FileSystemStorage()
+            filename = fs.save(profile_image.name, profile_image)
+            profile_image_url = fs.url(filename)
+        else:
+            profile_image_url = 'imatgePerfil/default.jpg'
+
+        user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email, dataNaixement=dataNaixement, cicle=cicle, imatgePerfil=profile_image_url)  # Usa tu propio modelo de usuario
+        user.save()
+
+        if request.is_ajax():
+            return JsonResponse({'success': 'Usuario creado con éxito'})
+        else:
+            messages.success(request, 'Usuario creado con éxito')
+
+    return render(request, 'crearUsuario.html', context)

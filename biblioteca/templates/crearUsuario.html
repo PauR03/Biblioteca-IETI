@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil - Biblioteca IETI </title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="{% static 'biblioteca/styles.css' %}" rel="stylesheet">
+    <link rel="icon" href="{% static 'biblioteca/image/maricarmenbrito-logo.png' %}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+    {% include 'nav.html' %}
+    {% include 'sidebar.html' %}
+
+    <!-- Componente Principal -->
+    <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out" style="margin-top: 0px;">
+    <div class="mx-auto px-6 py-8 w-full">
+        <div class="flex items-center justify-center">
+            <div class="w-1/2 mx-auto mt-0 pt-10 mt-10">
+
+                <div class="bg-white shadow-2xl border border-gray-300 rounded-lg overflow-hidden">
+
+                    <div class="bg-gray-200 text-gray-700 text-lg px-6 py-4">Crear Usuario</div>
+                    <form action="{% url 'crear_usuario' %}" method="POST" enctype="multipart/form-data">
+
+                        {% csrf_token %}
+                        <div class="mt-2">
+                            <div class="flex items-center justify-between border-t">
+                                <label class="text-sm text-gray-600 font-semibold mt-5 ml-10">Nom:</label>
+                                <input type="text" name="first_name" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Cognom:</label>
+                                <input type="text" name="last_name" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Correu electrónic:</label>
+                                <input type="email" name="email" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
+                                <span id="email-error" class="text-red-500"></span> <!-- Aquí está el nuevo elemento -->
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Data de naixement:</label>
+                                <input type="date" name="dataNaixement" id="dataNaixament" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10 ">Cicle:</label>
+                                <input type="text" name="cicle" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10">
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Imatge de l'usuari:</label>
+                                <input type="file" name="profile_image" class="form-input mt-1 w-1/2 bg-gray-200 mt-4 mr-10">
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit"
+                                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 ml-10 mb-5"
+                                onclick="saveLog('info', 'Ha clicado el boton de crear un nuevo usuario', '/crearUsuario', localStorage.getItem('username'))">Crear
+                                usuario</button>
+                        </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+    <script src="{% static 'biblioteca/logout.js' %}"></script>
+    <script src="{% static 'biblioteca/actualizarImagen.js' %}"></script>
+   <!-- <script src="{% static 'biblioteca/logs.js' %}"></script> -->
+    <script src="{% static 'biblioteca/popup.js' %}"></script>
+    <script src="{% static 'biblioteca/editarPerfil.js' %}"></script>
+    <script src="{% static 'biblioteca/validarContraseña.js' %}"></script>
+    <script src="{% static 'biblioteca/validarCorreo.js' %}"></script>
+
+</body>
+<script>
+    localStorage.setItem('token generado', '{{ token }}');
+    localStorage.setItem('username', '{{ username }}');
+
+
+    function expandSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.querySelector('.ml-16');
+
+        if (sidebar.style.width === '16rem') {
+            sidebar.style.width = '4rem';
+            mainContent.style.marginLeft = '4rem';
+            mainContent.style.width = 'calc(100% - 4rem)'; // adjust the width of the main content
+            sidebar.classList.remove('text-left', 'px-6');
+            sidebar.classList.add('text-center', 'px-0');
+        } else {
+            sidebar.style.width = '16rem';
+            mainContent.style.marginLeft = '16rem';
+            mainContent.style.width = 'calc(100% - 16rem)'; // adjust the width of the main content
+            sidebar.classList.add('text-left', 'px-6');
+            sidebar.classList.remove('text-center', 'px-0');
+        }
+
+        const labels = sidebar.querySelectorAll('span');
+        labels.forEach(label => label.classList.toggle('opacity-0'));
+    }
+
+
+    /* Desplegar submenu de perfil */
+    document.getElementById('profile-button').addEventListener('click', function () {
+        document.getElementById('profile-submenu').classList.toggle('hidden');
+    });
+    document.getElementById('profile-arrow').addEventListener('click', function () {
+        document.getElementById('profile-submenu').classList.toggle('hidden');
+    });
+    /*****************************/
+
+    function highlightSidebarItem(element) {
+        const buttons = document.querySelectorAll("#sidebar button");
+        buttons.forEach(btn => {
+            btn.classList.remove('bg-gradient-to-r', 'from-cyan-400', 'to-cyan-500', 'text-white');
+            btn.firstChild.nextSibling.classList.remove('text-white');
+        });
+        element.classList.add('bg-gradient-to-r', 'from-blue-100', 'to-blue-200');
+
+    }
+
+    $(document).ready(checkPopup)
+</script>
+
+</html>

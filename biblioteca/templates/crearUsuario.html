@@ -12,7 +12,11 @@
     <link rel="icon" href="{% static 'biblioteca/image/maricarmenbrito-logo.png' %}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    <style>
+        .modal {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -56,7 +60,7 @@
                             
 
                             <div class="flex items-center justify-between">
-                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Data de naixement</label>
+                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Data de naixement *</label>
                                 <input type="date" name="dataNaixement" id="dataNaixament" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
                             </div>
 
@@ -65,20 +69,25 @@
                                 <input type="text" name="cicle"  placeholder=" Curs"  class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10">
                             </div>
 
-                            <div class="flex items-center justify-between">
-                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Imatge de l'usuari</label>
-                                <input type="file" name="profile_image" class="form-input mt-1 w-1/2 bg-gray-200 mt-4 mr-10">
-                            </div>
+                           
                         </div>
 
                         <div class="mt-4">
                             <button type="submit"
                                 class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 ml-10 mb-5"
-                                onclick="saveLog('info', 'Ha clicado el boton de crear un nuevo usuario', '/crearUsuario', localStorage.getItem('username'))">Crear
+                                onclick="saveLog('info', 'Ha clicado el boton de crear un nuevo usuario', '/crearUsuario', localStorage.getItem('username'))">Afegir
                                 usuari</button>
                         </div>
                 </div>
                 </form>
+
+
+                <div id="myModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <p>Usuari creat amb èxit</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -88,10 +97,10 @@
     <script src="{% static 'biblioteca/logout.js' %}"></script>
     <script src="{% static 'biblioteca/actualizarImagen.js' %}"></script>
     <script src="{% static 'biblioteca/logs.js' %}"></script> 
-    <script src="{% static 'biblioteca/popup.js' %}"></script>
     <script src="{% static 'biblioteca/editarPerfil.js' %}"></script>
     <script src="{% static 'biblioteca/validarContraseña.js' %}"></script>
     <script src="{% static 'biblioteca/validarCorreo.js' %}"></script>
+    <script src="{% static 'biblioteca/showModal.js' %}"></script>
 
 </body>
 <script>

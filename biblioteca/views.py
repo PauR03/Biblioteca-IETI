@@ -421,6 +421,8 @@ def generate_password():
 from django.http import JsonResponse
 from django.urls import reverse
 from django.shortcuts import redirect
+
+
 def crear_usuario(request):
     # Obtén el usuario actual
     current_user = request.user
@@ -466,7 +468,7 @@ def crear_usuario(request):
             return JsonResponse({'error': 'El correu electrònic ja està en ús'}, status=400)
         else:
             try:
-                user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email, dataNaixement=dataNaixement, cicle=cicle, imatgePerfil=profile_image_url)  # Usa tu propio modelo de usuario
+                user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email, dataNaixement=dataNaixement, cicle=cicle, imatgePerfil=profile_image_url, centre=current_user.centre)  # Usa tu propio modelo de usuario
                 user.set_password(password)
                 user.save()
 

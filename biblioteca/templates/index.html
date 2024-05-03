@@ -17,6 +17,15 @@
     <link href="{% static 'biblioteca/styles.css' %}" rel="stylesheet">
     <link rel="icon" href="{% static 'biblioteca/image/maricarmenbrito-logo.png' %}">
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTYLX1PX0T"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-CTYLX1PX0T');
+    </script>
 
 </head>
 
@@ -47,7 +56,8 @@
                         class="bg-gray-500 text-white font-bold text-lg hover:bg-gray-600 p-2 mt-8">
                 </form>
                 <div class="text-center pt-12 pb-12">
-                    <a href="{% url 'password_reset' %}" class=" text-blue-500 hover:text-blue-700 underline font-semibold animated-text">Has oblidat la
+                    <a href="{% url 'password_reset' %}"
+                        class=" text-blue-500 hover:text-blue-700 underline font-semibold animated-text">Has oblidat la
                         contrasenya?</a></p>
                 </div>
             </div>

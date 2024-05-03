@@ -12,9 +12,14 @@ $(document).ready(function() {
             processData: false,
             contentType: false,
             success: function(data) {
-                // Si no hay error, limpia los mensajes de error y envía el formulario normalmente
-                $('#newPasswordError').text('');
-                $('form').unbind('submit').submit();
+                if (data.redirect) {
+                    // Si el servidor devuelve una URL de redirección, redirige a esa URL
+                    window.location.href = data.redirect;
+                } else {
+                    // Si no hay error, limpia los mensajes de error y envía el formulario normalmente
+                    $('#newPasswordError').text('');
+                    $('form').unbind('submit').submit();
+                }
             },
             error: function(jqXHR) {
                 // Si la respuesta contiene un error, muéstralo en el elemento correspondiente

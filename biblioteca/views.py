@@ -418,6 +418,9 @@ def generate_password():
 
     return password
 
+from django.http import JsonResponse
+from django.urls import reverse
+from django.shortcuts import redirect
 def crear_usuario(request):
     # Obtén el usuario actual
     current_user = request.user
@@ -460,39 +463,30 @@ def crear_usuario(request):
         password = generate_password()
 
         if User.objects.filter(email=email).exists():
-            error_message = 'El correu electrònic ja està en ús'
+            return JsonResponse({'error': 'El correu electrònic ja està en ús'}, status=400)
         else:
             try:
                 user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email, dataNaixement=dataNaixement, cicle=cicle, imatgePerfil=profile_image_url)  # Usa tu propio modelo de usuario
                 user.set_password(password)
                 user.save()
 
-                # Send email with password
-                send_mail(
-                    'Bienvenido a nuestro sitio web',
-                    f'Su contraseña es: {password}',
-                    EMAIL_HOST_USER,  # Use the email configured in settings
-                    [email],
-                    fail_silently=False,
-                )
-            except Exception as e:
-                error_message = str(e)
+                # Enviar un correo electrónico al usuario con su contraseña
+                # send_mail(
+                #     'Bienvenido a nuestro sitio web',
+                #     f'Su contraseña es: {password}',
+                #     settings.EMAIL_HOST_USER,  # Use the email configured in settings
+                #     [email],
+                #     fail_silently=False,
+                # )
+                # print(f'Usuario {username} creado con éxito')  # Imprime un mensaje en la consola cuando se crea un usuario
 
-        if 'error_message' in locals():
-            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                return JsonResponse({'error': error_message}, status=400)
-            else:
-                messages.error(request, error_message)
-                return render(request, 'crearUsuario.html', context)
-        else:
-            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                return JsonResponse({'success': 'Usuario creado con éxito'}, status=200)
-            else:
-                messages.success(request, 'Usuario creado con éxito')
-                return redirect('crear_usuario')
+            except Exception as e:
+                return JsonResponse({'error': str(e)}, status=400)
+
+        messages.success(request, 'Usuario creado con éxito')
+        return JsonResponse({'redirect': reverse('crear_usuario')})  # Reemplaza 'crear_usuario' con la URL a la que quieres redirigir
 
     return render(request, 'crearUsuario.html', context)
-
 
 
 import csv

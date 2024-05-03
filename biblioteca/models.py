@@ -91,10 +91,6 @@ class Reserva(models.Model):
 class Prestec(models.Model):
     dataPrestec = models.DateTimeField(auto_now_add=True)
     dataDevolucio = models.DateTimeField(blank=True, null=True)
-    def save(self, *args, **kwargs):
-        if self.dataPrestec and not self.dataDevolucioMaxima:
-            self.dataDevolucioMaxima = self.dataPrestec + timedelta(weeks=3)
-        super().save(*args, **kwargs)
 
     producte = models.ForeignKey(Producte, on_delete=models.CASCADE)
     centre = models.ForeignKey(Centre, on_delete=models.CASCADE)

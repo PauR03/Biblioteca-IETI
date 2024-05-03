@@ -42,6 +42,8 @@ urlpatterns = [
     path('api/getUsers/', getUsers, name='getUsers'),
 
     path('api/getPrestecs/', getPrestecs, name='getPrestecs'),
+    path('api/updatePrestec/', updatePrestec, name='updatePrestec'),
+
     
     path('', login_view, name='login'),
     path('logout/', logout_view, name='logout'),

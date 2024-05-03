@@ -182,6 +182,11 @@ table.prestecs tbody .retornat span {
 }
 
 table.prestecs tbody .retornat span.noRetornat {
+    /* background-color: lightcoral; */
+    background-color: orange;
+}
+
+table.prestecs tbody .retornat span.limitDate {
     background-color: lightcoral;
 }
 

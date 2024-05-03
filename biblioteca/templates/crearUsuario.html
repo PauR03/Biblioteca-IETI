@@ -34,12 +34,12 @@
                         {% csrf_token %}
                         <div class="mt-2">
                             <div class="flex items-center justify-between border-t">
-                                <label class="text-sm text-gray-600 font-semibold mt-5 ml-10">Nom:</label>
+                                <label class="text-sm text-gray-600 font-semibold mt-5 ml-10">Nom *</label>
                                 <input type="text" name="first_name" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
                             </div>
 
                             <div class="flex items-center justify-between">
-                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Cognom:</label>
+                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Cognom *</label>
                                 <input type="text" name="last_name" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
                             </div>
                             <div class="flex items-center justify-between">
@@ -47,8 +47,8 @@
                             </div>
 
                             <div class="flex items-center justify-between">
-                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Correu electrónic:</label>
-                                <input type="email" name="email" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
+                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Correu electrónic *</label>
+                                <input type="email"  placeholder=" correu@exemple.com"    name="email" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
                             </div>
                             <div class="flex items-center justify-between">
                                 <p id="newPasswordError" class="text-red-500 text-xs mt-2" style="margin-left: 411px; margin-top: 3px;"></p>
@@ -56,17 +56,17 @@
                             
 
                             <div class="flex items-center justify-between">
-                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Data de naixement:</label>
+                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Data de naixement</label>
                                 <input type="date" name="dataNaixement" id="dataNaixament" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
                             </div>
 
                             <div class="flex items-center justify-between">
-                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10 ">Cicle:</label>
-                                <input type="text" name="cicle" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10">
+                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10 ">Cicle</label>
+                                <input type="text" name="cicle"  placeholder=" Curs"  class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10">
                             </div>
 
                             <div class="flex items-center justify-between">
-                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Imatge de l'usuari:</label>
+                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Imatge de l'usuari</label>
                                 <input type="file" name="profile_image" class="form-input mt-1 w-1/2 bg-gray-200 mt-4 mr-10">
                             </div>
                         </div>

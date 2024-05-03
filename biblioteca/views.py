@@ -492,3 +492,80 @@ def crear_usuario(request):
                 return redirect('crear_usuario')
 
     return render(request, 'crearUsuario.html', context)
+
+
+
+import csv
+import io
+from django.http import JsonResponse
+from django.db import IntegrityError
+from .models import User
+from .models import User, Centre
+import csv
+import io
+from django.http import JsonResponse
+from django.db import IntegrityError
+from django.shortcuts import redirect
+
+def importar_usuarios(request):
+    # Obtén el usuario actual
+    current_user = request.user
+
+    # Verifica si el usuario actual es un superusuario o un administrador
+    is_superuser = current_user.is_superuser
+    is_admin = current_user.esAdmin  
+
+    # Obtén todos los centros
+    centres = Centre.objects.all()
+
+    errors = []
+
+    if request.method == 'POST':
+        csv_file = request.FILES['csv_file']
+        try:
+            data_set = csv_file.read().decode('ISO-8859-1')
+        except UnicodeDecodeError:
+            errors.append('El archivo CSV debe estar codificado como ISO-8859-1.')
+            return JsonResponse({'errors': errors})
+
+        data_set = data_set.replace('\r\n', '\n').replace('\r', '\n')
+        io_string = io.StringIO(data_set)
+        next(io_string)
+
+        centre_id = request.POST['centre_id']
+        centre = Centre.objects.get(id=centre_id)
+
+        for column in csv.reader(io_string, delimiter=','):
+            if len(column) >= 5:
+                try:
+                    _, created = User.objects.update_or_create(
+                        first_name=column[0],
+                        last_name=f"{column[1]} {column[2]}",  # Concatena cognom1 y cognom2
+                        email=column[3],
+                        cicle=column[4],
+                        centre_id=centre_id  # Asigna el ID del centro al usuario
+                    )
+                except IntegrityError:
+                    errors.append(f'La línea {column} contiene datos duplicados.')
+                except Exception as e:
+                    errors.append(f'Error en la línea {column}: {str(e)}')
+            else:
+                errors.append(f'La línea {column} no tiene el número correcto de columnas.')
+
+        if errors:
+            return JsonResponse({'errors': errors})
+        else:
+            return redirect('importar_usuarios')  # Redirige a la misma vista
+
+    # Pasa estos datos al contexto del template
+    context = {
+        'is_superuser': is_superuser,
+        'is_admin': is_admin,
+        'firstname': current_user.first_name,  
+        'lastname': current_user.last_name,  
+        'imatgePerfil': current_user.imatgePerfil,  
+        'centres': centres,  # Añade los centros al contexto
+    }
+
+    # Renderiza la plantilla 'importarUsuarios.html' con el contexto
+    return render(request, 'importarUsuarios.html', context)

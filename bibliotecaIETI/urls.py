@@ -42,6 +42,7 @@ urlpatterns = [
     path('api/create_log/', create_log, name='create_log'),
     path('api/getUsers/', getUsers, name='getUsers'),
     path('crearUsuario/', crear_usuario, name='crear_usuario'),
+    path('importar_usuarios/', importar_usuarios, name='importar_usuarios'),
 
     
     path('', login_view, name='login'),

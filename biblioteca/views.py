@@ -414,3 +414,25 @@ def updatePrestec(request):
         return Response({'status': 'ok'}, status=200)
     except:
         return Response({'status': 'error'}, status=400)
+
+# BUSCADOR 'LANDINGPAGE'
+@api_view(['POST'])
+def autocompletePrestecs(request):
+    query = request.data.get('q', '')
+    if len(query) < 3:
+        return JsonResponse([], safe=False)
+    
+    productes = Producte.objects.filter(Q(titol__icontains=query))
+
+    for producte in productes:
+            quantitatExemplars = Exemplar.objects.filter(producte=producte).first().quantitat
+            quantitatPrestecsNoRetornats = Prestec.objects.filter(producte=producte, esRetornat=False).count()
+            quantitatRealExemplars = quantitatExemplars - quantitatPrestecsNoRetornats
+            if quantitatRealExemplars <= 0:
+                productes = productes.exclude(id=producte.id)
+    productes = productes[:5]
+    titols = [producte.titol for producte in productes]
+    ids = [producte.id for producte in productes]
+    suggestions = titols + ids
+    
+    return JsonResponse(suggestions, safe=False)

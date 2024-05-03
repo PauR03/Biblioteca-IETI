@@ -103,7 +103,7 @@ nav {
 }
 
 .modal-content {
-    background-color: #00fd00;
+    background-color: #00fd00d0;
     margin: 0;
       margin-top: 0px;
       margin-left: 0px;
@@ -111,7 +111,7 @@ nav {
     margin-left: 0px;
     padding: 20px;
     border: 1px solid #ffcfcf;
-    width: 263px;
+    width: 255px;
     height: auto;
     animation-name: slideDown;
     animation-duration: 1s;

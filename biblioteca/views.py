@@ -472,15 +472,14 @@ def crear_usuario(request):
                 user.set_password(password)
                 user.save()
 
-                # Enviar un correo electrónico al usuario con su contraseña
-                # send_mail(
-                #     'Bienvenido a nuestro sitio web',
-                #     f'Su contraseña es: {password}',
-                #     settings.EMAIL_HOST_USER,  # Use the email configured in settings
-                #     [email],
-                #     fail_silently=False,
-                # )
-                # print(f'Usuario {username} creado con éxito')  # Imprime un mensaje en la consola cuando se crea un usuario
+                send_mail(
+                    'Benvingut a la biblioteca Mari Carmen Brito',
+                    f'La teva contrasenya és:  {password}',
+                    settings.EMAIL_HOST_USER,  # Use the email configured in settings
+                    [email],
+                    fail_silently=False,
+                )
+                print(f'Usuario {username} creado con éxito')  # Imprime un mensaje en la consola cuando se crea un usuario
 
             except Exception as e:
                 return JsonResponse({'error': str(e)}, status=400)

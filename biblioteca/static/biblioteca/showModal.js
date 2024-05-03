@@ -24,7 +24,7 @@ $(document).ready(function() {
         // Set a timer to hide the modal after 3 seconds
         setTimeout(function() {
             modal.style.display = "none";
-        }, 6000); // 3000 milliseconds = 3 seconds
+        }, 900000); // 3000 milliseconds = 3 seconds
     }
 
     // If the 'showModal' variable is in localStorage, show the modal and remove the variable

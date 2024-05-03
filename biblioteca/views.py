@@ -502,6 +502,12 @@ import io
 from django.http import JsonResponse
 from django.db import IntegrityError
 from django.shortcuts import redirect
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.db import IntegrityError
+from .models import Centre
+import csv
+import io
 
 def importar_usuarios(request):
     # Obtén el usuario actual
@@ -531,27 +537,36 @@ def importar_usuarios(request):
         centre_id = request.POST['centre_id']
         centre = Centre.objects.get(id=centre_id)
 
-        for column in csv.reader(io_string, delimiter=','):
-            if len(column) >= 5:
+        for line_number, column in enumerate(csv.reader(io_string, delimiter=','), start=1):
+            if len(column) >= 6:  # Asegúrate de que hay suficientes columnas
+                # Verifica si alguno de los campos requeridos está vacío
+                if not column[0] or not column[1] or not column[2] or not column[3] or not column[4] or not column[5]:
+                    errors.append(f'En la línea {line_number} faltan datos.')
+
                 try:
-                    _, created = User.objects.update_or_create(
-                        first_name=column[0],
-                        last_name=f"{column[1]} {column[2]}",  # Concatena cognom1 y cognom2
-                        email=column[3],
-                        cicle=column[4],
-                        centre_id=centre_id  # Asigna el ID del centro al usuario
-                    )
-                except IntegrityError:
-                    errors.append(f'La línea {column} contiene datos duplicados.')
-                except Exception as e:
-                    errors.append(f'Error en la línea {column}: {str(e)}')
+                    User.objects.get(email=column[3])
+                    errors.append(f'En la línea {line_number}, el usuario con el correo electrónico {column[3]} ya existe.')
+                except User.DoesNotExist:
+                    try:
+                        _, created = User.objects.update_or_create(
+                            first_name=column[0],
+                            last_name=f"{column[1]} {column[2]}",
+                            email=column[3],
+                            telefon=column[4],  # Añade el campo telefono
+                            cicle=column[5],  # Actualiza el índice para cicle
+                            centre_id=centre_id
+                        )
+                    except IntegrityError as e:
+                        errors.append(f'En la línea {line_number}, hay un campo duplicado: {str(e)}')
+                    except Exception as e:
+                        errors.append(f'Error en la línea {line_number}: {str(e)}')
             else:
-                errors.append(f'La línea {column} no tiene el número correcto de columnas.')
+                errors.append(f'La línea {line_number} no tiene el número correcto de columnas.')
 
         if errors:
             return JsonResponse({'errors': errors})
         else:
-            return redirect('importar_usuarios')  # Redirige a la misma vista
+            return redirect('importar_usuarios')
 
     # Pasa estos datos al contexto del template
     context = {

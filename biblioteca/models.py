@@ -11,6 +11,8 @@ class User(AbstractUser):
     dataNaixement = models.DateField(null=True, blank=True)
     centre = models.ForeignKey('Centre', on_delete=models.CASCADE, null=True, blank=True)
     cicle = models.CharField(max_length=100, null=True, blank=True)
+    telefon = models.CharField(max_length=20, null=True, blank=True)  
+
     imatgePerfil = models.ImageField(upload_to='imatgePerfil/', default='imatgePerfil/default.jpg')
  
 class Producte(models.Model):

@@ -70,8 +70,9 @@
                 <div class="w-1/2 mx-auto mt-0 pt-10 mt-10 ">
                     {% for product in productes %}
                     {% if forloop.first %}
-                    <div class="bg-gray-300 text-gray-700 text-lg mb-8 px-6 py-4"
-                        style="width: 1100px; margin-left: -130px;">Informació del catàleg</div>
+                    <div class="bg-gray-300 text-gray-600 text-lg mb-8 px-6 py-4"
+                    style="width: 1100px; margin-left: -130px; font-weight: bold;">Resultats de la cerca: "{{ search_term }}"</div>
+
                     {% endif %}
                     <div class="bg-white shadow-xl rounded-lg overflow-hidden mb-16 border border-gray-500"
                         style="width: 1100px; margin-left: -130px;">

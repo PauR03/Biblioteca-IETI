@@ -288,9 +288,9 @@ def product_detail(request):
     context = {
         'productes': productes,
         'search_type': search_type,
+        'search_term': query,  # Agregamos el término de búsqueda al contexto
     }
     return render(request, 'producto.html', context)
-
 
 
 # APi PARA OBTENER LOS USUARIOS

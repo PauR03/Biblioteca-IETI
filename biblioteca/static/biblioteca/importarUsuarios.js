@@ -20,17 +20,17 @@ document.getElementById('upload-button').addEventListener('click', function(even
         if (data.errors) {
             data.errors.forEach(error => {
                 var errorParagraph = document.createElement('p');
-                var errorNode = document.createTextNode(error);
-                errorParagraph.appendChild(errorNode);
+                // Agrega las etiquetas <br> aquí
+                errorParagraph.innerHTML = error + '<br>';
                 modalContent.appendChild(errorParagraph);
             });
 
             modal.style.display = 'block';
-
+        
             closeButton.onclick = function() {
                 modal.style.display = 'none';
             }
-
+        
             window.onclick = function(event) {
                 if (event.target == modal) {
                     modal.style.display = 'none';

@@ -520,10 +520,15 @@ def importar_usuarios(request):
     # Obtén todos los centros
     centres = Centre.objects.all()
 
-    errors = []
-
     if request.method == 'POST':
+        errors = []
         csv_file = request.FILES['csv_file']
+
+        # Verifica si el archivo es un .csv
+        if not csv_file.name.endswith('.csv'):
+            errors.append('L\'arxiu ha de ser un full de calcul (.csv)\n')
+            return JsonResponse({'errors': errors})
+
         try:
             data_set = csv_file.read().decode('ISO-8859-1')
         except UnicodeDecodeError:
@@ -544,13 +549,13 @@ def importar_usuarios(request):
             if len(column) >= 6:  # Asegúrate de que hay suficientes columnas
                 # Verifica si alguno de los campos requeridos está vacío
                 if not column[0] or not column[1] or not column[2] or not column[3] or not column[4] or not column[5]:
-                    errors.append(f'A la línia {line_number} falten dades.\n')
+                    errors.append(f'A la línia {line_number} falten dades. \n')
 
                 email = column[3]
                 phone = column[4]
 
                 if email in emails or phone in phones:
-                    errors.append(f'A la línia {line_number}, les dades estan duplicades al CSV.\n')
+                    errors.append(f'A la línia {line_number}, les dades estan duplicades al CSV. \n')
                     continue
 
                 emails.add(email)
@@ -570,9 +575,9 @@ def importar_usuarios(request):
                         centre_id=centre_id
                     )
                 except IntegrityError as e:
-                    errors.append(f'A la línia {line_number}, hi ha dades que ja hi són enregistrades\n')
+                    errors.append(f'A la línia {line_number}, hi ha dades que ja hi són enregistrades. \n')
                 except Exception as e:
-                    errors.append(f'Error a la línia {line_number}: {str(e)}\n')
+                    errors.append(f'Error a la línia {line_number}: {str(e)}')
             else:
                 errors.append(f'La línia {line_number} no té el nombre correcte de columnes.\n')
 

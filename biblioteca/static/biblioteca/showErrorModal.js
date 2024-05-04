@@ -11,7 +11,7 @@ document.getElementById('upload-button').addEventListener('click', function(even
     .then(response => response.json())
     .then(data => {
         var modal = document.getElementById('ModalInfoError');
-        var modalContent = modal.querySelector('.modal-content2 p');
+        var modalContent = modal.querySelector('.modal-content p');
         var closeButton = modal.querySelector('.close');
 
         if (data.errors) {

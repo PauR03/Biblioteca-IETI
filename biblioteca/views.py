@@ -508,6 +508,7 @@ from .models import Centre
 import csv
 import io
 
+
 def importar_usuarios(request):
     # Obtén el usuario actual
     current_user = request.user
@@ -526,7 +527,7 @@ def importar_usuarios(request):
         try:
             data_set = csv_file.read().decode('ISO-8859-1')
         except UnicodeDecodeError:
-            errors.append('El archivo CSV debe estar codificado como ISO-8859-1.')
+            errors.append('El fitxer CSV ha d\'estar codificat com a ISO-8859-1.\n')
             return JsonResponse({'errors': errors})
 
         data_set = data_set.replace('\r\n', '\n').replace('\r', '\n')
@@ -536,31 +537,44 @@ def importar_usuarios(request):
         centre_id = request.POST['centre_id']
         centre = Centre.objects.get(id=centre_id)
 
+        emails = set()
+        phones = set()
+
         for line_number, column in enumerate(csv.reader(io_string, delimiter=','), start=1):
             if len(column) >= 6:  # Asegúrate de que hay suficientes columnas
                 # Verifica si alguno de los campos requeridos está vacío
                 if not column[0] or not column[1] or not column[2] or not column[3] or not column[4] or not column[5]:
-                    errors.append(f'En la línea {line_number} faltan datos.')
+                    errors.append(f'A la línia {line_number} falten dades.\n')
+
+                email = column[3]
+                phone = column[4]
+
+                if email in emails or phone in phones:
+                    errors.append(f'A la línia {line_number}, les dades estan duplicades al CSV.\n')
+                    continue
+
+                emails.add(email)
+                phones.add(phone)
+
+                if User.objects.filter(email=email).exists() or User.objects.filter(telefon=phone).exists():
+                    errors.append(f'A la línia {line_number}, l\'usuari amb el correu electrònic {email} o el telèfon {phone} ja existeix a la base de dades.\n')
+                    break
 
                 try:
-                    User.objects.get(email=column[3])
-                    errors.append(f'En la línea {line_number}, el usuario con el correo electrónico {column[3]} ya existe.')
-                except User.DoesNotExist:
-                    try:
-                        _, created = User.objects.update_or_create(
-                            first_name=column[0],
-                            last_name=f"{column[1]} {column[2]}",
-                            email=column[3],
-                            telefon=column[4],  # Añade el campo telefono
-                            cicle=column[5],  # Actualiza el índice para cicle
-                            centre_id=centre_id
-                        )
-                    except IntegrityError as e:
-                        errors.append(f'En la línea {line_number}, hay un campo duplicado: {str(e)}')
-                    except Exception as e:
-                        errors.append(f'Error en la línea {line_number}: {str(e)}')
+                    _, created = User.objects.update_or_create(
+                        first_name=column[0],
+                        last_name=f"{column[1]} {column[2]}",
+                        email=email,
+                        telefon=phone,
+                        cicle=column[5],
+                        centre_id=centre_id
+                    )
+                except IntegrityError as e:
+                    errors.append(f'A la línia {line_number}, hi ha dades que ja hi són enregistrades\n')
+                except Exception as e:
+                    errors.append(f'Error a la línia {line_number}: {str(e)}\n')
             else:
-                errors.append(f'La línea {line_number} no tiene el número correcto de columnas.')
+                errors.append(f'La línia {line_number} no té el nombre correcte de columnes.\n')
 
         if errors:
             return JsonResponse({'errors': errors})
@@ -574,7 +588,7 @@ def importar_usuarios(request):
         'firstname': current_user.first_name,  
         'lastname': current_user.last_name,  
         'imatgePerfil': current_user.imatgePerfil,  
-        'centres': centres,  # Añade los centros al contexto
+        'centres': centres,
     }
 
     # Renderiza la plantilla 'importarUsuarios.html' con el contexto

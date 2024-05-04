@@ -11,7 +11,7 @@ document.getElementById('upload-button').addEventListener('click', function(even
     .then(response => response.json())
     .then(data => {
         var modal = document.getElementById('ModalInfoError');
-        var modalContent = modal.querySelector('.modal-content p');
+        var modalContent = modal.querySelector('.modal-content');
         var closeButton = modal.querySelector('.close');
 
         // Limpiar el contenido del modal antes de agregar nuevos mensajes de error
@@ -19,10 +19,10 @@ document.getElementById('upload-button').addEventListener('click', function(even
 
         if (data.errors) {
             data.errors.forEach(error => {
+                var errorParagraph = document.createElement('p');
                 var errorNode = document.createTextNode(error);
-                modalContent.appendChild(errorNode);
-                // Agregar un salto de línea después de cada mensaje de error
-                modalContent.appendChild(document.createElement('br'));
+                errorParagraph.appendChild(errorNode);
+                modalContent.appendChild(errorParagraph);
             });
 
             modal.style.display = 'block';

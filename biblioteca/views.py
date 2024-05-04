@@ -474,7 +474,7 @@ def crear_usuario(request):
 
                 send_mail(
                     'Benvingut a la biblioteca Mari Carmen Brito',
-                    f'La teva contrasenya és:  {password}',
+                    f'Hola {first_name},\n\nLa teva contrasenya és: {password}\n\nSi desitges canviar-la, pots fer-ho en el següent enllaç: https://biblio6.ieti.site/password_reset/\n\n Salutacions.\n',
                     settings.EMAIL_HOST_USER,  # Use the email configured in settings
                     [email],
                     fail_silently=False,

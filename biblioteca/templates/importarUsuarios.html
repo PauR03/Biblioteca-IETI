@@ -13,7 +13,11 @@
     <link rel="icon" href="{% static 'biblioteca/image/maricarmenbrito-logo.png' %}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    <style>
+        .modal {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -77,6 +81,13 @@
                         <p></p>
                     </div>
                 </div>
+
+                <div id="myModal" class="modal">
+                    <div class="modal-content1">
+                        <span class="close">&times;</span>
+                        <p>Fitxer importat correctament</p>
+                    </div>
+                </div>
 	        </div>
         </div>
     </div>
@@ -96,6 +107,8 @@
     <script src="{% static 'biblioteca/validarContraseña.js' %}"></script>
     <script src="{% static 'biblioteca/validarCorreo.js' %}"></script>
     <script src="{% static 'biblioteca/importarUsuarios.js' %}"></script>
+    <script src="{% static 'biblioteca/showModal.js' %}"></script>
+
 
 </body>
 <script>

@@ -507,23 +507,16 @@ from django.db import IntegrityError
 from .models import Centre
 import csv
 import io
-
 def importar_usuarios(request):
-    # Obtén el usuario actual
     current_user = request.user
-
-    # Verifica si el usuario actual es un superusuario o un administrador
     is_superuser = current_user.is_superuser
     is_admin = current_user.esAdmin  
-
-    # Obtén todos los centros
     centres = Centre.objects.all()
 
     if request.method == 'POST':
         errors = []
         csv_file = request.FILES['csv_file']
 
-        # Verifica si el archivo es un .csv
         if not csv_file.name.endswith('.csv'):
             errors.append('L\'arxiu ha de ser un full de calcul (.csv)')
             return JsonResponse({'errors': errors})
@@ -545,10 +538,10 @@ def importar_usuarios(request):
         phones = set()
 
         for line_number, column in enumerate(csv.reader(io_string, delimiter=','), start=1):
-            if len(column) >= 6:  # Asegúrate de que hay suficientes columnas
-                # Verifica si alguno de los campos requeridos está vacío
-                if not column[0] or not column[1] or not column[2] or not column[3] or not column[4] or not column[5]:
+            if len(column) >= 5:  # Cambiado de 6 a 5
+                if not column[0] or not column[1] or not column[2] or not column[3] or not column[4]:
                     errors.append(f'A la línia {line_number} falten dades.')
+                    continue
 
                 email = column[3]
                 phone = column[4]
@@ -561,15 +554,14 @@ def importar_usuarios(request):
                 phones.add(phone)
 
                 if User.objects.filter(email=email).exists():
-                    errors.append(f'A la línia {line_number}, l\'usuari amb el correu electrònic {email} ja existeix a la base de dades.')
-                    break
+                    errors.append(f'A la línia {line_number}, l\'usuari amb el correu electrònic {email} ja hi és enregistrat.')
+                    continue
 
                 if User.objects.filter(telefon=phone).exists():
-                    errors.append(f'A la línia {line_number}, l\'usuari amb el telèfon {phone} ja existeix a la base de dades.')
-                    break
+                    errors.append(f'A la línia {line_number}, l\'usuari amb el telèfon {phone} ja hi es enregistrat.')
+                    continue
 
                 try:
-                    # Generate a unique username
                     username = f"{column[0]}_{column[1]}_{random.randint(1000, 9999)}"
 
                     _, created = User.objects.update_or_create(
@@ -596,9 +588,8 @@ def importar_usuarios(request):
         if errors:
             return JsonResponse({'errors': errors})
         else:
-            return redirect('importar_usuarios')
+            return JsonResponse({'success': 'Archivo subido con éxito'})
 
-    # Pasa estos datos al contexto del template
     context = {
         'is_superuser': is_superuser,
         'is_admin': is_admin,
@@ -608,5 +599,4 @@ def importar_usuarios(request):
         'centres': centres,
     }
 
-    # Renderiza la plantilla 'importarUsuarios.html' con el contexto
     return render(request, 'importarUsuarios.html', context)

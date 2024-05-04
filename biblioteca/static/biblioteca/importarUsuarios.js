@@ -9,26 +9,23 @@ document.getElementById('upload-button').addEventListener('click', function(even
         body: formData
     })
     .then(response => {
-        console.log(response); // Imprime la respuesta completa del servidor
+        console.log(response);
         return response.json();
     })
     .then(data => {
-        var modal = document.getElementById('ModalInfoError');
-        var modalContent = modal.querySelector('.modal-content');
-        var closeButton = modal.querySelector('.close');
-
-        // Limpiar el contenido del modal antes de agregar nuevos mensajes de error
-        modalContent.innerHTML = '';
-
         if (data.errors) {
-            console.log(data.errors); // Imprime los mensajes de error en la consola
+            var modal = document.getElementById('ModalInfoError');
+            var modalContent = modal.querySelector('.modal-content');
+            var closeButton = modal.querySelector('.close');
+
+            modalContent.innerHTML = '';
+
+            console.log(data.errors);
         
-            // Create close button
             var closeButton = document.createElement('span');
             closeButton.className = 'close';
             closeButton.innerHTML = '&times;';
         
-            // Append close button to modal content
             modalContent.appendChild(closeButton);
         
             data.errors.forEach(error => {
@@ -50,7 +47,8 @@ document.getElementById('upload-button').addEventListener('click', function(even
                 }
             }
         } else {
-            console.log('Archivo subido con éxito');
+            console.log(data.success);
+            window.showModal();
         }
     })
     .catch(error => {

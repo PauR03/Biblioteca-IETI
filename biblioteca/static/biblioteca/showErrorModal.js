@@ -8,16 +8,26 @@ document.getElementById('upload-button').addEventListener('click', function(even
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
+    .then(response => {
+        console.log(response); // Imprime la respuesta completa del servidor
+        return response.json();
+    })
     .then(data => {
         var modal = document.getElementById('ModalInfoError');
-        var modalContent = modal.querySelector('.modal-content p');
+        var modalContent = modal.querySelector('.modal-content');
         var closeButton = modal.querySelector('.close');
 
+        // Limpiar el contenido del modal antes de agregar nuevos mensajes de error
+        modalContent.innerHTML = '';
+
         if (data.errors) {
+            console.log(data.errors); // Imprime los mensajes de error en la consola
+
             data.errors.forEach(error => {
+                var errorParagraph = document.createElement('p');
                 var errorNode = document.createTextNode(error);
-                modalContent.appendChild(errorNode);
+                errorParagraph.appendChild(errorNode);
+                modalContent.appendChild(errorParagraph);
             });
 
             modal.style.display = 'block';

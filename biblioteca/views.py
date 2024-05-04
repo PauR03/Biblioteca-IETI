@@ -508,7 +508,6 @@ from .models import Centre
 import csv
 import io
 
-
 def importar_usuarios(request):
     # Obtén el usuario actual
     current_user = request.user
@@ -526,13 +525,13 @@ def importar_usuarios(request):
 
         # Verifica si el archivo es un .csv
         if not csv_file.name.endswith('.csv'):
-            errors.append('L\'arxiu ha de ser un full de calcul (.csv)\n')
+            errors.append('L\'arxiu ha de ser un full de calcul (.csv)')
             return JsonResponse({'errors': errors})
 
         try:
             data_set = csv_file.read().decode('ISO-8859-1')
         except UnicodeDecodeError:
-            errors.append('El fitxer CSV ha d\'estar codificat com a ISO-8859-1.\n')
+            errors.append('El fitxer CSV ha d\'estar codificat com a ISO-8859-1.')
             return JsonResponse({'errors': errors})
 
         data_set = data_set.replace('\r\n', '\n').replace('\r', '\n')
@@ -549,24 +548,32 @@ def importar_usuarios(request):
             if len(column) >= 6:  # Asegúrate de que hay suficientes columnas
                 # Verifica si alguno de los campos requeridos está vacío
                 if not column[0] or not column[1] or not column[2] or not column[3] or not column[4] or not column[5]:
-                    errors.append(f'A la línia {line_number} falten dades. \n')
+                    errors.append(f'A la línia {line_number} falten dades.')
 
                 email = column[3]
                 phone = column[4]
 
                 if email in emails or phone in phones:
-                    errors.append(f'A la línia {line_number}, les dades estan duplicades al CSV. \n')
+                    errors.append(f'A la línia {line_number}, les dades estan duplicades al CSV.')
                     continue
 
                 emails.add(email)
                 phones.add(phone)
 
-                if User.objects.filter(email=email).exists() or User.objects.filter(telefon=phone).exists():
-                    errors.append(f'A la línia {line_number}, l\'usuari amb el correu electrònic {email} o el telèfon {phone} ja existeix a la base de dades.\n')
+                if User.objects.filter(email=email).exists():
+                    errors.append(f'A la línia {line_number}, l\'usuari amb el correu electrònic {email} ja existeix a la base de dades.')
+                    break
+
+                if User.objects.filter(telefon=phone).exists():
+                    errors.append(f'A la línia {line_number}, l\'usuari amb el telèfon {phone} ja existeix a la base de dades.')
                     break
 
                 try:
+                    # Generate a unique username
+                    username = f"{column[0]}_{column[1]}_{random.randint(1000, 9999)}"
+
                     _, created = User.objects.update_or_create(
+                        username=username,
                         first_name=column[0],
                         last_name=f"{column[1]} {column[2]}",
                         email=email,
@@ -575,11 +582,16 @@ def importar_usuarios(request):
                         centre_id=centre_id
                     )
                 except IntegrityError as e:
-                    errors.append(f'A la línia {line_number}, hi ha dades que ja hi són enregistrades. \n')
+                    field = 'unknown'
+                    if 'email' in str(e):
+                        field = 'email'
+                    elif 'telefon' in str(e):
+                        field = 'telefon'
+                    errors.append(f'A la línia {line_number}, el camp {field} ja hi és enregistrat.')
                 except Exception as e:
                     errors.append(f'Error a la línia {line_number}: {str(e)}')
             else:
-                errors.append(f'La línia {line_number} no té el nombre correcte de columnes.\n')
+                errors.append(f'La línia {line_number} no té el nombre correcte de columnes.')
 
         if errors:
             return JsonResponse({'errors': errors})

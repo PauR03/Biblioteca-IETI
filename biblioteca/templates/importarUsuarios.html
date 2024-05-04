@@ -21,59 +21,50 @@
 </head>
 
 <body>
-
     {% include 'nav.html' %}
     {% include 'sidebar.html' %}
-
-
 
     <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out" style="margin-top: 0px;">
         <div class="h-screen flex items-center justify-center">
             <div class="sm:max-w-2xl w-full h-auto p-10 bg-white rounded-xl z-10 shadow-2xl">
                 <div class="text-center">
                     <h2 class="mt-5 text-3xl font-bold text-gray-900">
-                    Importar usuaris  
+                        Importar usuaris  
                     </h2>
-                    <p class="mt-2 text-sm text-gray-400">Lorem ipsum is placeholder text.</p>
-		        </div>
+                </div>
                 <form id="upload-form" class="mt-8 space-y-3" action="/importar_usuarios/" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-
-                        <div class="grid grid-cols-1 space-y-2">
-                            <label class="text-sm font-bold text-gray-500 tracking-wide">Centre</label>
-                            <select class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" name="centre_id">
-                                {% for centre in centres %}
-                                    <option value="{{ centre.id }}">{{ centre.nom }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="grid grid-cols-1 space-y-2">
-                                        <label class="text-sm font-bold text-gray-500 tracking-wide">Selecciona el document</label>
-                            <div class="flex items-center justify-center w-full">
-                                <label class="flex flex-col rounded-lg border-4 border-dashed w-full h-60 p-10 group text-center">
-                                    <div class="h-full w-full text-center flex flex-col items-center justify-center items-center  ">
-                                        <!---<svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-blue-400 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                                        </svg>-->
-                                        <div class="flex flex-auto max-h-48 w-2/5 mx-auto -mt-10">
+                    <div class="grid grid-cols-1 space-y-2">
+                        <label class="text-sm font-bold text-gray-500 tracking-wide">Centre</label>
+                        <select class="text-base p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500" name="centre_id">
+                            {% for centre in centres %}
+                                <option value="{{ centre.id }}">{{ centre.nom }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-1 space-y-2">
+                        <label class="text-sm font-bold text-gray-500 tracking-wide">Selecciona el document</label>
+                        <div class="flex items-center justify-center w-full">
+                            <label class="flex flex-col rounded-lg border-4 border-dashed w-full h-60 p-10 group text-center">
+                                <div class="h-full w-full text-center flex flex-col items-center justify-center items-center">
+                                    <div class="flex flex-auto max-h-48 w-2/5 mx-auto -mt-10">
                                         <img class="has-mask h-36 object-center" src="https://img.freepik.com/free-vector/image-upload-concept-landing-page_52683-27130.jpg?size=338&ext=jpg" alt="freepik image">
-                                        </div>
-                                        <p class="pointer-none text-gray-500 "> Selecciona <a  class="text-blue-600 hover:underline">un fitxer</a> des del teu ordinador</p>
                                     </div>
-                                    <input type="file" class="hidden" name="csv_file">
-
-                                </label>
-                            </div>
-                        </div>
-                                <p class="text-sm text-gray-700">
-                                    <span>Tipus d'arxius: csv</span>
-                                </p>
-                                <div class="flex justify-center">
-                                    <button id="upload-button" type="submit" class="my-5 w-1/2 flex justify-center bg-blue-500 text-gray-100 p-4  rounded-full tracking-wide
-                                                                        font-semibold  focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-lg cursor-pointer transition ease-in duration-300">
-                                        Pujar arxiu
-                                    </button>
+                                    <p class="pointer-none text-gray-500 "> Selecciona <a  class="text-blue-600 hover:underline">un fitxer</a> des del teu ordinador</p>
                                 </div>
+                                <p id="file-name" class="text-sm text-gray-700"></p>
+                                <input type="file" class="hidden" name="csv_file">
+                            </label>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-700">
+                        <span>Tipus d'arxius: csv</span>
+                    </p>
+                    <div class="flex justify-center">
+                        <button id="upload-button" type="submit" class="my-5 w-1/2 flex justify-center bg-blue-500 text-gray-100 p-4  rounded-full tracking-wide font-semibold  focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-lg cursor-pointer transition ease-in duration-300">
+                            Pujar arxiu
+                        </button>
+                    </div>
                 </form>
                 <div id="ModalInfoError" class="ModalError">
                     <div class="modal-content">
@@ -81,24 +72,22 @@
                         <p></p>
                     </div>
                 </div>
-
                 <div id="myModal" class="modal">
                     <div class="modal-content1">
                         <span class="close">&times;</span>
                         <p>Fitxer importat correctament</p>
                     </div>
                 </div>
-	        </div>
+            </div>
         </div>
     </div>
 
-<style>
-	.has-mask {
-		position: absolute;
-		clip: rect(10px, 150px, 130px, 10px);
-	}
-</style>
-
+    <style>
+        .has-mask {
+            position: absolute;
+            clip: rect(10px, 150px, 130px, 10px);
+        }
+    </style>
 
     <script src="{% static 'biblioteca/logout.js' %}"></script>
     <script src="{% static 'biblioteca/actualizarImagen.js' %}"></script>
@@ -108,8 +97,11 @@
     <script src="{% static 'biblioteca/validarCorreo.js' %}"></script>
     <script src="{% static 'biblioteca/importarUsuarios.js' %}"></script>
     <script src="{% static 'biblioteca/showModal.js' %}"></script>
-
-
+    <script>
+        document.querySelector('input[type="file"]').addEventListener('change', function(e) {
+            document.getElementById('file-name').textContent = e.target.files[0].name;
+        });
+    </script>
 </body>
 <script>
     localStorage.setItem('token generado', '{{ token }}');

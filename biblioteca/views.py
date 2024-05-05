@@ -515,6 +515,7 @@ def importar_usuarios(request):
 
     if request.method == 'POST':
         errors = []
+        successes = []  # Agregamos una lista para los mensajes de éxito
         csv_file = request.FILES['csv_file']
 
         if not csv_file.name.endswith('.csv'):
@@ -573,6 +574,11 @@ def importar_usuarios(request):
                         cicle=column[5],
                         centre_id=centre_id
                     )
+
+                    print(created)  # Imprime el valor de created
+
+                    if created:  # Si se creó un nuevo usuario
+                        successes.append(f'A la línia {line_number}, l\'usuari {username} s\'ha inserit correctament.')
                 except IntegrityError as e:
                     field = 'unknown'
                     if 'email' in str(e):
@@ -588,7 +594,7 @@ def importar_usuarios(request):
         if errors:
             return JsonResponse({'errors': errors})
         else:
-            return JsonResponse({'success': 'Archivo subido con éxito'})
+            return JsonResponse({'success': 'Archivo subido con éxito', 'successes': successes})  # Devolvemos los mensajes de éxito
 
     context = {
         'is_superuser': is_superuser,

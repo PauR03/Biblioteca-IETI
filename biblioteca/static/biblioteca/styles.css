@@ -190,6 +190,10 @@ table.prestecs tbody .retornat span.limitDate {
     background-color: lightcoral;
 }
 
+table.prestecs tbody .retornat span.retornat {
+    background-color: lightgreen;
+}
+
 table.prestecs tbody button {
     background-color: #51d437;
     color: white;

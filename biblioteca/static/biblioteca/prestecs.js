@@ -32,7 +32,6 @@ function main() {
                 $("<span>", {
                     text: esRetornat ? "esRetornat" : "noRetornat",
                     class: `spanRetornar ${esRetornat ? "retornat" : limitDate ? "limitDate" : "noRetornat"}`
-
                 })
             )
 

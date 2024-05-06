@@ -116,7 +116,7 @@ nav {
     animation-name: slideDown;
     animation-duration: 1s;
     margin-left: 80px;
-    margin-top: 59px;
+    margin-top: 69px;
     border-radius: 40px;
   }
 
@@ -130,12 +130,12 @@ nav {
     text-decoration: none;
     cursor: pointer;
 }
-.close {
+.modal .close {
     color: #241c1c;
     float: right;
     font-size: 28px;
     font-weight: bold;
-   
+    margin-top: -10px;   
 }
 
 

@@ -532,6 +532,7 @@ def generate_password():
 
 
 
+
 def crear_usuario(request):
     # Obtén el usuario actual
     current_user = request.user
@@ -581,13 +582,16 @@ def crear_usuario(request):
                 user.set_password(password)
                 user.save()
 
-                send_mail(
-                    'Benvingut a la biblioteca Mari Carmen Brito',
-                    f'Hola {first_name},\n\nLa teva contrasenya és: {password}\n\nSi desitges canviar-la, pots fer-ho en el següent enllaç: https://biblio6.ieti.site/password_reset/\n\n Salutacions.\n',
-                    settings.EMAIL_HOST_USER,  # Use the email configured in settings
-                    [email],
-                    fail_silently=False,
-                )
+                try:
+                    send_mail(
+                        'Benvingut a la biblioteca Mari Carmen Brito',
+                        f'Hola {first_name},\n\nLa teva contrasenya és: {password}\n\nSi desitges canviar-la, pots fer-ho en el següent enllaç: https://biblio6.ieti.site/password_reset/\n\n Salutacions.\n',
+                        settings.EMAIL_HOST_USER,  # Use the email configured in settings
+                        [email],
+                        fail_silently=False,
+                    )
+                except Exception as e:
+                    print(f'Error sending email: {e}')
                 print(f'Usuario {username} creado con éxito')  # Imprime un mensaje en la consola cuando se crea un usuario
 
             except Exception as e:
@@ -595,9 +599,8 @@ def crear_usuario(request):
 
         messages.success(request, 'Usuario creado con éxito')
         return JsonResponse({'redirect': reverse('crear_usuario')})  # Reemplaza 'crear_usuario' con la URL a la que quieres redirigir
-
+        print(redirect_url)
     return render(request, 'crearUsuario.html', context)
-
 
 
 def importar_usuarios(request):

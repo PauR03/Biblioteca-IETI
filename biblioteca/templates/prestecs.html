@@ -5,13 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> El teu perfil- Biblioteca IETI</title>
+    <title>Panell d'administració - Biblioteca IETI</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="{% static 'biblioteca/styles.css' %}" rel="stylesheet">
     <link rel="icon" href="{% static 'biblioteca/image/maricarmenbrito-logo.png' %}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTYLX1PX0T"></script>
@@ -23,53 +24,40 @@
         gtag('config', 'G-CTYLX1PX0T');
     </script>
 
+
 </head>
+
 
 <body>
 
     {% include 'nav.html' %}
     {% include 'sidebar.html' %}
 
-    <!-- Contenidor gris al costat de la barra lateral -->
+
+    <!-- Contenedor gris al lado de la barra lateral -->
     <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out"
         style="margin-top: 0px;">
-        <div class="mx-auto px-6 py-8 w-full">
-            <div class="flex items-center justify-center">
-                <div class="w-1/2 mx-auto mt-0 pt-10 mt-10">
+        <br><br>
 
-                    <div class="bg-white shadow-2xl border border-gray-300 rounded-lg overflow-hidden">
-                        <div class="bg-gray-200 text-gray-700 text-lg px-6 py-4">Perfil d'usuari</div>
+        <p class="text-xl text-gray-600 font-semibold mt-10 ml-20">
+            Préstecs
+        </p>
+        <div class="flex flex-wrap mb-2 mt-6 usuarisContainer" style="margin-left: 65px">
 
-                        <div class="flex justify-between items-center px-6 py-4">
-                            <div class="flex space-x-3">
-                                <img src="{% if user.imatgePerfil %}{{ user.imatgePerfil.url }}{% else %}{% static 'biblioteca/imatgePerfil/default.jpg' %}{% endif %}"
-                                    alt="Perfil" class="h-16 w-16 rounded-full">
-
-                                <div class="text-gray-700 text-lg mt-5">{{ firstname }} {{ lastname }}</div>
-                            </div>
-                        </div>
-
-                        <div class="px-6 py-4 mt-4 border-t">
-                            <div class="flex justify-between items-center">
-                                <div class="text-gray-700 text-bold">Més dades de l'usuari</div>
-                                <a href="{% url 'editar_perfil' %}" class="text-blue-500 hover:text-blue-700 underline"
-                                    onclick="saveLog('info', 'Ha dado clic al boton de editar perfil', '/Perfil', localStorage.getItem('username'))">Editar
-                                    perfil</a>
-                            </div>
-                            <br>
-                            <div class="mt-2">
-                                <div class="text-sm text-gray-600 font-semibold">Correu electrònic: <br><span
-                                        class="font-normal">{{ email|default:"No Definit" }}</span></div>
-                                <div class="text-sm text-gray-600 font-semibold">Data de naixement:<br> <span
-                                        class="font-normal">{{ dataNaixement|default:"No Definit" }}</span></div>
-                                <div class="text-sm text-gray-600 font-semibold">Cicle: <br><span class="font-normal">{{
-                                        cicle|default:"No Definit" }}</span></div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+            <table class="mainTable prestecs">
+                <thead>
+                    <tr>
+                        <th>Llibre</th>
+                        <th>Correu Electronic Usuari</th>
+                        <th>Data Préstec</th>
+                        <th>Data Devolucio</th>
+                        <th>Retornat</th>
+                        <th>Botons</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -77,6 +65,10 @@
     <script src="{% static 'biblioteca/logout.js' %}"></script>
     <script src="{% static 'biblioteca/actualizarImagen.js' %}"></script>
     <script src="{% static 'biblioteca/logs.js' %}"></script>
+    <script src="{% static 'biblioteca/popup.js' %}"></script>
+    <script src="{% static 'biblioteca/prestecs.js' %}"></script>
+
+
 </body>
 <script>
     localStorage.setItem('token generado', '{{ token }}');
@@ -125,8 +117,7 @@
 
     }
 
-
-
+    $(document).ready(checkPopup)
 
 </script>
 

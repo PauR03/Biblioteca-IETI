@@ -12,6 +12,16 @@
     <link rel="icon" href="{% static 'biblioteca/image/ietilogo.png' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTYLX1PX0T"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-CTYLX1PX0T');
+    </script>
+
 </head>
 
 <body>
@@ -27,7 +37,7 @@
         <p class="text-xl text-gray-600 font-semibold mt-10 ml-20">Usuaris</p>
         <div class="flex flex-wrap mb-2 mt-6 usuarisContainer" style="margin-left: 65px">
             <!-- Users table here -->
-            <table class="usuaris">
+            <table class="mainTable usuaris">
                 <thead>
                     <tr>
                         <th>Imatge</th>

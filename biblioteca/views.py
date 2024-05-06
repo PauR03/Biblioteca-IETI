@@ -31,7 +31,6 @@ import csv
 import io
 from django.urls import reverse
 
-
 # VIEW PARA LOGIN DE USUARIOS
 @never_cache
 def login_view(request):
@@ -66,7 +65,6 @@ def login_view(request):
     else:
         return render(request, 'index.html')
 
-
 # VIEW PARA REDIRIGIR AL USUARIO AL DASHBOARD CON EL TOKEN CSRF
 @login_required
 def dashboard_view(request):
@@ -89,13 +87,10 @@ def dashboard_view(request):
         
     return render(request, 'dashboard.html', {'username': username, 'token': token, 'is_superuser': is_superuser, 'is_admin': is_admin, 'firstname': firstname, 'lastname': lastname})
 
-
-
 # VIEW PARA HACER LOGOUT
 def logout_view(request):
     logout(request)
     return JsonResponse({'status': 'ok'})
-
 
 # VIEW PARA EL PERFIL DEL USUARIO
 @login_required
@@ -292,7 +287,6 @@ def product_detail(request):
     }
     return render(request, 'producto.html', context)
 
-
 # APi PARA OBTENER LOS USUARIOS
 @login_required
 def getUsers(request):
@@ -388,8 +382,48 @@ def update_profile_user(request, id):
     else:
         return render(request, 'dashboard.html')
 
+@login_required
+def prestecs(request):
+    user = request.user
+    if not user.is_superuser and not user.esAdmin:
+        return redirect('dashboard')
+    firstname = user.first_name 
+    lastname = user.last_name
+    is_admin = user.esAdmin
+    is_superuser = user.is_superuser
 
+    context = {
+        'firstname': firstname,
+        'lastname': lastname, 
+        'is_admin': is_admin,
+        'is_superuser': is_superuser,
+    }
+    return render(request, 'prestecs.html', context)
 
+# API PARA OBTENER LOS PRESTAMOS
+@login_required
+def getPrestecs(request):
+    user = request.user
+    centre = user.centre if user.centre else 1
+
+    prestecs = Prestec.objects.filter(centre=centre)
+    prestecs = prestecs.values('id', 'dataPrestec', 'dataDevolucio', 'producte__titol', 'usuari__email', 'esRetornat').order_by('dataPrestec')
+
+    return JsonResponse({
+        'prestecs': list(prestecs)
+    })
+
+# API PARA ACTUALIZAR LOS PRESTAMOS
+@api_view(['POST'])
+def updatePrestec(request):
+    try:
+        prestecId = request.data['prestecId']
+        prestec = Prestec.objects.get(pk=prestecId)
+        prestec.esRetornat = True
+        prestec.save()
+        return Response({'status': 'ok'}, status=200)
+    except:
+        return Response({'status': 'error'}, status=400)
 
 def generate_password():
     # Define the character sets

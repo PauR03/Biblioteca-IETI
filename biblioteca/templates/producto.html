@@ -12,6 +12,16 @@
     <link rel="icon" href="{% static 'biblioteca/image/maricarmenbrito-logo.png' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTYLX1PX0T"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-CTYLX1PX0T');
+    </script>
+
 </head>
 
 <body>
@@ -24,7 +34,7 @@
                 <img src="/static/biblioteca/image/maricarmenbrito-logo.png" alt="Descripción de la imagen"
                     style="margin-right: -30px; width: 35px; margin-left: 15px;">
                 <!-- Título -->
-                <span class="text-cyan-500 text-lg ml-10" >Biblioteca Mari Carmen Brito</span>
+                <span class="text-cyan-500 text-lg ml-10">Biblioteca Mari Carmen Brito</span>
             </div>
             <!-- Enlace -->
             <a href="{% url 'login' %}" class="text-blue-600 text-lg mr-10 " style="margin: auto 0;">Torna al inici</a>

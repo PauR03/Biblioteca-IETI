@@ -27,9 +27,9 @@ from biblioteca.models import User  # Importa tu modelo de usuario personalizado
 from django.core.mail import send_mail
 from django.db import IntegrityError
 import random
-
-
-
+import csv
+import io
+from django.urls import reverse
 
 
 # VIEW PARA LOGIN DE USUARIOS
@@ -418,9 +418,6 @@ def generate_password():
 
     return password
 
-from django.http import JsonResponse
-from django.urls import reverse
-from django.shortcuts import redirect
 
 
 def crear_usuario(request):
@@ -490,23 +487,7 @@ def crear_usuario(request):
     return render(request, 'crearUsuario.html', context)
 
 
-import csv
-import io
-from django.http import JsonResponse
-from django.db import IntegrityError
-from .models import User
-from .models import User, Centre
-import csv
-import io
-from django.http import JsonResponse
-from django.db import IntegrityError
-from django.shortcuts import redirect
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from django.db import IntegrityError
-from .models import Centre
-import csv
-import io
+
 def importar_usuarios(request):
     current_user = request.user
     is_superuser = current_user.is_superuser

@@ -22,6 +22,7 @@ from django.db.models import Q, F
 from django.views import View
 from datetime import datetime
 
+
 # VIEW PARA LOGIN DE USUARIOS
 @never_cache
 def login_view(request):
@@ -274,8 +275,11 @@ def product_detail(request):
     context = {
         'productes': productes,
         'search_type': search_type,
+        'search_term': query,  # Agregamos el término de búsqueda al contexto
     }
     return render(request, 'producto.html', context)
+
+
 
 # APi PARA OBTENER LOS USUARIOS
 @login_required
@@ -371,46 +375,3 @@ def update_profile_user(request, id):
             return redirect(previous_url)
     else:
         return render(request, 'dashboard.html')
-
-@login_required
-def prestecs(request):
-    user = request.user
-    if not user.is_superuser and not user.esAdmin:
-        return redirect('dashboard')
-    firstname = user.first_name 
-    lastname = user.last_name
-    is_admin = user.esAdmin
-    is_superuser = user.is_superuser
-
-    context = {
-        'firstname': firstname,
-        'lastname': lastname, 
-        'is_admin': is_admin,
-        'is_superuser': is_superuser,
-    }
-    return render(request, 'prestecs.html', context)
-
-# API PARA OBTENER LOS PRESTAMOS
-@login_required
-def getPrestecs(request):
-    user = request.user
-    centre = user.centre if user.centre else 1
-
-    prestecs = Prestec.objects.filter(centre=centre)
-    prestecs = prestecs.values('id', 'dataPrestec', 'dataDevolucio', 'producte__titol', 'usuari__email', 'esRetornat').order_by('dataPrestec')
-
-    return JsonResponse({
-        'prestecs': list(prestecs)
-    })
-
-# API PARA ACTUALIZAR LOS PRESTAMOS
-@api_view(['POST'])
-def updatePrestec(request):
-    try:
-        prestecId = request.data['prestecId']
-        prestec = Prestec.objects.get(pk=prestecId)
-        prestec.esRetornat = True
-        prestec.save()
-        return Response({'status': 'ok'}, status=200)
-    except:
-        return Response({'status': 'error'}, status=400)

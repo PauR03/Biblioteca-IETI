@@ -87,6 +87,114 @@ nav {
 }
 
 
+
+/*** MODAL ***/
+
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0); 
+}
+
+.modal-content1 {
+    background-color: #00fd00d0;
+    margin: 0;
+      margin-top: 0px;
+      margin-left: 0px;
+    margin-top: 0px;
+    margin-left: 0px;
+    padding: 20px;
+    border: 1px solid #ffcfcf;
+    width: 250px;
+    height: auto;
+    animation-name: slideDown;
+    animation-duration: 1s;
+    margin-left: 80px;
+    margin-top: 69px;
+    border-radius: 40px;
+  }
+
+@keyframes slideDown {
+    0% { top: -300px; }
+    100% { top: 0; }
+}
+
+.close:hover, .close:focus {
+    color: #595252ad;
+    text-decoration: none;
+    cursor: pointer;
+}
+.modal .close {
+    color: #241c1c;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: -10px;   
+}
+
+
+/***** MODAL ERRORS *****/
+
+.ModalError {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #ff9587;
+    margin: 0;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-left: 0px;
+    padding: 20px;
+    border: 1px solid #bbbbbb;
+    width: 599px;
+    height: auto;
+    animation-name: slideDown;
+    animation-duration: 1s;
+    margin-left: 689px;
+    margin-top: 79px;
+    border-radius: 20px;
+}
+
+@keyframes slideDown {
+    0% { transform: translateY(-300px); }
+    100% { top: 0; }
+}
+
+.close:hover, .close:focus {
+    color: #595252ad;
+    text-decoration: none;
+    cursor: pointer;
+}
+.close {
+    color: #241c1c;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: -20px;
+    MARGIN-LEFT: -2PX;
+}
+.modal-content p {
+    display: block !important; /* Asegura que cada párrafo se muestre en una nueva línea */
+    margin-bottom: 10px; /* Agrega un poco de espacio entre los párrafos */
+}
+
+
 /***** USUARIS *****/
 .background {
     padding-bottom: 60px;

@@ -397,7 +397,7 @@ def getPrestecs(request):
     centre = user.centre if user.centre else 1
 
     prestecs = Prestec.objects.filter(centre=centre)
-    prestecs = prestecs.values('id', 'dataPrestec', 'dataDevolucio', 'producte__titol', 'usuari__email', 'esRetornat').order_by('dataPrestec')
+    prestecs = prestecs.values('id', 'dataPrestec', 'dataDevolucio', 'producte__titol', 'usuari__email', 'esRetornat').order_by('-dataPrestec')
 
     return JsonResponse({
         'prestecs': list(prestecs)
@@ -450,3 +450,45 @@ def autocompleteUsuaris(request):
     usersEmail = [user['email'] for user in users]
     
     return JsonResponse(usersEmail, safe=False)
+
+# API PARA CREAR UN PRESTAMO
+@api_view(['POST'])
+def createPrestec(request):
+    try:
+        dataPrestec = request.data['dataPrestec']
+        dataDevolucio = request.data['dataDevolucio']
+        producte = request.data['producte']
+        userEmail = request.data['userEmail']
+        centreId = request.data['centreId']
+        adminEmail = request.data['adminEmail']
+        
+        try:
+            producte = Producte.objects.get(titol=producte)
+        except:
+            return Response({'status': 'error', 'message': 'Producte no trovat'}, status=404)
+    
+        try:
+            usuari = User.objects.get(email=userEmail)
+        except:
+            return Response({'status': 'error', 'message': 'Usuari no trovat'}, status=404)
+
+        if(dataDevolucio <= dataPrestec):
+            return Response({'status': 'error', 'message': 'La data de devolució ha de ser posterior a la data de préstec'}, status=409)
+        centre = Centre.objects.get(pk=centreId)
+        adminEmail = User.objects.get(email=adminEmail)
+
+        prestec = Prestec(
+            dataPrestec=dataPrestec, 
+            dataDevolucio=dataDevolucio, 
+            producte=producte, 
+            usuari=usuari, 
+            centre=centre, 
+            usuariAdmin=adminEmail)
+        prestec.save()
+
+        prestecId = prestec.id
+
+        return Response({'status': 'ok','data':{'prestecId':prestecId}}, status=200)
+    except Exception as e:
+        print(e)
+        return Response({'status': 'error'}, status=400)

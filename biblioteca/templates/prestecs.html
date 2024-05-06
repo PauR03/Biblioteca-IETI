@@ -69,7 +69,7 @@
     </div>
 
     <!-- User hidden in the class for hide the element -->
-    <div class="createNewPrestecContainer">
+    <div class="createNewPrestecContainer hidden">
         <article>
             <header>
                 <h2>Crear un nou préstec</h2>
@@ -81,13 +81,18 @@
                         <input type="text" class="w-full bg-white pl-2 text-base font-semibold outline-0"
                             style="height: 40px; width: 450px;" placeholder="Cerca per titol" id="searchInputProducts"
                             required />
+                        <span class="error inputProductsError"></span>
+
                     </div>
+
                     <div class="inputUsers">
                         <label for="searchInputUsers">Usuari</label>
                         <input type="email" class="w-full bg-white pl-2 text-base font-semibold outline-0"
                             style="height: 40px; width: 450px;" placeholder="Cerca per correu electronic de l'usuari"
                             id="searchInputUsers" required />
+                        <span class="error inputUsersError"></span>
                     </div>
+
                     <div class="inputsDates">
                         <div class="inputDate">
                             <label for="datePrestec">Data Préstec</label>
@@ -100,8 +105,7 @@
                                 style="height: 40px;" id="dateDevolucio" required />
                         </div>
                     </div>
-
-
+                    <span class="error inputsDatesError"></span>
                 </main>
                 <footer>
                     <button class="closePopup">
@@ -131,6 +135,7 @@
 
     // Variable for pass the centre id to the js file
     const centreId = "{{ user.centre.id }}"
+    const adminEmail = "{{ user.email }}"
 
 
     function expandSidebar() {

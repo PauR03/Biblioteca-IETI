@@ -252,6 +252,8 @@ table.prestecs tbody button:active {
     width: fit-content;
     background-color: white;
     height: fit-content;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .createNewPrestecContainer article header {
@@ -304,13 +306,32 @@ table.prestecs tbody button:active {
     width: 90%;
 }
 
+.createNewPrestecContainer article main .error {
+    color: red;
+    font-size: 17px;
+    font-family: Arial;
+    width: 100%;
+    text-align: center;
+    margin-top: 5px;
+    display: none;
+}
+
+.createNewPrestecContainer article main .error.show {
+    display: block;
+}
+
 .createNewPrestecContainer article footer button {
     background-color: #51d437;
     color: white;
     padding: 5px 10px;
     margin-right: 20px;
+    border-radius: 5px;
 }
 
 .createNewPrestecContainer article footer button.closePopup {
     background-color: #ed5555;
+}
+
+.createNewPrestecContainer article footer button:active {
+    transform: scale(.98);
 }

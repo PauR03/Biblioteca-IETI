@@ -1,10 +1,4 @@
 $(document).ready(main)
-const formPrestecData = {
-    producteId: null,
-    usuariId: null,
-    dataPrestec: null,
-    dataDevolucio: null
-}
 
 function main() {
     $.ajax({
@@ -54,6 +48,8 @@ function main() {
 
     // Add the value of the actual date
     $("#datePrestec").val((new Date().toISOString().split("T")[0]))
+    $("#datePrestec").attr("max", (new Date().toISOString().split("T")[0]))
+
 
     $("#dateDevolucio").attr("min", (new Date().toISOString().split("T")[0]))
 }
@@ -72,7 +68,7 @@ const updatePrestec = async ({ prestecId, parentTr }) => {
 
 const updatePrestecStatusClient = ({ parentTr }) => {
     $(parentTr).find(".spanRetornar")
-        .text("esRetornat")
+        .text("Retornat")
         .addClass("retornat")
         .removeClass("noRetornat")
 
@@ -101,7 +97,7 @@ const appendPrestecs = (response) => {
         // Add the span element to the last row
         $(".retornat").last().append(
             $("<span>", {
-                text: esRetornat ? "esRetornat" : "noRetornat",
+                text: esRetornat ? "Retornat" : "No Retornat",
                 class: `spanRetornar ${esRetornat ? "retornat" : limitDate ? "limitDate" : "noRetornat"}`
 
             })
@@ -129,12 +125,119 @@ const createNewPrestec = () => {
 
 const closePopup = (e) => {
     e.preventDefault()
-    $(".createNewPrestecContainer").addClass("hidden")
+    clearFrom()
 }
 
 const createPrestec = async (e) => {
     e.preventDefault()
-    console.log("createPrestec")
+
+    const formPrestecData = {
+        producte: $("#searchInputProducts").val(),
+        userEmail: $("#searchInputUsers").val(),
+        dataPrestec: $("#datePrestec").val(),
+        dataDevolucio: $("#dateDevolucio").val(),
+        centreId,
+        adminEmail
+    }
+
+    if (!formPrestecData.producte || !formPrestecData.userEmail || !formPrestecData.dataPrestec || !formPrestecData.dataDevolucio) {
+        alert("Falten camps per omplir")
+        return
+    }
+
+    $(".error").each((index, element) => {
+        $(element).text("")
+        $(element).removeClass("show")
+    })
+
+    $.ajax({
+        url: '/api/createPrestec/',
+        type: 'POST',
+        data: formPrestecData,
+        success: (response) => successPrestec(response, formPrestecData),
+        error: errorPrestec
+    })
+}
+
+const clearFrom = () => {
+    $("#searchInputProducts").val("")
+    $("#searchInputUsers").val("")
+    $("#datePrestec").val((new Date().toISOString().split("T")[0]))
+    $("#dateDevolucio").val("")
+    $(".createNewPrestecContainer").addClass("hidden")
+}
+
+const successPrestec = (response, formPrestecData) => {
+    console.log(formPrestecData)
+    const { status } = response
+    const { prestecId } = response.data
+
+    if (status === "ok") {
+        addFirstRow(formPrestecData, prestecId)
+        clearFrom()
+        alert("Prestec creat correctament")
+    }
+    if (status === "error") {
+        alert("Error al crear el prestec")
+    }
+}
+
+const errorPrestec = (e) => {
+    const { responseText, status } = e
+    const { message } = JSON.parse(responseText)
+
+    if (status === 404) {
+        if (message === "Usuari no trovat") {
+            $(".inputUsersError").text(message)
+            $(".inputUsersError").addClass("show")
+        }
+        if (message === "Producte no trovat") {
+            $(".inputProductsError").text(message)
+            $(".inputProductsError").addClass("show")
+        }
+        return
+    } else if (status === 409) {
+        $(".inputsDatesError").text(message)
+        $(".inputsDatesError").addClass("show")
+        return
+    }
+
+    console.error("Error", e)
+    alert("Error al crear el prestec")
+}
+
+const addFirstRow = (formPrestecData, id) => {
+
+    $('table.prestecs tbody').prepend(
+        `<tr id=${id}>
+            <td>${formPrestecData.producte}</td>
+            <td>${formPrestecData.userEmail}</td>
+            <td>${formatDate(formPrestecData.dataPrestec)}</td>
+            <td>${formatDate(formPrestecData.dataDevolucio)}</td>
+            <td class="retornat"></td>
+            <td class="producteRetornat">
+                <button>Producte Retornat</button>
+            </td>
+        </tr>`
+    )
+
+    // Add the span element to the last row
+    $(".retornat").first().append(
+        $("<span>", {
+            text: "No Retornat",
+            class: `spanRetornar noRetornat`
+
+        })
+    )
+
+    // Add event listener to the button
+    $(".producteRetornat button").first().click((e) => {
+        const confirmation = confirm("Estas segur que vols retornar el producte?")
+        if (!confirmation) return
+        const parentTr = $(e.target).closest("tr")
+        const prestecId = parentTr.attr("id")
+        updatePrestec({ prestecId, parentTr })
+    })
 }
 
 function formatDate(dateString) {

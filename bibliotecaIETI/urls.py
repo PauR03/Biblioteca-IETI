@@ -45,6 +45,8 @@ urlpatterns = [
     path('api/updatePrestec/', updatePrestec, name='updatePrestec'),
     path('api/autocompletePrestecs/', autocompletePrestecs, name='autocompletePrestecs'),
     path('api/autocompleteUsuaris/', autocompleteUsuaris, name='autocompleteUsuaris'),
+    path('api/createPrestec/', createPrestec, name='createPrestec'),
+
     
     path('', login_view, name='login'),
     path('logout/', logout_view, name='logout'),

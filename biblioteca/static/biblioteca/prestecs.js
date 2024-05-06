@@ -5,63 +5,57 @@ const formPrestecData = {
     dataPrestec: null,
     dataDevolucio: null
 }
-function main() {
 
+function main() {
     $.ajax({
         url: '/api/getPrestecs',
         type: 'GET',
-        success: appendUsers,
+        success: appendPrestecs,
     })
 
     $(".createNewPrestec").click(createNewPrestec)
     $(".closePopup").click(closePopup)
     $(".createPrestec").click(createPrestec)
 
-    // Autocompletado y búsqueda
-    const input = $("#search-input");
-    let awesomplete = new Awesomplete(input[0]);
-    let searchResults = []
-
-    // Add the span element to the last row
-    $(".retornat").last().append(
-        $("<span>", {
-            text: esRetornat ? "esRetornat" : "noRetornat",
-            class: `spanRetornar ${esRetornat ? "retornat" : limitDate ? "limitDate" : "noRetornat"}`
-        })
-    )
-
-    // Add event listener to the button
-    $(".producteRetornat button").last().click((e) => {
-        if (!esRetornat) {
-            const confirmation = confirm("Estas segur que vols retornar el producte?")
-            if (!confirmation) return
-            const parentTr = $(e.target).closest("tr")
-            const prestecId = parentTr.attr("id")
-            updatePrestec({ prestecId, parentTr })
-        }
-    })
-    input.on("keyup", function () {
-        const query = this.value
+    // Autocompletado y búsqueda de productos
+    const awesompleteProductes = new Awesomplete($("#searchInputProducts")[0])
+    $("#searchInputProducts").on("keyup", function () {
+        const query = $(this).val()
         if (query.length < 3) {
-            awesomplete.list = []
+            awesompleteProductes.list = []
             return
         }
 
         $.ajax({
             url: "/api/autocompletePrestecs/",
             type: 'POST',
-            data: {
-                'q': query
-            },
+            data: { query },
             dataType: 'json',
-            success: function (data) {
-                awesomplete.list = data
-                searchResults = data.slice(Math.floor(data.length / 2))
-                console.log(searchResults)
-            }
+            success: (data) => awesompleteProductes.list = data
         })
     })
 
+    const awesompleteUsuaris = new Awesomplete($("#searchInputUsers")[0])
+    $("#searchInputUsers").on("keyup", function () {
+        const query = $(this).val()
+        if (query.length < 3) {
+            awesompleteUsuaris.list = []
+            return
+        }
+
+        $.ajax({
+            url: "/api/autocompleteUsuaris/",
+            type: 'POST',
+            data: { query, centreId },
+            dataType: 'json',
+            success: (data) => awesompleteUsuaris.list = data
+        })
+    })
+
+    // Add the value of the actual date
+    $("#datePrestec").val((new Date().toISOString().split("T")[0]))
+
+    $("#dateDevolucio").attr("min", (new Date().toISOString().split("T")[0]))
 }
 
 const updatePrestec = async ({ prestecId, parentTr }) => {
@@ -85,7 +79,7 @@ const updatePrestecStatusClient = ({ parentTr }) => {
     $(parentTr).find(".producteRetornat button").off("click")
 }
 
-const appendUsers = (response) => {
+const appendPrestecs = (response) => {
     const { prestecs } = response
     $(prestecs).each((index, prestec) => {
         const { id, dataPrestec, dataDevolucio, producte__titol, usuari__email, esRetornat } = prestec

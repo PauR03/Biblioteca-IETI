@@ -76,9 +76,32 @@
             </header>
             <form>
                 <main>
-                    <input type="text" class="w-full bg-white pl-2 text-base font-semibold outline-0"
-                        style="height: 40px; width: 450px;" placeholder="Cerca per titol o autor del llibre"
-                        id="search-input" data-autocomplete-url="{% url 'autocomplete' %}" />
+                    <div class="inputProducts">
+                        <label for="searchInputProducts">Llibre</label>
+                        <input type="text" class="w-full bg-white pl-2 text-base font-semibold outline-0"
+                            style="height: 40px; width: 450px;" placeholder="Cerca per titol" id="searchInputProducts"
+                            required />
+                    </div>
+                    <div class="inputUsers">
+                        <label for="searchInputUsers">Usuari</label>
+                        <input type="email" class="w-full bg-white pl-2 text-base font-semibold outline-0"
+                            style="height: 40px; width: 450px;" placeholder="Cerca per correu electronic de l'usuari"
+                            id="searchInputUsers" required />
+                    </div>
+                    <div class="inputsDates">
+                        <div class="inputDate">
+                            <label for="datePrestec">Data Préstec</label>
+                            <input type="date" class="bg-white pl-2 text-base font-semibold outline-0"
+                                style="height: 40px;" id="datePrestec" required />
+                        </div>
+                        <div class="inputDate">
+                            <label for="dateDevolucio">Data Devolucio</label>
+                            <input type="date" class="bg-white pl-2 text-base font-semibold outline-0"
+                                style="height: 40px;" id="dateDevolucio" required />
+                        </div>
+                    </div>
+
+
                 </main>
                 <footer>
                     <button class="closePopup">
@@ -105,6 +128,9 @@
 <script>
     localStorage.setItem('token generado', '{{ token }}');
     localStorage.setItem('username', '{{ username }}');
+
+    // Variable for pass the centre id to the js file
+    const centreId = "{{ user.centre.id }}"
 
 
     function expandSidebar() {

@@ -654,6 +654,7 @@ class Command(BaseCommand):
                     centre=Centre.objects.get(pk=1),
                     usuari=newUser,
                     usuariAdmin=User.objects.get(username="Bibliotecari IETI"),
+                    dataDevolucio = fake.date_time_between(start_date='now', end_date='+30d')
                 )
                 print(f"Prestec creat per al usuari {newUser.username} del producte {randomProducte.titol}")
         self.stdout.write('Fake data created successfully!')

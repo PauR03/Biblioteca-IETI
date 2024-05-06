@@ -182,7 +182,6 @@ table.prestecs tbody .retornat span {
 }
 
 table.prestecs tbody .retornat span.noRetornat {
-    /* background-color: lightcoral; */
     background-color: orange;
 }
 
@@ -250,7 +249,7 @@ table.prestecs tbody button:active {
 }
 
 .createNewPrestecContainer article {
-    width: 50%;
+    width: fit-content;
     background-color: white;
     height: fit-content;
 }
@@ -271,6 +270,38 @@ table.prestecs tbody button:active {
 
 .createNewPrestecContainer article main {
     height: 500px;
+}
+
+.createNewPrestecContainer article main>div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.createNewPrestecContainer article main>div label {
+    margin-bottom: 10px;
+}
+
+.createNewPrestecContainer article main>div input {
+    background-color: rgba(209, 213, 219);
+}
+
+.createNewPrestecContainer article main .inputsDates {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.createNewPrestecContainer article main .inputsDates>div {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.createNewPrestecContainer article main .inputsDates input {
+    width: 90%;
 }
 
 .createNewPrestecContainer article footer button {

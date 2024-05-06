@@ -109,7 +109,7 @@ def profile(request):
         'is_superuser': is_superuser,
         'is_admin': is_admin,
         'dataNaixement': dataNaixement,
-        'cicle': cicle,
+        'cicle': "No Definit" if cicle is None else cicle,
         'imatgePerfil': imatgePerfil,
         'firstname': firstname, 
         'lastname': lastname,
@@ -418,7 +418,7 @@ def updatePrestec(request):
 # BUSCADOR 'LANDINGPAGE'
 @api_view(['POST'])
 def autocompletePrestecs(request):
-    query = request.data.get('q', '')
+    query = request.data.get('query', '')
     if len(query) < 3:
         return JsonResponse([], safe=False)
     
@@ -432,7 +432,21 @@ def autocompletePrestecs(request):
                 productes = productes.exclude(id=producte.id)
     productes = productes[:5]
     titols = [producte.titol for producte in productes]
-    ids = [producte.id for producte in productes]
-    suggestions = titols + ids
+    suggestions = titols
     
     return JsonResponse(suggestions, safe=False)
+
+# BUSCADOR 'LANDINGPAGE'
+@api_view(['POST'])
+def autocompleteUsuaris(request):
+    userEmail = request.data.get('query', '')
+    centreId = request.data.get('centreId', '')
+
+    if len(userEmail) < 3:
+        return JsonResponse([], safe=False)
+    
+    users = User.objects.filter(Q(email__icontains=userEmail), centre=centreId).values('email')
+    users = users[:5]
+    usersEmail = [user['email'] for user in users]
+    
+    return JsonResponse(usersEmail, safe=False)

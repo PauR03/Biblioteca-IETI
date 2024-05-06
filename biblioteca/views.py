@@ -21,6 +21,14 @@ from .serializers import LogSerializer
 from django.db.models import Q, F
 from django.views import View
 from datetime import datetime
+import secrets
+import string
+from biblioteca.models import User  # Importa tu modelo de usuario personalizado
+from django.core.mail import send_mail
+from django.db import IntegrityError
+import random
+
+
 
 
 # VIEW PARA LOGIN DE USUARIOS
@@ -279,8 +287,6 @@ def product_detail(request):
     }
     return render(request, 'producto.html', context)
 
-
-
 # APi PARA OBTENER LOS USUARIOS
 @login_required
 def getUsers(request):
@@ -375,3 +381,262 @@ def update_profile_user(request, id):
             return redirect(previous_url)
     else:
         return render(request, 'dashboard.html')
+
+@login_required
+def prestecs(request):
+    user = request.user
+    if not user.is_superuser and not user.esAdmin:
+        return redirect('dashboard')
+    firstname = user.first_name 
+    lastname = user.last_name
+    is_admin = user.esAdmin
+    is_superuser = user.is_superuser
+
+    context = {
+        'firstname': firstname,
+        'lastname': lastname, 
+        'is_admin': is_admin,
+        'is_superuser': is_superuser,
+    }
+    return render(request, 'prestecs.html', context)
+
+# API PARA OBTENER LOS PRESTAMOS
+@login_required
+def getPrestecs(request):
+    user = request.user
+    centre = user.centre if user.centre else 1
+
+    prestecs = Prestec.objects.filter(centre=centre)
+    prestecs = prestecs.values('id', 'dataPrestec', 'dataDevolucio', 'producte__titol', 'usuari__email', 'esRetornat').order_by('dataPrestec')
+
+    return JsonResponse({
+        'prestecs': list(prestecs)
+    })
+
+# API PARA ACTUALIZAR LOS PRESTAMOS
+@api_view(['POST'])
+def updatePrestec(request):
+    try:
+        prestecId = request.data['prestecId']
+        prestec = Prestec.objects.get(pk=prestecId)
+        prestec.esRetornat = True
+        prestec.save()
+        return Response({'status': 'ok'}, status=200)
+    except:
+        return Response({'status': 'error'}, status=400)
+
+def generate_password():
+    # Define the character sets
+    lowercase = string.ascii_lowercase
+    uppercase = string.ascii_uppercase
+    digits = string.digits
+    symbols = string.punctuation
+
+    # Generate a password that contains at least one (lowercase letter, uppercase letter, digit, symbol)
+    password = [
+        secrets.choice(lowercase),
+        secrets.choice(uppercase),
+        secrets.choice(digits),
+        secrets.choice(symbols),
+    ]
+
+    # Fill the rest of the password with random characters from all sets
+    all_characters = lowercase + uppercase + digits + symbols
+    password += [secrets.choice(all_characters) for _ in range(8 - len(password))]
+
+    # Shuffle the password to ensure randomness
+    secrets.SystemRandom().shuffle(password)
+
+    # Convert the list to a string
+    password = ''.join(password)
+
+    return password
+
+from django.http import JsonResponse
+from django.urls import reverse
+from django.shortcuts import redirect
+
+
+def crear_usuario(request):
+    # Obtén el usuario actual
+    current_user = request.user
+
+    # Verifica si el usuario actual es un superusuario o un administrador
+    is_superuser = current_user.is_superuser
+    is_admin = current_user.esAdmin  
+
+    # Pasa estos datos al contexto del template
+    context = {
+        'is_superuser': is_superuser,
+        'is_admin': is_admin,
+        'firstname': current_user.first_name,  
+        'lastname': current_user.last_name,  
+        'imatgePerfil': current_user.imatgePerfil,  
+    }
+
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name', None)
+        last_name = request.POST.get('last_name', None)
+        base_username = f"{first_name}_{last_name}" if first_name and last_name else None
+        username = base_username
+        # Genera un nombre de usuario único
+        while User.objects.filter(username=username).exists():
+            username = base_username + str(random.randint(1, 1000))
+        email = request.POST.get('email', None)
+        dataNaixement = request.POST.get('dataNaixement', None)
+        if dataNaixement == "":
+            dataNaixement = None
+        cicle = request.POST.get('cicle', None)
+        profile_image = request.FILES['profile_image'] if 'profile_image' in request.FILES else None
+
+        if profile_image:
+            fs = FileSystemStorage()
+            filename = fs.save(profile_image.name, profile_image)
+            profile_image_url = fs.url(filename)
+        else:
+            profile_image_url = 'imatgePerfil/default.jpg'
+
+        password = generate_password()
+
+        if User.objects.filter(email=email).exists():
+            return JsonResponse({'error': 'El correu electrònic ja està en ús'}, status=400)
+        else:
+            try:
+                user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email, dataNaixement=dataNaixement, cicle=cicle, imatgePerfil=profile_image_url, centre=current_user.centre)  # Usa tu propio modelo de usuario
+                user.set_password(password)
+                user.save()
+
+                send_mail(
+                    'Benvingut a la biblioteca Mari Carmen Brito',
+                    f'Hola {first_name},\n\nLa teva contrasenya és: {password}\n\nSi desitges canviar-la, pots fer-ho en el següent enllaç: https://biblio6.ieti.site/password_reset/\n\n Salutacions.\n',
+                    settings.EMAIL_HOST_USER,  # Use the email configured in settings
+                    [email],
+                    fail_silently=False,
+                )
+                print(f'Usuario {username} creado con éxito')  # Imprime un mensaje en la consola cuando se crea un usuario
+
+            except Exception as e:
+                return JsonResponse({'error': str(e)}, status=400)
+
+        messages.success(request, 'Usuario creado con éxito')
+        return JsonResponse({'redirect': reverse('crear_usuario')})  # Reemplaza 'crear_usuario' con la URL a la que quieres redirigir
+
+    return render(request, 'crearUsuario.html', context)
+
+
+import csv
+import io
+from django.http import JsonResponse
+from django.db import IntegrityError
+from .models import User
+from .models import User, Centre
+import csv
+import io
+from django.http import JsonResponse
+from django.db import IntegrityError
+from django.shortcuts import redirect
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.db import IntegrityError
+from .models import Centre
+import csv
+import io
+def importar_usuarios(request):
+    current_user = request.user
+    is_superuser = current_user.is_superuser
+    is_admin = current_user.esAdmin  
+    centres = Centre.objects.all()
+
+    if request.method == 'POST':
+        errors = []
+        successes = []  # Agregamos una lista para los mensajes de éxito
+        csv_file = request.FILES['csv_file']
+
+        if not csv_file.name.endswith('.csv'):
+            errors.append('L\'arxiu ha de ser un full de calcul (.csv)')
+            return JsonResponse({'errors': errors})
+
+        try:
+            data_set = csv_file.read().decode('ISO-8859-1')
+        except UnicodeDecodeError:
+            errors.append('El fitxer CSV ha d\'estar codificat com a ISO-8859-1.')
+            return JsonResponse({'errors': errors})
+
+        data_set = data_set.replace('\r\n', '\n').replace('\r', '\n')
+        io_string = io.StringIO(data_set)
+        next(io_string)
+
+        centre_id = request.POST['centre_id']
+        centre = Centre.objects.get(id=centre_id)
+
+        emails = set()
+        phones = set()
+
+        for line_number, column in enumerate(csv.reader(io_string, delimiter=','), start=1):
+            if len(column) >= 5:  # Cambiado de 6 a 5
+                if not column[0] or not column[1] or not column[2] or not column[3] or not column[4]:
+                    errors.append(f'A la línia {line_number} falten dades.')
+                    continue
+
+                email = column[3]
+                phone = column[4]
+
+                if email in emails or phone in phones:
+                    errors.append(f'A la línia {line_number}, les dades estan duplicades al CSV.')
+                    continue
+
+                emails.add(email)
+                phones.add(phone)
+
+                if User.objects.filter(email=email).exists():
+                    errors.append(f'A la línia {line_number}, l\'usuari amb el correu electrònic {email} ja hi és enregistrat.')
+                    continue
+
+                if User.objects.filter(telefon=phone).exists():
+                    errors.append(f'A la línia {line_number}, l\'usuari amb el telèfon {phone} ja hi es enregistrat.')
+                    continue
+
+                try:
+                    username = f"{column[0]}_{column[1]}_{random.randint(1000, 9999)}"
+
+                    _, created = User.objects.update_or_create(
+                        username=username,
+                        first_name=column[0],
+                        last_name=f"{column[1]} {column[2]}",
+                        email=email,
+                        telefon=phone,
+                        cicle=column[5],
+                        centre_id=centre_id
+                    )
+
+                    print(created)  # Imprime el valor de created
+
+                    if created:  # Si se creó un nuevo usuario
+                        successes.append(f'A la línia {line_number}, l\'usuari {username} s\'ha inserit correctament.')
+                except IntegrityError as e:
+                    field = 'unknown'
+                    if 'email' in str(e):
+                        field = 'email'
+                    elif 'telefon' in str(e):
+                        field = 'telefon'
+                    errors.append(f'A la línia {line_number}, el camp {field} ja hi és enregistrat.')
+                except Exception as e:
+                    errors.append(f'Error a la línia {line_number}: {str(e)}')
+            else:
+                errors.append(f'La línia {line_number} no té el nombre correcte de columnes.')
+
+        if errors:
+            return JsonResponse({'errors': errors})
+        else:
+            return JsonResponse({'success': 'Archivo subido con éxito', 'successes': successes})  # Devolvemos los mensajes de éxito
+
+    context = {
+        'is_superuser': is_superuser,
+        'is_admin': is_admin,
+        'firstname': current_user.first_name,  
+        'lastname': current_user.last_name,  
+        'imatgePerfil': current_user.imatgePerfil,  
+        'centres': centres,
+    }
+
+    return render(request, 'importarUsuarios.html', context)

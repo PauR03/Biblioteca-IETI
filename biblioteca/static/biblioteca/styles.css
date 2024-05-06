@@ -204,3 +204,82 @@ table.prestecs tbody button {
 table.prestecs tbody button:active {
     transform: scale(0.98);
 }
+
+
+.prestecsHeader {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+
+}
+
+.prestecsHeader .createNewPrestec {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    font-size: 30px;
+}
+
+.prestecsHeader .createNewPrestec:active {
+    transform: scale(0.98);
+}
+
+.createNewPrestecContainer.hidden {
+    display: none;
+
+}
+
+.createNewPrestecContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 11;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.createNewPrestecContainer article {
+    width: 50%;
+    background-color: white;
+    height: fit-content;
+}
+
+.createNewPrestecContainer article header {
+    padding: 10px;
+    background-color: black;
+}
+
+.createNewPrestecContainer article header h2 {
+    font-size: 30px;
+    color: white;
+}
+
+.createNewPrestecContainer article form {
+    padding: 20px 10px;
+}
+
+.createNewPrestecContainer article main {
+    height: 500px;
+}
+
+.createNewPrestecContainer article footer button {
+    background-color: #51d437;
+    color: white;
+    padding: 5px 10px;
+    margin-right: 20px;
+}
+
+.createNewPrestecContainer article footer button.closePopup {
+    background-color: #ed5555;
+}

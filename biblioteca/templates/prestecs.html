@@ -11,6 +11,9 @@
     <link href="{% static 'biblioteca/styles.css' %}" rel="stylesheet">
     <link rel="icon" href="{% static 'biblioteca/image/maricarmenbrito-logo.png' %}">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.js"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
@@ -43,7 +46,11 @@
             Préstecs
         </p>
         <div class="flex flex-wrap mb-2 mt-6 usuarisContainer" style="margin-left: 65px">
-
+            <header class="prestecsHeader">
+                <button class="createNewPrestec">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </header>
             <table class="mainTable prestecs">
                 <thead>
                     <tr>
@@ -59,6 +66,31 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <!-- User hidden in the class for hide the element -->
+    <div class="createNewPrestecContainer">
+        <article>
+            <header>
+                <h2>Crear un nou préstec</h2>
+            </header>
+            <form>
+                <main>
+                    <input type="text" class="w-full bg-white pl-2 text-base font-semibold outline-0"
+                        style="height: 40px; width: 450px;" placeholder="Cerca per titol o autor del llibre"
+                        id="search-input" data-autocomplete-url="{% url 'autocomplete' %}" />
+                </main>
+                <footer>
+                    <button class="closePopup">
+                        Tancar
+                    </button>
+                    <button class="createPrestec">
+                        Crear Préstec
+                    </button>
+                </footer>
+            </form>
+
+        </article>
     </div>
 
 

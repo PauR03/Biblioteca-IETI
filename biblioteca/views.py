@@ -602,6 +602,7 @@ def crear_usuario(request):
         print(redirect_url)
     return render(request, 'crearUsuario.html', context)
 
+
 def importar_usuarios(request):
     current_user = request.user
     is_superuser = current_user.is_superuser
@@ -634,13 +635,14 @@ def importar_usuarios(request):
         phones = set()
 
         for line_number, column in enumerate(csv.reader(io_string, delimiter=','), start=1):
-            if len(column) >= 5:  # Cambiado de 6 a 5
+            if len(column) >= 6:  # Cambiado de 5 a 6 para tener en cuenta la nueva columna
                 if not column[0] or not column[1] or not column[2] or not column[3] or not column[4]:
                     errors.append(f'A la línia {line_number} falten dades.')
                     continue
 
                 email = column[3]
                 phone = column[4]
+                password = column[5] if len(column) > 5 else None  # Obtenemos la contraseña si existe
 
                 if email in emails or phone in phones:
                     errors.append(f'A la línia {line_number}, les dades estan duplicades al CSV.')
@@ -660,20 +662,24 @@ def importar_usuarios(request):
                 try:
                     username = f"{column[0]}_{column[1]}_{random.randint(1000, 9999)}"
 
-                    _, created = User.objects.update_or_create(
+                    # Creamos el usuario sin la contraseña
+                    user = User.objects.create(
                         username=username,
                         first_name=column[0],
                         last_name=f"{column[1]} {column[2]}",
                         email=email,
                         telefon=phone,
-                        cicle=column[5],
-                        centre_id=centre_id
+                        cicle=column[5] if len(column) > 5 else None,  # Ajustado para la columna 'Curs'
+                        centre_id=centre_id,
                     )
 
-                    print(created)  # Imprime el valor de created
+                    password = column[6] if len(column) > 6 else None  # Obtenemos la contraseña si existe
 
-                    if created:  # Si se creó un nuevo usuario
-                        successes.append(f'A la línia {line_number}, l\'usuari {username} s\'ha inserit correctament.')
+                    if password:  # Si la contraseña existe
+                        user.set_password(password)  # Establecemos la contraseña de forma segura
+                        user.save()  # Guardamos el usuario
+
+                    successes.append(f'A la línia {line_number}, l\'usuari {username} s\'ha inserit correctament.')
                 except IntegrityError as e:
                     field = 'unknown'
                     if 'email' in str(e):

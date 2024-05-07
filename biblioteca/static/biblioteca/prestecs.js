@@ -235,11 +235,13 @@ const addFirstRow = (formPrestecData, id) => {
 
     // Add event listener to the button
     $(".producteRetornat button").first().click((e) => {
-        const confirmation = confirm("Estas segur que vols retornar el producte?")
-        if (!confirmation) return
-        const parentTr = $(e.target).closest("tr")
-        const prestecId = parentTr.attr("id")
-        updatePrestec({ prestecId, parentTr })
+        confirmationPopup("¿Estás seguro que quieres continuar?", (respuesta) => {
+            if (respuesta) {
+                const parentTr = $(e.target).closest("tr")
+                const prestecId = parentTr.attr("id")
+                updatePrestec({ prestecId, parentTr })
+            } else return
+        })
     })
 }
 

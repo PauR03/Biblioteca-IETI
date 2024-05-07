@@ -25,74 +25,84 @@
     {% include 'sidebar.html' %}
 
     <!-- Componente Principal -->
-    <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out" style="margin-top: 0px;">
-    <div class="mx-auto px-6 py-8 w-full">
-        <div class="flex items-center justify-center">
-            <div class="w-1/2 mx-auto mt-0 pt-10 mt-10">
+    <div class="ml-16 bg-gray-100 min-h-screen relative w-full lg:w-3/4 transition-all duration-200 ease-in-out"
+        style="margin-top: 0px;">
+        <div class="mx-auto px-6 py-8 w-full">
+            <div class="flex items-center justify-center">
+                <div class="w-1/2 mx-auto mt-0 pt-10 mt-10">
 
-                <div class="bg-white shadow-2xl border border-gray-300 rounded-lg overflow-hidden">
+                    <div class="bg-white shadow-2xl border border-gray-300 rounded-lg overflow-hidden">
 
-                    <div class="bg-gray-200 text-gray-700 text-lg px-6 py-4">Crear Usuari</div>
-                    <form action="{% url 'crear_usuario' %}" method="POST" enctype="multipart/form-data">
+                        <div class="bg-gray-200 text-gray-700 text-lg px-6 py-4">Crear Usuari</div>
+                        <form action="{% url 'crear_usuario' %}" method="POST" enctype="multipart/form-data">
 
-                        {% csrf_token %}
-                        <div class="mt-2">
-                            <div class="flex items-center justify-between border-t">
-                                <label class="text-sm text-gray-600 font-semibold mt-5 ml-10">Nom *</label>
-                                <input type="text" name="first_name" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
+                            {% csrf_token %}
+                            <div class="mt-2">
+                                <div class="flex items-center justify-between border-t">
+                                    <label class="text-sm text-gray-600 font-semibold mt-5 ml-10">Nom *</label>
+                                    <input type="text" name="first_name"
+                                        class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Cognom *</label>
+                                    <input type="text" name="last_name"
+                                        class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <p id="newUserError" class="text-red-500 text-xs mt-2"
+                                        style="margin-left: 411px; margin-top: 3px;"></p>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Correu electrònic
+                                        *</label>
+                                    <input type="email" placeholder=" correu@exemple.com" name="email"
+                                        class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <p id="newPasswordError" class="text-red-500 text-xs mt-2"
+                                        style="margin-left: 411px; margin-top: 3px;"></p>
+                                </div>
+
+
+                                <div class="flex items-center justify-between">
+                                    <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Data de naixement
+                                        *</label>
+                                    <input type="date" name="dataNaixement" id="dataNaixament"
+                                        class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <label class="text-sm text-gray-600 font-semibold mt-4 ml-10 ">Cicle</label>
+                                    <input type="text" name="cicle" placeholder=" Curs"
+                                        class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10">
+                                </div>
+
+
                             </div>
 
-                            <div class="flex items-center justify-between">
-                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Cognom *</label>
-                                <input type="text" name="last_name" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
+                            <div class="mt-4">
+                                <button type="submit"
+                                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 ml-10 mb-5"
+                                    onclick="saveLog('info', 'Ha clicado el boton de crear un nuevo usuario', '/crearUsuario', localStorage.getItem('username'))">Afegir
+                                    usuari</button>
                             </div>
-                            <div class="flex items-center justify-between">
-                                <p id="newUserError" class="text-red-500 text-xs mt-2" style="margin-left: 411px; margin-top: 3px;"></p>
-                            </div>
+                    </div>
+                    </form>
 
-                            <div class="flex items-center justify-between">
-                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Correu electrónic *</label>
-                                <input type="email"  placeholder=" correu@exemple.com"    name="email" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <p id="newPasswordError" class="text-red-500 text-xs mt-2" style="margin-left: 411px; margin-top: 3px;"></p>
-                            </div>
-                            
 
-                            <div class="flex items-center justify-between">
-                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10">Data de naixement *</label>
-                                <input type="date" name="dataNaixement" id="dataNaixament" class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10" required>
-                            </div>
-
-                            <div class="flex items-center justify-between">
-                                <label class="text-sm text-gray-600 font-semibold mt-4 ml-10 ">Cicle</label>
-                                <input type="text" name="cicle"  placeholder=" Curs"  class="form-input mt-1 w-1/2 bg-gray-300 mt-4 mr-10">
-                            </div>
-
-                           
+                    <div id="myModal" class="modal">
+                        <div class="modal-content1">
+                            <span class="close">&times;</span>
+                            <p>Usuari creat amb èxit</p>
                         </div>
-
-                        <div class="mt-4">
-                            <button type="submit"
-                                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 ml-10 mb-5"
-                                onclick="saveLog('info', 'Ha clicado el boton de crear un nuevo usuario', '/crearUsuario', localStorage.getItem('username'))">Afegir
-                                usuari</button>
-                        </div>
-                </div>
-                </form>
-
-
-                <div id="myModal" class="modal">
-                    <div class="modal-content1">
-                        <span class="close">&times;</span>
-                        <p>Usuari creat amb èxit</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-</div>
+    </div>
 
     <script src="{% static 'biblioteca/logout.js' %}"></script>
     <script src="{% static 'biblioteca/actualizarImagen.js' %}"></script>
@@ -150,7 +160,7 @@
 
     }
 
-   // $(document).ready(checkPopup)
+    // $(document).ready(checkPopup)
 </script>
 
 </html>

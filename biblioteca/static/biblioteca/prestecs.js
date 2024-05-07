@@ -106,11 +106,14 @@ const appendPrestecs = (response) => {
         // Add event listener to the button
         $(".producteRetornat button").last().click((e) => {
             if (!esRetornat) {
-                const confirmation = confirm("Estas segur que vols retornar el producte?")
-                if (!confirmation) return
-                const parentTr = $(e.target).closest("tr")
-                const prestecId = parentTr.attr("id")
-                updatePrestec({ prestecId, parentTr })
+                confirmationPopup("¿Estás seguro que quieres continuar?", (respuesta) => {
+                    if (respuesta) {
+                        const parentTr = $(e.target).closest("tr")
+                        const prestecId = parentTr.attr("id")
+                        updatePrestec({ prestecId, parentTr })
+                    } else return
+                })
+
             }
         })
     })
@@ -246,4 +249,38 @@ function formatDate(dateString) {
     const month = date.getMonth() + 1
     const year = date.getFullYear()
     return `${day}-${month}-${year}`
+}
+
+const confirmationPopup = (message, callback) => {
+    $("body").append(
+        $("<div>", {
+            class: "confirmationPopup"
+        }).append(
+            $("<main>").append(
+                $("<p>", {
+                    text: message
+                })
+            ).append(
+                $("<footer>").append(
+                    $("<button>", {
+                        text: "Acceptar",
+                        class: "acceptButton",
+                        click: () => {
+                            $(".confirmationPopup").remove()
+                            callback(true)
+                        }
+                    })
+                ).append(
+                    $("<button>", {
+                        text: "Cancelar",
+                        class: "cancelButton",
+                        click: () => {
+                            $(".confirmationPopup").remove()
+                            callback(false)
+                        }
+                    })
+                )
+            )
+        )
+    )
 }

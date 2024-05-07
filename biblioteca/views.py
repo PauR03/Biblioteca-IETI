@@ -602,7 +602,6 @@ def crear_usuario(request):
         print(redirect_url)
     return render(request, 'crearUsuario.html', context)
 
-
 def importar_usuarios(request):
     current_user = request.user
     is_superuser = current_user.is_superuser

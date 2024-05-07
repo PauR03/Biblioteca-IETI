@@ -91,22 +91,22 @@ nav {
 /*** MODAL ***/
 
 .modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1; 
+    display: none;
+    position: fixed;
+    z-index: 1;
     left: 0;
     top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgba(0, 0, 0, 0); 
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .modal-content1 {
     background-color: #00fd00d0;
     margin: 0;
-      margin-top: 0px;
-      margin-left: 0px;
+    margin-top: 0px;
+    margin-left: 0px;
     margin-top: 0px;
     margin-left: 0px;
     padding: 20px;
@@ -118,39 +118,53 @@ nav {
     margin-left: 80px;
     margin-top: 69px;
     border-radius: 40px;
-  }
-
-@keyframes slideDown {
-    0% { top: -300px; }
-    100% { top: 0; }
 }
 
-.close:hover, .close:focus {
+@keyframes slideDown {
+    0% {
+        top: -300px;
+    }
+
+    100% {
+        top: 0;
+    }
+}
+
+.close:hover,
+.close:focus {
     color: #595252ad;
     text-decoration: none;
     cursor: pointer;
 }
+
 .modal .close {
     color: #241c1c;
     float: right;
     font-size: 28px;
     font-weight: bold;
-    margin-top: -10px;   
+    margin-top: -10px;
 }
 
 
 /***** MODAL ERRORS *****/
 
 .ModalError {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0); /* Black w/ opacity */
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0);
+    /* Black w/ opacity */
 }
 
 .modal-content {
@@ -172,15 +186,22 @@ nav {
 }
 
 @keyframes slideDown {
-    0% { transform: translateY(-300px); }
-    100% { top: 0; }
+    0% {
+        transform: translateY(-300px);
+    }
+
+    100% {
+        top: 0;
+    }
 }
 
-.close:hover, .close:focus {
+.close:hover,
+.close:focus {
     color: #595252ad;
     text-decoration: none;
     cursor: pointer;
 }
+
 .close {
     color: #241c1c;
     float: right;
@@ -189,9 +210,12 @@ nav {
     margin-top: -20px;
     MARGIN-LEFT: -2PX;
 }
+
 .modal-content p {
-    display: block !important; /* Asegura que cada párrafo se muestre en una nueva línea */
-    margin-bottom: 10px; /* Agrega un poco de espacio entre los párrafos */
+    display: block !important;
+    /* Asegura que cada párrafo se muestre en una nueva línea */
+    margin-bottom: 10px;
+    /* Agrega un poco de espacio entre los párrafos */
 }
 
 
@@ -302,7 +326,7 @@ table.prestecs tbody .retornat span.retornat {
 }
 
 table.prestecs tbody button {
-    background-color: #51d437;
+    background-color: rgb(29, 78, 216);
     color: white;
     padding: 5px 10px;
     border-radius: 10px;
@@ -441,4 +465,43 @@ table.prestecs tbody button:active {
 
 .createNewPrestecContainer article footer button:active {
     transform: scale(.98);
+}
+
+.confirmationPopup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirmationPopup main {
+    background-color: lightgray;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.confirmationPopup main p {
+    font-weight: bold;
+}
+
+.confirmationPopup footer {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.confirmationPopup footer button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: lightgreen;
+}
+
+.confirmationPopup footer button.cancelButton {
+    background-color: lightcoral;
 }

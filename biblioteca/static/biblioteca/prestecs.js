@@ -171,17 +171,17 @@ const clearFrom = () => {
 }
 
 const successPrestec = (response, formPrestecData) => {
-    console.log(formPrestecData)
     const { status } = response
     const { prestecId } = response.data
 
     if (status === "ok") {
         addFirstRow(formPrestecData, prestecId)
         clearFrom()
-        alert("Prestec creat correctament")
+        createPopup({ status: "success", text: "Prestec creat correctament", timeout: 5000 })
     }
     if (status === "error") {
-        alert("Error al crear el prestec")
+        createPopup({ status: "error", text: "Error al crear el prestec" })
+
     }
 }
 

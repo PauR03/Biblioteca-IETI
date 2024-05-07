@@ -78,10 +78,15 @@
         <div class="mx-auto px-6 py-8 w-full">
             <div class="flex items-center justify-center">
                 <div class="w-1/2 mx-auto mt-0 pt-10 mt-10 ">
+                    <div class="bg-gray-300 text-gray-600 text-lg mb-8 px-6 py-4"
+                        style="width: 1100px; margin-left: -130px; font-weight: bold;">Resultats de la cerca:
+                        "{{search_term }}"
+                        <br>
+                        <span class="text-gray-500 text-sm">S'han trobat {{ productes|length }} resultats</span>
+                    </div>
                     {% for product in productes %}
                     {% if forloop.first %}
-                    <div class="bg-gray-300 text-gray-600 text-lg mb-8 px-6 py-4"
-                    style="width: 1100px; margin-left: -130px; font-weight: bold;">Resultats de la cerca: "{{ search_term }}"</div>
+
 
                     {% endif %}
                     <div class="bg-white shadow-xl rounded-lg overflow-hidden mb-16 border border-gray-500"

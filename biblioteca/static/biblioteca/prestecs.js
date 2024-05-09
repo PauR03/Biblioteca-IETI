@@ -106,7 +106,7 @@ const appendPrestecs = (response) => {
         // Add event listener to the button
         $(".producteRetornat button").last().click((e) => {
             if (!esRetornat) {
-                confirmationPopup("¿Estás seguro que quieres continuar?", (respuesta) => {
+                confirmationPopup("Estàs segur que vols continuar?", (respuesta) => {
                     if (respuesta) {
                         const parentTr = $(e.target).closest("tr")
                         const prestecId = parentTr.attr("id")
@@ -235,7 +235,7 @@ const addFirstRow = (formPrestecData, id) => {
 
     // Add event listener to the button
     $(".producteRetornat button").first().click((e) => {
-        confirmationPopup("¿Estás seguro que quieres continuar?", (respuesta) => {
+        confirmationPopup("Estàs segur que vols continuar?", (respuesta) => {
             if (respuesta) {
                 const parentTr = $(e.target).closest("tr")
                 const prestecId = parentTr.attr("id")
@@ -274,7 +274,7 @@ const confirmationPopup = (message, callback) => {
                     })
                 ).append(
                     $("<button>", {
-                        text: "Cancelar",
+                        text: "Cancel·la",
                         class: "cancelButton",
                         click: () => {
                             $(".confirmationPopup").remove()
